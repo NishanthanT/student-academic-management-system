@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import static Pages.AdminPage.AdminLoginPage.Base_Url;
+
 
 
 public class BrowserDriver {
@@ -23,7 +23,7 @@ public class BrowserDriver {
 
          System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/driver/chromedriver1.exe");
              driver = new ChromeDriver();
-             driver.get(Base_Url);
+             driver.get("http://localhost:5173/");
 
 
 

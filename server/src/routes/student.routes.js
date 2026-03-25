@@ -21,6 +21,9 @@ router.post("/exams/:examId/start", attemptController.startExam);
 // ✅ Get questions (after start)
 router.get("/exams/:examId/questions", attemptController.getQuestions);
 
+// ✅ Autosave exam
+router.post("/exams/:examId/autosave", attemptController.autosaveExam);
+
 // ✅ Submit exam
 router.post("/exams/:examId/submit", attemptController.submitExam);
 

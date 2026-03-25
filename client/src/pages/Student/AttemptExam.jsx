@@ -1,5 +1,5 @@
 // client/src/pages/student/AttemptExam.jsx
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 
 const API_BASE = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
@@ -114,6 +114,29 @@ export default function AttemptExam() {
   const [leftSec, setLeftSec] = useState(0);
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState(null);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  
+  // Autosave delay tracking
+  const autosaveTimerRef = useRef(null);
+
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOffline(false);
+      showToast("ok", "Back online. Syncing answers...");
+      triggerAutosave(true);
+    };
+    const handleOffline = () => {
+      setIsOffline(true);
+      showToast("err", "You are offline. Answers will be saved locally.");
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   // ✅ local cache: { [examId]: "submitted" }
   const [localAttemptStatus, setLocalAttemptStatus] = useState({});
@@ -158,6 +181,22 @@ export default function AttemptExam() {
   }, [subjectId]);
 
   // ==============================
+  // OFFLINE & WARNINGS
+  // ==============================
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (attempt) {
+        e.preventDefault();
+        e.returnValue = "You have an active exam! Are you sure you want to leave?";
+        return e.returnValue;
+      }
+    };
+    
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [attempt]);
+
+  // ==============================
   // TIMER
   // ==============================
   useEffect(() => {
@@ -175,8 +214,8 @@ export default function AttemptExam() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attempt?.must_end_at]);
 
-  const buildAnswerPayload = () => {
-    return Object.entries(answers || {})
+  const buildAnswerPayload = (ansData = answers) => {
+    return Object.entries(ansData || {})
       .filter(([qid, val]) => val !== undefined && String(val).trim() !== "")
       .map(([qid, val]) => ({
         question_id: Number(qid),
@@ -184,8 +223,49 @@ export default function AttemptExam() {
       }));
   };
 
+  const triggerAutosave = async (immediate = false, currentAnswers = answers) => {
+    if (!activeExam?.id) return;
+
+    // Save locally immediately
+    localStorage.setItem(`exam_answers_${activeExam.id}`, JSON.stringify(currentAnswers));
+    if (isOffline) return;
+
+    // Clear previous timer to prevent overlapping queries
+    if (autosaveTimerRef.current) {
+      clearTimeout(autosaveTimerRef.current);
+      autosaveTimerRef.current = null;
+    }
+
+    const saveRequest = async () => {
+      try {
+        await apiFetch(`/student/exams/${activeExam.id}/autosave`, {
+          method: "POST",
+          body: { answers: buildAnswerPayload(currentAnswers) },
+        });
+        console.log("Answers autosaved");
+      } catch (e) {
+        console.warn("Autosave failed: ", e.message);
+      }
+    };
+
+    if (immediate) {
+      saveRequest();
+    } else {
+      autosaveTimerRef.current = setTimeout(saveRequest, 2000); // 2s debounce
+    }
+  };
+
+  const handleAnswerChange = (qId, val) => {
+    const newAnswers = { ...answers, [qId]: val };
+    setAnswers(newAnswers);
+    triggerAutosave(false, newAnswers);
+  };
+
   const submitNow = async (isAuto = false) => {
     if (!activeExam?.id) return;
+
+    // Save final answers immediately before submit
+    triggerAutosave(true, answers);
 
     try {
       await apiFetch(`/student/exams/${activeExam.id}/submit`, {
@@ -200,6 +280,9 @@ export default function AttemptExam() {
         ...prev,
         [String(activeExam.id)]: "submitted",
       }));
+      
+      // Cleanup local backup
+      localStorage.removeItem(`exam_answers_${activeExam.id}`);
 
       showToast("ok", isAuto ? "Time over. Auto submitted." : "Submitted");
       resetExam();
@@ -241,6 +324,14 @@ export default function AttemptExam() {
 
       const qRes = await apiFetch(`/student/exams/${activeExam.id}/questions`);
       setQuestions(normalizeQuestions(qRes.data.questions || []));
+
+      // Restore answers
+      const serverAnswers = qRes.data.savedAnswers || {};
+      const localStr = localStorage.getItem(`exam_answers_${activeExam.id}`);
+      const localAnswers = localStr ? JSON.parse(localStr) : {};
+      
+      // Combine (Local might have unsynced changes if offline)
+      setAnswers({ ...serverAnswers, ...localAnswers });
 
       setPwdOpen(false);
       setPwd("");
@@ -585,12 +676,7 @@ export default function AttemptExam() {
                             type="radio"
                             name={`ans_${currentQ.id}`}
                             checked={answers[currentQ.id] === opt}
-                            onChange={() =>
-                              setAnswers({
-                                ...answers,
-                                [currentQ.id]: opt,
-                              })
-                            }
+                            onChange={() => handleAnswerChange(currentQ.id, opt)}
                           />
                           <div style={{ display: "flex", gap: 10 }}>
                             <div style={sx.optKey}>{opt}</div>
@@ -609,12 +695,7 @@ export default function AttemptExam() {
                       style={sx.textarea}
                       rows={6}
                       value={answers[currentQ.id] || ""}
-                      onChange={(e) =>
-                        setAnswers({
-                          ...answers,
-                          [currentQ.id]: e.target.value,
-                        })
-                      }
+                      onChange={(e) => handleAnswerChange(currentQ.id, e.target.value)}
                       placeholder="Type your answer here..."
                     />
                   </div>

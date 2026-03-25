@@ -6,3 +6,5 @@ build/
 .env
 .env.*
 *.log
+
+backup_before_push_*

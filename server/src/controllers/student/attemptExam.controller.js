@@ -207,11 +207,97 @@ exports.getQuestions = (req, res) => {
     db.query(qSql, [examId], (e2, qrows) => {
       if (e2) return bad(res, "DB error", 500);
 
-      ok(res, {
-        attempt_id: attempt.id,
-        must_end_at: attempt.must_end_at,
-        questions: qrows || [],
+      // Fetch previously saved answers
+      const ansSql = `
+        SELECT question_id, selected_option, answer_text
+        FROM exam_attempt_answers
+        WHERE attempt_id=? AND exam_id=?
+      `;
+
+      db.query(ansSql, [attempt.id, examId], (e3, arows) => {
+        if (e3) return bad(res, "DB error", 500);
+
+        const savedAnswers = {};
+        arows.forEach((r) => {
+          savedAnswers[r.question_id] = r.selected_option || r.answer_text || "";
+        });
+
+        ok(res, {
+          attempt_id: attempt.id,
+          must_end_at: attempt.must_end_at,
+          questions: qrows || [],
+          savedAnswers
+        });
       });
+    });
+  });
+};
+
+/* =========================
+   AUTOSAVE Exam
+========================= */
+exports.autosaveExam = (req, res) => {
+  const studentId = req.user.id;
+  const { examId } = req.params;
+  const incoming = Array.isArray(req.body?.answers) ? req.body.answers : [];
+
+  const getAttemptSql = `
+    SELECT id, must_end_at
+    FROM exam_attempts
+    WHERE exam_id=? AND student_id=? AND status='in_progress'
+    ORDER BY id DESC
+    LIMIT 1
+  `;
+
+  db.query(getAttemptSql, [examId, studentId], (e0, arows) => {
+    if (e0) return bad(res, "DB error", 500);
+    if (!arows.length) return bad(res, "No active attempt", 400);
+
+    const attempt = arows[0];
+
+    // ✅ time validation
+    if (new Date() > new Date(attempt.must_end_at)) {
+      return bad(res, "Time over. Cannot autosave.", 400);
+    }
+
+    if (!incoming.length) return ok(res, { message: "Nothing to save" });
+
+    const rows = [];
+    for (const a of incoming) {
+      const qid = Number(a?.question_id);
+      const val = a?.value;
+
+      if (!qid) continue;
+      if (val === undefined || val === null) continue;
+
+      const v = String(val).trim();
+      if (!v) continue;
+
+      const isMcqOpt = ["A", "B", "C", "D"].includes(v);
+      rows.push([
+        attempt.id,
+        Number(examId),
+        qid,
+        isMcqOpt ? v : null,
+        isMcqOpt ? null : v,
+      ]);
+    }
+
+    if (!rows.length) return ok(res, { message: "Nothing to save" });
+
+    const insSql = `
+      INSERT INTO exam_attempt_answers
+        (attempt_id, exam_id, question_id, selected_option, answer_text)
+      VALUES ?
+      ON DUPLICATE KEY UPDATE
+        selected_option=VALUES(selected_option),
+        answer_text=VALUES(answer_text),
+        updated_at=CURRENT_TIMESTAMP
+    `;
+
+    db.query(insSql, [rows], (e1) => {
+      if (e1) return bad(res, "DB error (autosave)", 500);
+      ok(res, { message: "Autosaved successfully", timestamp: new Date() });
     });
   });
 };
@@ -230,7 +316,7 @@ exports.submitExam = (req, res) => {
 
   // 1) find current in_progress attempt
   const getAttemptSql = `
-    SELECT id
+    SELECT id, must_end_at
     FROM exam_attempts
     WHERE exam_id=? AND student_id=? AND status='in_progress'
     ORDER BY id DESC
@@ -241,7 +327,14 @@ exports.submitExam = (req, res) => {
     if (e0) return bad(res, "DB error", 500);
     if (!arows.length) return bad(res, "No active attempt", 400);
 
-    const attemptId = arows[0].id;
+    const attempt = arows[0];
+    const attemptId = attempt.id;
+
+    // Grace period of 2 minutes for network delays during submission
+    const maxAllowedTime = new Date(new Date(attempt.must_end_at).getTime() + 2 * 60000);
+    if (new Date() > maxAllowedTime) {
+      return bad(res, "Exam time severely expired. Submissions no longer accepted.", 400);
+    }
 
     // start transaction (safe)
     db.beginTransaction((txErr) => {

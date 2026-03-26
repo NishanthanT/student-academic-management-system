@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "http://localhost:8000"; // change if needed
+const API_BASE = "http://localhost:5000"; // change if needed
 
 export default function MySubjects() {
   const navigate = useNavigate();

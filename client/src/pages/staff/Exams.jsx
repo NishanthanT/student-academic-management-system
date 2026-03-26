@@ -12,7 +12,7 @@ import React, { useEffect, useMemo, useState } from "react";
 ========================= */
 const API_BASE = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-  : "http://localhost:8000";
+  : "http://localhost:5000";
 const API = `${API_BASE}/api`;
 
 /* =========================

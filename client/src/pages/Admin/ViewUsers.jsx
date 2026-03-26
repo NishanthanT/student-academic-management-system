@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-const API_BASE = "http://localhost:8000"; // 🔁 change if needed
+const API_BASE = "http://localhost:5000"; // 🔁 change if needed
 
 export default function ViewUsers() {
   const [activeRole, setActiveRole] = useState("all"); // all | admin | staff | student

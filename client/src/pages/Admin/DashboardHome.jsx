@@ -69,12 +69,12 @@ export default function DashboardHome() {
   if (loading) return <div className="p-10 text-center">Loading Dashboard...</div>;
 
   return (
-    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-5 duration-700 ease-out">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-5 duration-700 ease-out">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">System Overview</h1>
+        <h1 className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">System Overview</h1>
         <button
           onClick={downloadPDF}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:-translate-y-1 active:scale-95 font-medium"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:-translate-y-1 active:scale-95 text-[11px] font-bold uppercase tracking-wider"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -84,7 +84,7 @@ export default function DashboardHome() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard title="Total Users" value={stats.totalUsers} color="blue" delay="delay-0" />
         <StatCard title="Students" value={stats.totalStudents} color="green" delay="delay-75" />
         <StatCard title="Staff Members" value={stats.totalStaff} color="purple" delay="delay-100" />
@@ -93,36 +93,36 @@ export default function DashboardHome() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Users Table */}
-        <div className="lg:col-span-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/30 p-8 hover:shadow-2xl transition-all duration-300">
-          <h3 className="text-xl font-bold mb-6 dark:text-white flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-blue-500 rounded-full"></span>
+        <div className="lg:col-span-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/30 p-6 hover:shadow-2xl transition-all duration-300">
+          <h3 className="text-base font-bold mb-5 dark:text-white flex items-center gap-2">
+            <span className="w-1 h-5 bg-blue-500 rounded-full"></span>
             Recent Users
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="text-gray-400 border-b dark:border-gray-700 text-xs uppercase tracking-wider">
-                  <th className="pb-4 font-semibold">User Details</th>
-                  <th className="pb-4 font-semibold">Contact</th>
-                  <th className="pb-4 font-semibold text-right">Access Level</th>
+                <tr className="text-gray-400 border-b dark:border-gray-700 text-[9px] font-bold uppercase tracking-[0.15em]">
+                  <th className="pb-3 px-1">User Details</th>
+                  <th className="pb-3 px-1">Contact</th>
+                  <th className="pb-3 px-1 text-right">Access Level</th>
                 </tr>
               </thead>
               <tbody className="divide-y dark:divide-gray-700">
                 {stats.recentUsers.map((u) => (
-                  <tr key={u.id} className="group text-sm hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors">
-                    <td className="py-4">
-                      <div className="font-bold text-gray-800 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{u.name}</div>
-                      <div className="text-[10px] text-gray-400">ID: #{u.id}</div>
+                  <tr key={u.id} className="group text-[13px] font-medium hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-colors">
+                    <td className="py-3 px-1">
+                      <div className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{u.name}</div>
+                      <div className="text-[9px] text-gray-400 font-bold tracking-tight">ID: #{u.id}</div>
                     </td>
-                    <td className="py-4 text-gray-500 dark:text-gray-400">{u.email}</td>
-                    <td className="py-4 text-right">
+                    <td className="py-3 px-1 text-gray-500 dark:text-gray-400">{u.email}</td>
+                    <td className="py-3 px-1 text-right">
                       <span
-                        className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter ${
+                        className={`px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider ${
                           u.role === "admin"
-                            ? "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20"
+                            ? "bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/10"
                             : u.role === "staff"
-                            ? "bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20"
-                            : "bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20"
+                            ? "bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/10"
+                            : "bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/10"
                         }`}
                       >
                         {u.role}
@@ -136,9 +136,9 @@ export default function DashboardHome() {
         </div>
 
         {/* Quick Stats Summary */}
-        <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/30 p-8 hover:shadow-2xl transition-all duration-300">
-          <h3 className="text-xl font-bold mb-6 dark:text-white flex items-center gap-2">
-             <span className="w-1.5 h-6 bg-purple-500 rounded-full"></span>
+        <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/30 p-6 hover:shadow-2xl transition-all duration-300">
+          <h3 className="text-base font-bold mb-5 dark:text-white flex items-center gap-2">
+             <span className="w-1 h-5 bg-purple-500 rounded-full"></span>
              User Distribution
           </h3>
           <div className="space-y-6">
@@ -204,14 +204,14 @@ function StatCard({ title, value, color, delay }) {
 
   return (
     <div
-      className={`p-8 rounded-2xl border backdrop-blur-md shadow-lg transition-all duration-300 transform hover:-translate-y-3 bg-white/40 dark:bg-gray-800/40 animate-in fade-in zoom-in-95 group cursor-pointer ${delay} ${theme.base} ${theme.hover}`}
+      className={`p-6 rounded-2xl border backdrop-blur-md shadow-lg transition-all duration-300 transform hover:-translate-y-2 bg-white/40 dark:bg-gray-800/40 animate-in fade-in zoom-in-95 group cursor-pointer ${delay} ${theme.base} ${theme.hover}`}
     >
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 group-hover:text-white/80 transition-colors">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1 group-hover:text-white/80 transition-colors">
             {title}
           </p>
-          <h4 className="text-4xl font-black transition-transform duration-300 group-hover:scale-110 origin-left">
+          <h4 className="text-2xl font-black transition-transform duration-300 group-hover:scale-105 origin-left tracking-tight">
             {value}
           </h4>
         </div>
@@ -230,8 +230,8 @@ function StatCard({ title, value, color, delay }) {
 function ProgressBar({ label, value, total, color, shadow }) {
   const percent = total > 0 ? (value / total) * 100 : 0;
   return (
-    <div className="space-y-2 group">
-      <div className="flex justify-between text-sm font-bold">
+    <div className="space-y-1.5 group">
+      <div className="flex justify-between text-[13px] font-bold">
         <span className="text-gray-600 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">{label}</span>
         <span className="dark:text-white">{Math.round(percent)}%</span>
       </div>

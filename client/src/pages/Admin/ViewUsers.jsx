@@ -126,13 +126,13 @@ export default function ViewUsers() {
         role: editForm.role,
         ...(editForm.role === "student"
           ? {
-              current_year: Number(editForm.current_year),
-              current_semester: Number(editForm.current_semester),
-            }
+            current_year: Number(editForm.current_year),
+            current_semester: Number(editForm.current_semester),
+          }
           : {
-              current_year: null,
-              current_semester: null,
-            }),
+            current_year: null,
+            current_semester: null,
+          }),
       };
 
       const res = await fetch(`${API_BASE}/api/admin/users/${selectedUser.id}`, {
@@ -172,9 +172,9 @@ export default function ViewUsers() {
     try {
       const res = await fetch(`${API_BASE}/api/admin/users/${selectedUser.id}`, {
         method: "DELETE",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}` 
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({ reason: deleteReason }),
       });
@@ -202,11 +202,10 @@ export default function ViewUsers() {
       <button
         id={id}
         onClick={() => setActiveRole(value)}
-        className={`px-6 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all duration-300 border-2
-          ${
-            active
-              ? "bg-blue-600 text-white border-blue-400 shadow-lg shadow-blue-500/30 scale-105"
-              : "bg-white/50 dark:bg-gray-800/50 text-gray-500 dark:text-gray-400 border-transparent hover:border-blue-500/30 hover:text-blue-600 shadow-sm"
+        className={`px-5 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 border
+          ${active
+            ? "bg-blue-600 text-white border-blue-400 shadow-md shadow-blue-500/20 scale-105"
+            : "bg-white/50 dark:bg-gray-800/50 text-gray-500 dark:text-gray-400 border-transparent hover:border-blue-500/30 hover:text-blue-600 shadow-sm"
           }`}
       >
         {label}
@@ -220,11 +219,10 @@ export default function ViewUsers() {
         <div
           className={`fixed top-10 right-10 z-[100] px-6 py-4 rounded-2xl shadow-2xl text-sm font-bold text-white
           transform transition-all duration-500 animate-slide-in flex items-center gap-3 backdrop-blur-md
-          ${
-            toast.type === "success"
+          ${toast.type === "success"
               ? "bg-green-600/90 border border-green-400/30"
               : "bg-red-600/90 border border-red-400/30"
-          }`}
+            }`}
         >
           <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
             {toast.type === "success" ? "✓" : "!"}
@@ -233,12 +231,12 @@ export default function ViewUsers() {
         </div>
       )}
 
-      <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-black text-gray-900 dark:text-gray-50 tracking-tight">
+          <h1 className="text-2xl font-black text-gray-900 dark:text-gray-50 tracking-tight">
             User Management
           </h1>
-          <p className="text-gray-800 dark:text-gray-300 mt-2 font-semibold">
+          <p className="text-[13px] font-medium text-gray-500 dark:text-gray-400 mt-1">
             View, search, edit, and manage all system users in one place.
           </p>
         </div>
@@ -266,7 +264,7 @@ export default function ViewUsers() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search users..."
-              className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl border-2 border-gray-100 dark:border-gray-700 rounded-2xl py-3 pl-12 pr-6 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-gray-950 dark:text-white transition-all font-bold w-full md:w-80 shadow-xl shadow-black/5"
+              className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl border border-gray-200 dark:border-gray-700 rounded-xl py-2.5 pl-11 pr-5 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 text-gray-950 dark:text-white transition-all text-sm font-medium w-full md:w-72 shadow-sm"
             />
           </div>
 
@@ -278,9 +276,8 @@ export default function ViewUsers() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-5 w-5 ${
-                loading ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"
-              }`}
+              className={`h-5 w-5 ${loading ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"
+                }`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -296,8 +293,8 @@ export default function ViewUsers() {
         </div>
       </div>
 
-      <section className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border-2 border-white/20 dark:border-gray-700/30 p-8 overflow-hidden">
-        <div className="flex gap-3 mb-8 flex-wrap">
+      <section className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-2xl rounded-[1.5rem] shadow-xl border border-white/20 dark:border-gray-700/30 p-6 overflow-hidden">
+        <div className="flex gap-2.5 mb-6 flex-wrap">
           <TabBtn id="vu-tab-all" label="All Users" value="all" />
           <TabBtn id="vu-tab-admin" label="Admins" value="admin" />
           <TabBtn id="vu-tab-staff" label="Staff" value="staff" />
@@ -391,12 +388,11 @@ export default function ViewUsers() {
                     <td className="py-5 px-6 text-center">
                       <span
                         className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 
-                          ${
-                            u.role === "admin"
-                              ? "bg-purple-100 dark:bg-purple-900/20 text-purple-600 border-purple-200 dark:border-purple-800"
-                              : u.role === "staff"
-                                ? "bg-orange-100 dark:bg-orange-900/20 text-orange-600 border-orange-200 dark:border-orange-800"
-                                : "bg-blue-100 dark:bg-blue-900/20 text-blue-600 border-blue-200 dark:border-blue-800"
+                          ${u.role === "admin"
+                            ? "bg-purple-100 dark:bg-purple-900/20 text-purple-600 border-purple-200 dark:border-purple-800"
+                            : u.role === "staff"
+                              ? "bg-orange-100 dark:bg-orange-900/20 text-orange-600 border-orange-200 dark:border-orange-800"
+                              : "bg-blue-100 dark:bg-blue-900/20 text-blue-600 border-blue-200 dark:border-blue-800"
                           }`}
                       >
                         {u.role}
@@ -475,32 +471,31 @@ export default function ViewUsers() {
           title="Edit User Details"
           onClose={() => setEditOpen(false)}
         >
-          <div className="space-y-5 py-4">
-            <div className="group">
-              <label
-                htmlFor="vu-edit-name"
-                className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1"
-              >
-                Name
-              </label>
-              <input
-                id="vu-edit-name"
-                className="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 rounded-2xl py-4 px-6 outline-none focus:border-blue-500 transition-all font-black"
-                value={editForm.name}
-                onChange={(e) => setEditForm((p) => ({ ...p, name: e.target.value }))}
-              />
-            </div>
+          <div className="space-y-5 py-4">            <div className="group">
+            <label
+              htmlFor="vu-edit-name"
+              className="block text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-2 ml-1"
+            >
+              Name
+            </label>
+            <input
+              id="vu-edit-name"
+              className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl py-3 px-5 outline-none focus:border-blue-500 transition-all font-medium text-sm"
+              value={editForm.name}
+              onChange={(e) => setEditForm((p) => ({ ...p, name: e.target.value }))}
+            />
+          </div>
 
             <div className="group">
               <label
                 htmlFor="vu-edit-email"
-                className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1"
+                className="block text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-2 ml-1"
               >
                 Email
               </label>
               <input
                 id="vu-edit-email"
-                className="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 rounded-2xl py-4 px-6 outline-none focus:border-blue-500 transition-all font-black"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl py-3 px-5 outline-none focus:border-blue-500 transition-all font-medium text-sm"
                 value={editForm.email}
                 onChange={(e) => setEditForm((p) => ({ ...p, email: e.target.value }))}
               />
@@ -509,13 +504,13 @@ export default function ViewUsers() {
             <div className="group">
               <label
                 htmlFor="vu-edit-role"
-                className="block text-xs font-black uppercase tracking-widest text-gray-400 mb-2 ml-1"
+                className="block text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-2 ml-1"
               >
                 Role
               </label>
               <select
                 id="vu-edit-role"
-                className="w-full bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 rounded-2xl py-4 px-6 outline-none focus:border-blue-500 transition-all font-black cursor-pointer appearance-none"
+                className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl py-3 px-5 outline-none focus:border-blue-500 transition-all font-medium text-sm cursor-pointer appearance-none"
                 value={editForm.role}
                 onChange={(e) =>
                   setEditForm((p) => ({
@@ -527,24 +522,24 @@ export default function ViewUsers() {
                   }))
                 }
               >
-                <option value="student">Student</option>
-                <option value="staff">Staff</option>
                 <option value="admin">Admin</option>
+                <option value="staff">Staff</option>
+                <option value="student">Student</option>
               </select>
             </div>
 
             {editForm.role === "student" && (
               <div
                 id="vu-edit-student-box"
-                className="border-2 border-blue-500/10 rounded-3xl p-6 bg-blue-500/5 animate-in zoom-in-95"
+                className="border border-blue-500/10 rounded-2xl p-5 bg-blue-500/5 animate-in zoom-in-95"
               >
-                <p className="text-xs font-black dark:text-white uppercase tracking-widest mb-4">
+                <p className="text-[11px] font-bold dark:text-white uppercase tracking-wider mb-4">
                   Student Details
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   <select
                     id="vu-edit-year"
-                    className="bg-white dark:bg-gray-800 border-2 border-transparent focus:border-blue-500 rounded-xl p-3 outline-none transition-all font-black"
+                    className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 focus:border-blue-500 rounded-xl py-2 px-4 outline-none transition-all font-medium text-sm"
                     value={editForm.current_year}
                     onChange={(e) =>
                       setEditForm((p) => ({ ...p, current_year: e.target.value }))
@@ -560,7 +555,7 @@ export default function ViewUsers() {
 
                   <select
                     id="vu-edit-sem"
-                    className="bg-white dark:bg-gray-800 border-2 border-transparent focus:border-blue-500 rounded-xl p-3 outline-none transition-all font-black"
+                    className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 focus:border-blue-500 rounded-xl py-2 px-4 outline-none transition-all font-medium text-sm"
                     value={editForm.current_semester}
                     onChange={(e) =>
                       setEditForm((p) => ({ ...p, current_semester: e.target.value }))
@@ -577,18 +572,18 @@ export default function ViewUsers() {
               </div>
             )}
 
-            <div className="flex gap-4 pt-4">
+            <div className="flex gap-3 pt-3">
               <button
                 id="vu-edit-cancel"
                 onClick={() => setEditOpen(false)}
-                className="flex-1 py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-800 font-black uppercase text-xs tracking-widest hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all"
+                className="flex-1 py-3 rounded-xl border border-gray-100 dark:border-gray-800 font-bold uppercase text-[11px] tracking-wider hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all"
               >
                 Cancel
               </button>
               <button
                 id="vu-edit-save"
                 onClick={saveEdit}
-                className="flex-1 py-4 rounded-2xl bg-blue-600 text-white font-black uppercase text-xs tracking-widest shadow-xl shadow-blue-500/20 hover:bg-blue-700 hover:-translate-y-1 transition-all"
+                className="flex-1 py-3 rounded-xl bg-blue-600 text-white font-bold uppercase text-[11px] tracking-wider shadow-lg shadow-blue-500/20 hover:bg-blue-700 hover:-translate-y-1 transition-all"
               >
                 Save Changes
               </button>
@@ -660,8 +655,8 @@ export default function ViewUsers() {
               onClick={confirmDelete}
               disabled={deleteReason.trim().length < 5}
               className={`flex-1 py-4 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl transition-all
-                ${deleteReason.trim().length < 5 
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none" 
+                ${deleteReason.trim().length < 5
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"
                   : "bg-red-600 text-white shadow-red-500/20 hover:bg-red-700 hover:-translate-y-1"}`}
             >
               Confirm and Delete
@@ -689,18 +684,18 @@ function ModalShell({ id, title, onClose, children }) {
   return (
     <div
       id={`${id}-backdrop`}
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300"
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300"
     >
       <div
         id={id}
-        className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-3xl w-full max-w-lg rounded-[2.5rem] shadow-2xl border-2 border-white/20 dark:border-gray-700/50 p-10 animate-in zoom-in-95 duration-500"
+        className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-2xl w-full max-w-lg rounded-[1.5rem] shadow-2xl border border-white/20 dark:border-gray-700/50 p-8 animate-in zoom-in-95 duration-500"
       >
-        <div className="flex items-center justify-between mb-8">
-          <h4 className="text-2xl font-black dark:text-white tracking-tight">{title}</h4>
+        <div className="flex items-center justify-between mb-6">
+          <h4 className="text-xl font-bold dark:text-white tracking-tight">{title}</h4>
           <button
             id={`${id}-close`}
             onClick={onClose}
-            className="w-10 h-10 rounded-full border-2 border-gray-100 dark:border-gray-800 flex items-center justify-center text-gray-500 hover:border-red-500 hover:text-red-500 transition-all font-black"
+            className="w-9 h-9 rounded-full border border-gray-100 dark:border-gray-800 flex items-center justify-center text-gray-500 hover:border-red-500 hover:text-red-500 transition-all font-black"
           >
             ✕
           </button>

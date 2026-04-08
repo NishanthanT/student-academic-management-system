@@ -43,10 +43,10 @@ export default function StaffDashboard() {
       {/* Welcome Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="space-y-1">
-          <h1 className="text-4xl font-black text-gray-950 dark:text-white tracking-tight">
+          <h1 className="text-2xl font-black text-gray-950 dark:text-white tracking-tight">
             Staff Analytics Hub
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 font-bold tracking-tight italic">
+          <p className="text-[13px] font-medium text-gray-500 dark:text-gray-400 tracking-tight">
             Overview of your academic responsibilities and examination status.
           </p>
         </div>
@@ -69,11 +69,11 @@ export default function StaffDashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
         {/* Navigation & Quick Actions */}
         <section className="xl:col-span-8 space-y-8">
-          <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[3rem] shadow-2xl border-2 border-white/20 dark:border-gray-700/50 p-10 overflow-hidden">
+          <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[2.5rem] shadow-2xl border-2 border-white/20 dark:border-gray-700/50 p-6 md:p-8 overflow-hidden">
              <div className="flex items-center justify-between mb-10">
                 <div>
-                   <h2 className="text-2xl font-black text-gray-950 dark:text-white tracking-tight">Management Modules</h2>
-                   <p className="text-[10px] font-black uppercase tracking-widest text-blue-500 mt-1">Personnel Operation Center</p>
+                   <h2 className="text-lg font-bold text-gray-950 dark:text-white tracking-tight">Management Modules</h2>
+                   <p className="text-[10px] font-black uppercase tracking-widest text-blue-500 mt-0.5">Personnel Operation Center</p>
                 </div>
              </div>
 
@@ -107,9 +107,9 @@ export default function StaffDashboard() {
         </section>
 
         {/* Exam Tracking & Alerts */}
-        <section className="xl:col-span-4 space-y-8">
-           <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[3rem] shadow-2xl border-2 border-white/20 dark:border-gray-700/50 p-8 overflow-hidden">
-              <h3 className="text-xl font-black text-gray-950 dark:text-white tracking-tight leading-none mb-8">Exam Status Tracking</h3>
+         <section className="xl:col-span-4 space-y-8">
+            <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[2.5rem] shadow-2xl border-2 border-white/20 dark:border-gray-700/50 p-6 md:p-8 overflow-hidden">
+               <h3 className="text-lg font-bold text-gray-950 dark:text-white tracking-tight leading-none mb-8">Exam Status Tracking</h3>
               <div className="space-y-6">
                  <StatusRow label="Approved & Active" count={stats.approvedExams} color="emerald" />
                  <StatusRow label="Under Draft" count={stats.totalExams - stats.pendingExams - stats.approvedExams - stats.rejectedExams} color="blue" />
@@ -125,20 +125,20 @@ export default function StaffDashboard() {
            </div>
 
            {/* Upcoming Exams Section ✅ NEW */}
-           <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[3rem] shadow-2xl border-2 border-white/20 dark:border-gray-700/50 p-8 overflow-hidden">
-              <h3 className="text-xl font-black text-gray-950 dark:text-white tracking-tight leading-none mb-8">Upcoming Exams Timeline</h3>
-              <div className="space-y-6">
-                 {(!stats.upcomingExams || stats.upcomingExams.length === 0) ? (
-                   <div className="p-6 bg-gray-50/50 dark:bg-gray-950/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 text-center">
-                     <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">No scheduled exams</p>
-                   </div>
-                 ) : (
-                   stats.upcomingExams.map((ex) => (
-                     <UpcomingExamItem key={ex.id} exam={ex} />
-                   ))
-                 )}
-              </div>
-           </div>
+            <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[2.5rem] shadow-2xl border-2 border-white/20 dark:border-gray-700/50 p-6 md:p-8 overflow-hidden">
+               <h3 className="text-lg font-bold text-gray-950 dark:text-white tracking-tight leading-none mb-8">Upcoming Exams Timeline</h3>
+               <div className="space-y-6">
+                  {(!stats.upcomingExams || stats.upcomingExams.length === 0) ? (
+                    <div className="p-6 bg-gray-50/50 dark:bg-gray-950/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 text-center">
+                      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">No scheduled exams</p>
+                    </div>
+                  ) : (
+                    stats.upcomingExams.map((ex) => (
+                      <UpcomingExamItem key={ex.id} exam={ex} />
+                    ))
+                  )}
+               </div>
+            </div>
         </section>
       </div>
     </div>
@@ -157,11 +157,11 @@ function StatCard({ title, value, color, subtitle }) {
   };
 
   return (
-    <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[2.5rem] p-8 border-2 border-white/20 dark:border-gray-800 shadow-xl group hover:shadow-2xl hover:-translate-y-1 transition-all">
+    <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-3xl rounded-[2rem] p-6 border-2 border-white/20 dark:border-gray-800 shadow-xl group hover:shadow-2xl hover:-translate-y-1 transition-all">
       <div className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2">{title}</div>
       <div className="flex items-end justify-between">
-        <div className="text-4xl font-black text-gray-950 dark:text-white">{value}</div>
-        <div className={`px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest ${colors[color]}`}>{subtitle}</div>
+        <div className="text-2xl font-black text-gray-950 dark:text-white">{value}</div>
+        <div className={`px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest ${colors[color]}`}>{subtitle}</div>
       </div>
     </div>
   );
@@ -171,16 +171,16 @@ function NavCard({ to, title, desc, icon }) {
   return (
     <Link 
       to={to} 
-      className="group p-8 rounded-[2rem] bg-gray-50 dark:bg-gray-950/50 border-2 border-gray-100 dark:border-gray-800 hover:border-blue-600 transition-all shadow-sm flex flex-col items-start gap-4"
+      className="group p-6 rounded-3xl bg-gray-50 dark:bg-gray-950/50 border-2 border-gray-100 dark:border-gray-800 hover:border-blue-600 transition-all shadow-sm flex flex-col items-start gap-4"
     >
-      <div className="w-12 h-12 rounded-2xl bg-white dark:bg-gray-900 shadow-md flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:rotate-6">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="w-11 h-11 rounded-xl bg-white dark:bg-gray-900 shadow-md flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:rotate-6">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           {icon}
         </svg>
       </div>
       <div>
-         <h3 className="font-black text-gray-950 dark:text-white mb-1 tracking-tight">{title}</h3>
-         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 leading-relaxed">{desc}</p>
+         <h3 className="text-[14px] font-bold text-gray-950 dark:text-white mb-1 tracking-tight">{title}</h3>
+         <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 leading-relaxed">{desc}</p>
       </div>
     </Link>
   );

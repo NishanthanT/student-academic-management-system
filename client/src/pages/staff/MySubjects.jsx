@@ -104,18 +104,18 @@ export default function MySubjects() {
         </div>
       )}
 
-      <div className="bg-white rounded-xl shadow-sm border p-6">
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border dark:border-gray-800 p-6 transition-colors duration-300">
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div>
-            <h3 className="text-lg font-semibold">My Subjects</h3>
-            <p className="text-sm text-gray-600 mt-1">
+            <h3 className="text-base font-black text-gray-950 dark:text-white tracking-tight">My Subjects</h3>
+            <p className="text-[13px] font-medium text-gray-500 dark:text-gray-400 mt-1">
               Only subjects assigned by Admin will appear here.
             </p>
           </div>
 
           <button
             onClick={fetchMySubjects}
-            className="border rounded-lg px-4 py-2 text-sm hover:bg-gray-50"
+            className="border dark:border-gray-800 rounded-lg px-4 py-2 text-[12px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
           >
             Refresh
           </button>
@@ -124,7 +124,7 @@ export default function MySubjects() {
         {/* Filters */}
         <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
           <select
-            className="border rounded-lg px-3 py-2 text-sm"
+            className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg px-3 py-2 text-[13px] font-medium text-gray-900 dark:text-gray-200 outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
             value={year}
             onChange={(e) => setYear(e.target.value)}
           >
@@ -136,7 +136,7 @@ export default function MySubjects() {
           </select>
 
           <select
-            className="border rounded-lg px-3 py-2 text-sm"
+            className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg px-3 py-2 text-[13px] font-medium text-gray-900 dark:text-gray-200 outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
             value={semester}
             onChange={(e) => setSemester(e.target.value)}
           >
@@ -146,7 +146,7 @@ export default function MySubjects() {
           </select>
 
           <input
-            className="border rounded-lg px-3 py-2 text-sm"
+            className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg px-3 py-2 text-[13px] font-medium text-gray-900 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
             placeholder="Search code or name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -166,22 +166,22 @@ export default function MySubjects() {
               {subjects.map((s) => (
                 <div
                   key={s.id}
-                  className="border rounded-xl p-4 bg-white shadow-sm"
+                  className="border dark:border-gray-800 rounded-xl p-4 bg-white dark:bg-gray-800/40 shadow-sm hover:border-blue-500/30 transition-all"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <div className="text-sm font-semibold text-blue-700">
+                      <div className="text-sm font-semibold text-blue-700 dark:text-blue-400">
                         {s.code}
                       </div>
-                      <div className="text-base font-bold text-gray-900">
+                      <div className="text-base font-bold text-gray-900 dark:text-white">
                         {s.name}
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                         Year {s.year ?? "-"} • Semester {s.semester ?? "-"}
                       </div>
                     </div>
 
-                    <span className="text-xs px-2 py-1 rounded-full border bg-gray-50 text-gray-700">
+                    <span className="text-xs px-2 py-1 rounded-full border dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
                       Assigned
                     </span>
                   </div>

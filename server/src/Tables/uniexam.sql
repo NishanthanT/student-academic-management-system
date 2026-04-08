@@ -1,8 +1,8 @@
-CREATE DATABASE IF NOT EXISTS `uniexam`
+CREATE DATABASE IF NOT EXISTS `uniexammes`
   DEFAULT CHARACTER SET utf8mb4
   COLLATE utf8mb4_0900_ai_ci;
 
-USE `uniexam`;
+USE `uniexammes`;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -224,6 +224,28 @@ CREATE TABLE IF NOT EXISTS `exam_result_overrides` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_exam_student` (`exam_id`,`student_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- =========================
+-- 12) global_settings
+-- =========================
+CREATE TABLE IF NOT EXISTS `global_settings` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `setting_key` varchar(50) NOT NULL,
+  `setting_value` longtext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `setting_key` (`setting_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- =========================
+-- 13) exam_notices (Announcements)
+-- =========================
+CREATE TABLE IF NOT EXISTS `exam_notices` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

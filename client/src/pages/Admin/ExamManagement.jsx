@@ -438,8 +438,8 @@ export default function ExamManagement() {
         }
 
         .ax-top-card{
-          border-radius:30px;
-          padding:28px;
+          border-radius:24px;
+          padding:20px 24px;
           margin-bottom:18px;
         }
 
@@ -453,25 +453,25 @@ export default function ExamManagement() {
 
         .ax-title h1{
           margin:0;
-          font-size:34px;
-          line-height:1;
+          font-size:24px;
+          line-height:1.2;
           font-weight:900;
-          letter-spacing:-0.03em;
+          letter-spacing:-0.02em;
           color:var(--ax-text);
         }
 
         .ax-title p{
-          margin:10px 0 0;
+          margin:6px 0 0;
           color:var(--ax-sub);
-          font-size:14px;
+          font-size:13px;
           font-weight:600;
         }
 
         .ax-eyebrow{
-          margin:0 0 10px;
-          font-size:11px;
+          margin:0 0 6px;
+          font-size:10px;
           font-weight:900;
-          letter-spacing:.28em;
+          letter-spacing:.22em;
           text-transform:uppercase;
           color:var(--ax-blue);
         }
@@ -480,11 +480,11 @@ export default function ExamManagement() {
           border:1px solid var(--ax-line);
           background:var(--ax-card-3);
           color:var(--ax-text);
-          padding:12px 16px;
-          border-radius:16px;
+          padding:10px 14px;
+          border-radius:14px;
           cursor:pointer;
           font-weight:900;
-          font-size:14px;
+          font-size:13px;
           transition:all .28s ease;
           position:relative;
           overflow:hidden;
@@ -580,12 +580,12 @@ export default function ExamManagement() {
         .ax-input{
           width:100%;
           border:1px solid var(--ax-line);
-          border-radius:18px;
-          padding:13px 14px;
+          border-radius:14px;
+          padding:10px 14px;
           outline:none;
           background:var(--ax-card-3);
           color:var(--ax-text);
-          font-size:14px;
+          font-size:13px;
           font-weight:600;
           transition:all .28s ease;
         }
@@ -612,12 +612,13 @@ export default function ExamManagement() {
 
         .ax-label{
           display:block;
-          font-size:12px;
+          font-size:10px;
           font-weight:900;
           margin-bottom:8px;
-          color:var(--ax-text-soft);
-          letter-spacing:.08em;
+          color:var(--ax-sub);
+          letter-spacing:.12em;
           text-transform:uppercase;
+          margin-left:4px;
         }
 
         .ax-muted{
@@ -644,14 +645,14 @@ export default function ExamManagement() {
           align-items:center;
           justify-content:space-between;
           gap:10px;
-          min-width:170px;
+          min-width:140px;
           border-radius:999px;
-          padding:14px 18px;
+          padding:10px 16px;
           border:1px solid var(--ax-line);
           background:var(--ax-card-3);
           color:var(--ax-text);
           font-weight:900;
-          font-size:16px;
+          font-size:14px;
           cursor:pointer;
           transition:all .30s ease;
           overflow:hidden;
@@ -766,20 +767,20 @@ export default function ExamManagement() {
         }
 
         th, td{
-          padding:16px;
+          padding:14px 16px;
           border-bottom:1px solid var(--ax-line);
           text-align:left;
-          font-size:14px;
+          font-size:13px;
           vertical-align:top;
           color:var(--ax-text);
         }
 
         th{
           background:rgba(248,250,252,.75);
-          font-size:11px;
+          font-size:9px;
           color:var(--ax-sub);
           text-transform:uppercase;
-          letter-spacing:.14em;
+          letter-spacing:.18em;
           font-weight:900;
         }
 
@@ -810,9 +811,9 @@ export default function ExamManagement() {
         .ax-badge{
           display:inline-flex;
           align-items:center;
-          padding:6px 12px;
+          padding:4px 10px;
           border-radius:999px;
-          font-size:12px;
+          font-size:11px;
           font-weight:900;
           border:1px solid transparent;
           letter-spacing:.04em;
@@ -1128,7 +1129,7 @@ export default function ExamManagement() {
                   return (
                     <tr key={x.id}>
                       <td>
-                        <div style={{ fontWeight: 900, fontSize: 15 }}>{x.title || "Untitled"}</div>
+                        <div style={{ fontWeight: 900, fontSize: 13 }}>{x.title || "Untitled"}</div>
                         {x.admin_note ? (
                           <div className="ax-muted" style={{ marginTop: 8 }}>
                             <b>Admin note:</b> {x.admin_note}

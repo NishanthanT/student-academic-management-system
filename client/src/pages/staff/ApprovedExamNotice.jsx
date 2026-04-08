@@ -120,23 +120,36 @@ export default function ApprovedExamNotice() {
     <div style={{ padding: 24, maxWidth: 1200, margin: "0 auto" }}>
       <style>{`
         .ax-top{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
-        .ax-title h1{margin:0;font-size:22px}
-        .ax-muted{color:#667085;font-size:13px}
+        .ax-title h1{margin:0;font-size:20px;font-weight:900;letter-spacing:-0.02em}
+        .ax-muted{color:#667085;font-size:12px;font-weight:500}
         .ax-card{border:1px solid #e4e7ec;border-radius:14px;background:#fff;padding:14px;margin-top:14px}
-        .ax-btn{border:1px solid #e4e7ec;background:#fff;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:900}
+        .ax-btn{border:1px solid #e4e7ec;background:#fff;padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:900;font-size:12px}
         .ax-btn:disabled{opacity:.6;cursor:not-allowed}
         .ax-btn-primary{background:#2563EB;border-color:#2563EB;color:#fff}
-        .ax-input{width:100%;border:1px solid #e4e7ec;border-radius:10px;padding:10px 12px;outline:none}
+        .ax-input{width:100%;border:1px solid #e4e7ec;border-radius:10px;padding:8px 10px;outline:none;font-size:13px}
         .ax-tablewrap{margin-top:14px;border:1px solid #e4e7ec;border-radius:14px;overflow:hidden;background:#fff}
         .ax-scroll{overflow:auto}
         table{width:100%;border-collapse:collapse;min-width:980px}
-        th,td{padding:12px;border-bottom:1px solid #f2f4f7;text-align:left;font-size:14px;vertical-align:top}
-        th{background:#fcfcfd;font-size:12px;color:#667085;text-transform:uppercase;letter-spacing:.04em}
+        th,td{padding:10px;border-bottom:1px solid #f2f4f7;text-align:left;font-size:13px;vertical-align:top}
+        th{background:#fcfcfd;font-size:9px;color:#667085;text-transform:uppercase;letter-spacing:.12em;font-weight:900}
         .ax-actions{display:flex;gap:8px;flex-wrap:wrap}
-        .ax-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:900;border:1px solid #abefc6;background:#ecfdf3;color:#027a48}
+        .ax-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:900;border:1px solid #abefc6;background:#ecfdf3;color:#027a48}
         .ax-toast{position:fixed;top:18px;right:18px;z-index:9999;display:flex;gap:12px;align-items:center;max-width:420px;padding:12px 14px;border-radius:14px;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.12)}
         .ax-toast.ok{background:#027a48}
+        .ax-toast.ok{background:#027a48}
         .ax-toast.err{background:#b42318}
+
+        /* Dark Mode Overrides */
+        .dark .ax-card { background: #111827; border-color: #374151; }
+        .dark .ax-title h1 { color: #fff; }
+        .dark .ax-muted { color: #9ca3af; }
+        .dark .ax-btn { background: #1f2937; border-color: #374151; color: #d1d5db; }
+        .dark .ax-btn-primary { background: #2563EB; border-color: #2563EB; color: #fff; }
+        .dark .ax-input { background: #111827; border-color: #374151; color: #f3f4f6; }
+        .dark .ax-tablewrap { background: #111827; border-color: #374151; }
+        .dark th { background: #1f2937; border-bottom-color: #374151; color: #9ca3af; }
+        .dark td { border-bottom-color: #374151; color: #d1d5db; }
+        .dark .ax-badge { background: #064e3b; color: #a7f3d0; border-color: #065f46; }
       `}</style>
 
       {toast ? (

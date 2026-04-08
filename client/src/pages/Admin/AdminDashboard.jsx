@@ -1,21 +1,11 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function AdminLayout() {
   const navigate = useNavigate();
 
-  // ✅ Dark Mode State
-  const [isDark, setIsDark] = useState(localStorage.getItem("theme") === "dark");
-
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark]);
+  const { isDark, toggleTheme } = useTheme();
 
   const userName = useMemo(() => localStorage.getItem("userName") || "Admin", []);
   const role = useMemo(() => localStorage.getItem("role") || "admin", []);
@@ -76,7 +66,7 @@ export default function AdminLayout() {
           <div className="flex items-center gap-4">
             {/* ✅ Theme Toggle Button (SVG for visibility) */}
             <button
-              onClick={() => setIsDark(!isDark)}
+              onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-yellow-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all border dark:border-gray-600 flex items-center justify-center"
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >

@@ -311,3 +311,54 @@ exports.getDashboardStats = (req, res) => {
     });
   });
 };
+
+/* ===========================
+   ✅ System Settings
+=========================== */
+
+exports.getSettings = (req, res) => {
+  db.query("SELECT * FROM global_settings", (err, rows) => {
+    if (err) return res.status(500).json({ ok: false, message: "DB error" });
+    const settingsMap = {};
+    rows.forEach(row => {
+      try {
+        settingsMap[row.setting_key] = JSON.parse(row.setting_value);
+      } catch(e) {
+        settingsMap[row.setting_key] = row.setting_value;
+      }
+    });
+    return res.json({ ok: true, data: settingsMap });
+  });
+};
+
+exports.updateSettings = (req, res) => {
+  const settings = req.body;
+  if (!settings || typeof settings !== 'object') {
+    return res.status(400).json({ ok: false, message: "Invalid settings data" });
+  }
+
+  const keys = Object.keys(settings);
+  if (keys.length === 0) return res.json({ ok: true, message: "Settings updated" });
+
+  let completed = 0;
+  let hasError = false;
+
+  keys.forEach((key) => {
+    const val = typeof settings[key] === 'object' ? JSON.stringify(settings[key]) : settings[key];
+    db.query(
+      "INSERT INTO global_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?", 
+      [key, String(val), String(val)],
+      (err) => {
+        if (hasError) return;
+        if (err) {
+            hasError = true;
+            return res.status(500).json({ ok: false, message: "Failed to update settings" });
+        }
+        completed++;
+        if (completed === keys.length) {
+            return res.json({ ok: true, message: "Settings updated successfully" });
+        }
+      }
+    );
+  });
+};

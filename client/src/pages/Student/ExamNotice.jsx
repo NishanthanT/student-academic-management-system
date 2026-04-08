@@ -177,7 +177,60 @@ export default function ExamNotice() {
   };
 
   return (
-    <div id="student-examnotice-root" style={sx.page}>
+    <div id="student-examnotice-page" style={sx.page} className="nx-page">
+      <style>{`
+        .dark .nx-page { color: #f3f4f6; }
+        .dark #student-examnotice-head, 
+        .dark #student-examnotice-filter-card, 
+        .dark #student-examnotice-detail-card,
+        .dark .nx-info-card,
+        .dark #student-examnotice-modal-card { 
+          background: #111827 !important; border-color: #374151 !important; 
+        }
+        .dark #student-examnotice-title, 
+        .dark #student-examnotice-detail-title, 
+        .dark #student-examnotice-modal-title,
+        .dark .nx-title { 
+          color: #fff !important; 
+        }
+        .dark #student-examnotice-subtitle, 
+        .dark #student-examnotice-detail-sub,
+        .dark .nx-sub, .dark .nx-meta, .dark .nx-info-label { 
+          color: #9ca3af !important; 
+        }
+        .dark .nx-info-value { color: #fff !important; }
+        .dark #student-examnotice-subject-select, 
+        .dark #student-examnotice-exam-select { 
+          background: #1f2937 !important; border-color: #374151 !important; color: #f3f4f6 !important; 
+        }
+        .dark #student-examnotice-status-box, .dark .nx-status-box { 
+          background: #1f2937 !important; border-color: #374151 !important; color: #d1d5db !important; 
+        }
+        .dark #student-examnotice-refresh-btn,
+        .dark #student-examnotice-modal-btn-close { 
+          background: #111827 !important; color: #d1d5db !important; border-color: #374151 !important; 
+        }
+        .dark .nx-pill, #student-examnotice-badge-count { 
+          background: #1f2937 !important; border-color: #4b5563 !important; color: #d1d5db !important; 
+        }
+        .dark #student-examnotice-modal-head, .dark #student-examnotice-modal-foot {
+          border-color: #374151 !important;
+          background: #111827 !important;
+        }
+        .dark #student-examnotice-modal-body { color: #f3f4f6 !important; }
+        .dark .modalDescBox { background: #1f2937 !important; color: #d1d5db !important; border-color: #374151 !important; }
+        .dark #student-examnotice-table-wrap { border-color: #374151 !important; }
+        .dark #student-examnotice-thead th { background: #1f2937 !important; color: #9ca3af !important; border-bottom-color: #374151 !important; }
+        .dark #student-examnotice-tbody td { border-bottom-color: #374151 !important; color: #d1d5db !important; }
+        .dark #student-examnotice-tbody tr:hover { background: #1f2937 !important; }
+        .dark #student-examnotice-note { background: #111827 !important; border-color: #374151 !important; color: #9ca3af !important; }
+        
+        /* Custom Scrollbars for Student Portal */
+        .nx-page::-webkit-scrollbar, .as-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+        .dark .nx-page::-webkit-scrollbar-thumb, .dark .as-scroll::-webkit-scrollbar-thumb { background: #374151 !important; }
+
+      `}</style>
+
       {/* ✅ NOTICE MODAL */}
       {viewingExam && (
         <div id="student-examnotice-modal-overlay" style={sx.modalOverlay}>
@@ -209,7 +262,7 @@ export default function ExamNotice() {
 
               <div style={sx.modalSection}>
                 <div style={sx.modalLabel}>Exam Notice / Description</div>
-                <div style={sx.modalDescBox}>
+                <div style={{...sx.modalDescBox, color: 'inherit'}} className="modalDescBox">
                   {viewingExam.description || "No description provided."}
                 </div>
               </div>
@@ -257,6 +310,7 @@ export default function ExamNotice() {
           </div>
         </div>
       )}
+
       {/* ✅ TOAST */}
       {toast && (
         <div
@@ -293,7 +347,7 @@ export default function ExamNotice() {
         </div>
 
         <div id="student-examnotice-head-actions" style={sx.headRight}>
-          <div id="student-examnotice-badge-count" style={sx.pill}>
+          <div id="student-examnotice-badge-count" style={sx.pill} className="nx-pill">
             {exams.length} exams
           </div>
           <button
@@ -366,7 +420,7 @@ export default function ExamNotice() {
             <label id="student-examnotice-status-label" style={sx.label}>
               Status
             </label>
-            <div id="student-examnotice-status-box" style={sx.statusBox}>
+            <div id="student-examnotice-status-box" style={sx.statusBox} className="nx-status-box">
               {loadingExams ? "Loading..." : filteredExams.length ? "Approved" : "No exams"}
             </div>
             <div id="student-examnotice-status-hint" style={sx.meta}>
@@ -392,16 +446,16 @@ export default function ExamNotice() {
 
           {selectedExam && (
             <div id="student-examnotice-detail-pills" style={sx.pillRow}>
-              <span id="student-examnotice-pill-pass" style={sx.pill}>
+              <span id="student-examnotice-pill-pass" style={sx.pill} className="nx-pill">
                 Pass: {selectedExam.pass_marks}
               </span>
-              <span id="student-examnotice-pill-total" style={sx.pill}>
+              <span id="student-examnotice-pill-total" style={sx.pill} className="nx-pill">
                 Total: {selectedExam.total_marks}
               </span>
-              <span id="student-examnotice-pill-duration" style={sx.pill}>
+              <span id="student-examnotice-pill-duration" style={sx.pill} className="nx-pill">
                 Duration: {minsToHM(selectedExam.duration_minutes)}
               </span>
-              <span id="student-examnotice-pill-late" style={sx.pill}>
+              <span id="student-examnotice-pill-late" style={sx.pill} className="nx-pill">
                 Late: {Number(selectedExam.late_minutes || 0)} min
               </span>
             </div>
@@ -410,17 +464,17 @@ export default function ExamNotice() {
 
         {selectedExam && (
           <div id="student-examnotice-detail-grid" style={sx.grid}>
-            <div id="student-examnotice-detail-start" style={sx.infoCard}>
+            <div id="student-examnotice-detail-start" style={sx.infoCard} className="nx-info-card">
               <div style={sx.infoLabel}>Start</div>
               <div style={sx.infoValue}>{fmtDT(selectedExam.start_at)}</div>
             </div>
 
-            <div id="student-examnotice-detail-end" style={sx.infoCard}>
+            <div id="student-examnotice-detail-end" style={sx.infoCard} className="nx-info-card">
               <div style={sx.infoLabel}>End</div>
               <div style={sx.infoValue}>{fmtDT(selectedExam.end_at)}</div>
             </div>
 
-            <div id="student-examnotice-detail-timeleft" style={sx.infoCard}>
+            <div id="student-examnotice-detail-timeleft" style={sx.infoCard} className="nx-info-card">
               <div style={sx.infoLabel}>Time</div>
               <div style={sx.infoValue}>
                 {(() => {
@@ -436,7 +490,7 @@ export default function ExamNotice() {
               </div>
             </div>
 
-            <div id="student-examnotice-detail-approval" style={sx.infoCard}>
+            <div id="student-examnotice-detail-approval" style={sx.infoCard} className="nx-info-card">
               <div style={sx.infoLabel}>Approval</div>
               <div style={sx.infoValue}>{String(selectedExam.approval_status || "APPROVED")}</div>
             </div>
@@ -448,7 +502,7 @@ export default function ExamNotice() {
           <div id="student-examnotice-table-title" style={sx.tTitle}>
             Approved Exam List
           </div>
-          <div id="student-examnotice-table-count" style={sx.pill}>
+          <div id="student-examnotice-table-count" style={sx.pill} className="nx-pill">
             {filteredExams.length} notices
           </div>
         </div>
@@ -579,22 +633,22 @@ const sx = {
     gap: 14,
     alignItems: "flex-start",
   },
-  hTitle: { fontSize: 20, fontWeight: 1000, color: "#101828" },
-  hSub: { marginTop: 6, color: "#667085", fontWeight: 800, fontSize: 13 },
+  hTitle: { fontSize: 18, fontWeight: 1000, color: "#101828", letterSpacing: "-0.01em" },
+  hSub: { marginTop: 4, color: "#667085", fontWeight: 800, fontSize: 12 },
   headRight: { display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" },
 
   pillRow: { display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-end" },
   pill: {
     display: "inline-flex",
     alignItems: "center",
-    height: 28,
+    height: 24,
     padding: "0 10px",
     borderRadius: 999,
     border: "1px solid #E4E7EC",
     background: "#FCFCFD",
     color: "#344054",
     fontWeight: 900,
-    fontSize: 12,
+    fontSize: 11,
     whiteSpace: "nowrap",
   },
 
@@ -620,30 +674,33 @@ const sx = {
     width: "100%",
     border: "1px solid #E4E7EC",
     borderRadius: 12,
-    padding: "10px 12px",
+    padding: "8px 12px",
     outline: "none",
     fontWeight: 800,
     color: "#101828",
     background: "#fff",
+    fontSize: 13,
   },
   meta: { fontSize: 12, color: "#667085", fontWeight: 800 },
 
   statusBox: {
     border: "1px solid #E4E7EC",
     borderRadius: 12,
-    padding: "10px 12px",
+    padding: "8px 12px",
     fontWeight: 900,
     color: "#101828",
     background: "#FCFCFD",
+    fontSize: 13,
   },
 
   btn: {
     border: "1px solid #E4E7EC",
     background: "#fff",
-    padding: "10px 14px",
+    padding: "8px 14px",
     borderRadius: 12,
     cursor: "pointer",
     fontWeight: 1000,
+    fontSize: 13,
   },
   btnGhost: { background: "#fff", color: "#101828" },
 
@@ -654,8 +711,8 @@ const sx = {
     alignItems: "flex-start",
     flexWrap: "wrap",
   },
-  detailTitle: { fontSize: 18, fontWeight: 1000, color: "#101828" },
-  detailSub: { marginTop: 6, color: "#667085", fontWeight: 800, fontSize: 13, maxWidth: 760 },
+  detailTitle: { fontSize: 16, fontWeight: 1000, color: "#101828", letterSpacing: "-0.01em" },
+  detailSub: { marginTop: 4, color: "#667085", fontWeight: 800, fontSize: 12, maxWidth: 760 },
 
   grid: {
     marginTop: 14,
@@ -669,8 +726,8 @@ const sx = {
     padding: 12,
     background: "#FCFCFD",
   },
-  infoLabel: { fontSize: 12, color: "#667085", fontWeight: 900 },
-  infoValue: { marginTop: 6, fontWeight: 1000, color: "#101828" },
+  infoLabel: { fontSize: 11, color: "#667085", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.05em" },
+  infoValue: { marginTop: 4, fontWeight: 1000, color: "#101828", fontSize: 13 },
 
   tableHead: {
     marginTop: 16,
@@ -679,7 +736,7 @@ const sx = {
     alignItems: "center",
     gap: 12,
   },
-  tTitle: { fontWeight: 1000, fontSize: 16, color: "#101828" },
+  tTitle: { fontWeight: 1000, fontSize: 14, color: "#101828", textTransform: "uppercase", letterSpacing: "0.02em" },
 
   tableWrap: {
     marginTop: 10,
@@ -690,19 +747,22 @@ const sx = {
   table: { width: "100%", borderCollapse: "collapse" },
   th: {
     textAlign: "left",
-    padding: "12px 14px",
+    padding: "10px 14px",
     background: "#FCFCFD",
     borderBottom: "1px solid #E4E7EC",
     color: "#475467",
     fontWeight: 900,
-    fontSize: 13,
+    fontSize: 9,
+    textTransform: "uppercase",
+    letterSpacing: "0.1em",
   },
   td: {
-    padding: "12px 14px",
+    padding: "10px 14px",
     borderBottom: "1px solid #F2F4F7",
     fontWeight: 800,
     color: "#101828",
     verticalAlign: "middle",
+    fontSize: 12,
   },
   tdEmpty: {
     padding: 18,
@@ -714,11 +774,11 @@ const sx = {
   badge: {
     display: "inline-flex",
     alignItems: "center",
-    padding: "6px 10px",
+    padding: "4px 10px",
     borderRadius: 999,
     border: "1px solid",
     fontWeight: 1000,
-    fontSize: 12,
+    fontSize: 10,
     whiteSpace: "nowrap",
   },
   badgeLive: { background: "#ECFDF3", borderColor: "#ABEFC6", color: "#027A48" },
@@ -774,7 +834,7 @@ const sx = {
     justifyContent: "space-between",
     alignItems: "flex-start",
   },
-  modalTitle: { fontSize: 22, fontWeight: 1000, color: "#101828" },
+  modalTitle: { fontSize: 20, fontWeight: 1000, color: "#101828", letterSpacing: "-0.01em" },
   modalX: {
     border: "none",
     background: "#F2F4F7",

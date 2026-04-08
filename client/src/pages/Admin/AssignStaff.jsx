@@ -376,10 +376,10 @@ export default function AssignStaffSubject() {
           <div className="rounded-[28px] border border-white/30 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl shadow-2xl p-6 md:p-8">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
               <div>
-                <p className="text-xs uppercase tracking-[0.24em] font-extrabold text-blue-600 dark:text-blue-400">
+                <p className="text-[10px] uppercase tracking-[0.2em] font-extrabold text-blue-600 dark:text-blue-400">
                   Staff Subject Management
                 </p>
-                <h1 className="mt-2 text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+                <h1 className="mt-1 text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                   Assignments
                 </h1>
               </div>
@@ -408,10 +408,10 @@ export default function AssignStaffSubject() {
             <section className="lg:col-span-2 rounded-[28px] border border-white/30 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-2xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/10">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-indigo-600 dark:text-indigo-400">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">
                     Assignment Panel
                   </p>
-                  <h2 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
+                  <h2 className="mt-1 text-lg font-bold text-slate-900 dark:text-white">
                     Assign Staff
                   </h2>
                 </div>
@@ -424,7 +424,7 @@ export default function AssignStaffSubject() {
                     setStaffSearch("");
                     showToast("success", "Cleared");
                   }}
-                  className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
+                  className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2 text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
                 >
                   Clear
                 </button>
@@ -455,9 +455,9 @@ export default function AssignStaffSubject() {
               </div>
 
               <div className="mt-4">
-                <LabelText>Subject</LabelText>
+                <p className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 ml-1">Subject</p>
                 <select
-                  className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 p-3 mt-2 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-sm font-medium text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5"
                   value={selectedSubjectId}
                   onChange={(e) => setSelectedSubjectId(e.target.value)}
                   disabled={loadingSub}
@@ -472,9 +472,10 @@ export default function AssignStaffSubject() {
               </div>
 
               <div className="mt-4">
-                <LabelText>Search Staff</LabelText>
-                <InputBlock
-                  placeholder="Search Staff"
+                <p className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 ml-1">Search Staff</p>
+                <input
+                  placeholder="Search Staff Name or Email"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-sm font-medium text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5"
                   value={staffSearch}
                   onChange={(e) => setStaffSearch(e.target.value)}
                 />
@@ -492,26 +493,26 @@ export default function AssignStaffSubject() {
                   </button>
                 </div>
 
-                <div className="rounded-[22px] border border-slate-200/80 dark:border-slate-700/70 bg-white/50 dark:bg-slate-950/30 p-3 max-h-64 overflow-auto shadow-inner">
+                <div className="rounded-[20px] border border-slate-200/80 dark:border-slate-700/70 bg-white/50 dark:bg-slate-950/30 p-2.5 max-h-64 overflow-auto shadow-inner">
                   {loadingStaff ? (
-                    <div className="text-sm text-slate-500 dark:text-slate-400 p-2">Loading staff...</div>
+                    <div className="text-[13px] text-slate-500 dark:text-slate-400 p-2">Loading staff...</div>
                   ) : staffs.length === 0 ? (
-                    <div className="text-sm text-slate-500 dark:text-slate-400 p-2">No staff found</div>
+                    <div className="text-[13px] text-slate-500 dark:text-slate-400 p-2">No staff found</div>
                   ) : (
                     staffs.map((s) => (
                       <button
                         key={s.id}
                         type="button"
                         onClick={() => toggleStaff(s.id)}
-                        className={`w-full text-left px-4 py-3 rounded-2xl border mb-2 last:mb-0 transition-all duration-300 hover:-translate-y-0.5 ${
+                        className={`w-full text-left px-4 py-2.5 rounded-xl border mb-2 last:mb-0 transition-all duration-300 hover:-translate-y-0.5 ${
                           isSelected(s.id)
                             ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-600 shadow-lg shadow-blue-500/20"
                             : "bg-white/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
                         }`}
                       >
-                        <div className="font-bold text-sm">{s.name}</div>
+                        <div className="font-bold text-[13px]">{s.name}</div>
                         <div
-                          className={`text-xs mt-1 ${
+                          className={`text-[10px] mt-0.5 ${
                             isSelected(s.id) ? "text-blue-100" : "text-slate-500 dark:text-slate-400"
                           }`}
                         >
@@ -530,10 +531,10 @@ export default function AssignStaffSubject() {
               <button
                 onClick={handleAssign}
                 disabled={assigning}
-                className={`mt-5 w-full rounded-2xl py-3.5 font-extrabold text-white shadow-xl transition-all duration-300 active:scale-[0.98] ${
+                className={`mt-5 w-full rounded-xl py-3 font-bold text-white tracking-wider uppercase text-[11px] shadow-lg transition-all duration-300 active:scale-[0.98] ${
                   assigning
                     ? "bg-blue-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:-translate-y-1 hover:shadow-blue-500/30"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:-translate-y-1 hover:shadow-blue-500/20"
                 }`}
               >
                 {assigning ? "Assigning..." : "Assign Staff"}
@@ -567,19 +568,19 @@ export default function AssignStaffSubject() {
                       {assignedStaff.map((st) => (
                         <div
                           key={st.id}
-                          className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
+                          className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 p-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
                         >
                           <div>
-                            <div className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                            <div className="text-[13px] font-bold text-slate-800 dark:text-slate-100">
                               {st.name}
                             </div>
-                            <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
                               {st.email}
                             </div>
                           </div>
                           <button
                             onClick={() => openRemove(st)}
-                            className="rounded-xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-4 py-2 text-xs font-bold text-rose-600 dark:text-rose-300 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                            className="rounded-lg border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-3 py-1.5 text-[10px] font-bold text-rose-600 dark:text-rose-300 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
                           >
                             Remove
                           </button>
@@ -594,17 +595,17 @@ export default function AssignStaffSubject() {
             <section className="lg:col-span-3 rounded-[28px] border border-white/30 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-2xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/10">
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-purple-600 dark:text-purple-400">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-purple-600 dark:text-purple-400">
                     Assignment Table
                   </p>
-                  <h2 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
+                  <h2 className="mt-1 text-lg font-bold text-slate-900 dark:text-white">
                     All Assignments
                   </h2>
                 </div>
 
                 <button
                   onClick={fetchAllAssignments}
-                  className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 text-sm font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
+                  className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
                 >
                   Refresh
                 </button>
@@ -628,16 +629,16 @@ export default function AssignStaffSubject() {
                   <table className="w-full min-w-[760px] text-sm">
                     <thead className="bg-slate-100/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200">
                       <tr>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           ID
                         </th>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           Subject
                         </th>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           Staff
                         </th>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           Actions
                         </th>
                       </tr>
@@ -657,49 +658,48 @@ export default function AssignStaffSubject() {
                           </td>
                         </tr>
                       ) : (
-                        allAssignments.map((r, index) => (
-                          <tr
+                        allAssignments.map((r, index) => (                          <tr
                             key={r.id}
                             className={`border-t border-slate-200/70 dark:border-slate-800 transition-all duration-200 hover:bg-blue-50/60 dark:hover:bg-slate-800/60 ${
                               index % 2 === 0 ? "bg-white/40 dark:bg-slate-900/20" : ""
                             }`}
                           >
-                            <td className="px-5 py-4 font-bold text-slate-700 dark:text-slate-200">
+                            <td className="px-5 py-3 font-bold text-slate-700 dark:text-slate-200 text-[12px]">
                               {r.id}
                             </td>
 
-                            <td className="px-5 py-4">
-                              <div className="inline-flex rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-3 py-1 text-xs font-extrabold tracking-wide">
+                            <td className="px-5 py-3">
+                              <div className="inline-flex rounded-lg bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase">
                                 {r.subject_code || "-"}
                               </div>
-                              <div className="mt-2 text-sm font-semibold text-slate-800 dark:text-slate-100">
+                              <div className="mt-1.5 text-[13px] font-bold text-slate-800 dark:text-slate-100">
                                 {r.subject_name || ""}
                               </div>
-                              <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                              <div className="mt-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">
                                 Year {r.year ?? "-"} • Semester {r.semester ?? "-"}
                               </div>
                             </td>
 
-                            <td className="px-5 py-4">
-                              <div className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                            <td className="px-5 py-3">
+                              <div className="text-[13px] font-bold text-slate-800 dark:text-slate-100">
                                 {r.staff_name || "-"}
                               </div>
-                              <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                              <div className="mt-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">
                                 {r.staff_email || ""}
                               </div>
                             </td>
 
-                            <td className="px-5 py-4">
+                            <td className="px-5 py-3">
                               <div className="flex items-center gap-2">
                                 <button
                                   onClick={() => openEdit(r)}
-                                  className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
+                                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-[10px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
                                 >
                                   Edit
                                 </button>
                                 <button
                                   onClick={() => deleteAssignmentRow(r)}
-                                  className="rounded-xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-4 py-2 font-bold text-rose-600 dark:text-rose-300 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                                  className="rounded-lg border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-3 py-1.5 text-[10px] font-bold text-rose-600 dark:text-rose-300 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
                                 >
                                   Delete
                                 </button>

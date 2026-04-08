@@ -453,9 +453,8 @@ function ExamModal({
               <label className="sx-label">Duration (minutes)</label>
               <input
                 type="number"
-                className={`sx-input ${
-                  errors.duration_minutes ? "sx-input--err" : ""
-                }`}
+                className={`sx-input ${errors.duration_minutes ? "sx-input--err" : ""
+                  }`}
                 value={form.duration_minutes}
                 onChange={(e) => set("duration_minutes", e.target.value)}
                 min={1}
@@ -479,9 +478,8 @@ function ExamModal({
                 <label className="sx-label">Total Marks</label>
                 <input
                   type="number"
-                  className={`sx-input ${
-                    errors.total_marks ? "sx-input--err" : ""
-                  }`}
+                  className={`sx-input ${errors.total_marks ? "sx-input--err" : ""
+                    }`}
                   value={form.total_marks}
                   onChange={(e) => set("total_marks", e.target.value)}
                   min={1}
@@ -495,9 +493,8 @@ function ExamModal({
                 <label className="sx-label">Pass Marks</label>
                 <input
                   type="number"
-                  className={`sx-input ${
-                    errors.pass_marks ? "sx-input--err" : ""
-                  }`}
+                  className={`sx-input ${errors.pass_marks ? "sx-input--err" : ""
+                    }`}
                   value={form.pass_marks}
                   onChange={(e) => set("pass_marks", e.target.value)}
                   min={0}
@@ -563,10 +560,10 @@ function ExamModal({
               {loading
                 ? "Saving..."
                 : descOnly
-                ? "Save Description"
-                : mode === "edit"
-                ? "Save Changes"
-                : "Save Draft"}
+                  ? "Save Description"
+                  : mode === "edit"
+                    ? "Save Changes"
+                    : "Save Draft"}
             </button>
           )}
         </div>
@@ -800,10 +797,10 @@ export default function StaffExams() {
       <style>{`
         .sx-page{padding:24px;max-width:1200px;margin:0 auto}
         .sx-top{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
-        .sx-title h1{margin:0;font-size:22px}
-        .sx-title p{margin:6px 0 0;color:#667085}
+        .sx-title h1{margin:0;font-size:20px;font-weight:900;letter-spacing:-0.02em}
+        .sx-title p{margin:4px 0 0;color:#667085;font-size:13px;font-weight:500}
         .sx-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-        .sx-btn{border:1px solid #e4e7ec;background:#fff;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:800}
+        .sx-btn{border:1px solid #e4e7ec;background:#fff;padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:800;font-size:12px}
         .sx-btn:disabled{opacity:.6;cursor:not-allowed}
         /* ✅ BLUE Primary */
         .sx-btn--primary{background:#2563EB;border-color:#2563EB;color:#fff}
@@ -817,14 +814,14 @@ export default function StaffExams() {
         .sx-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:18px}
         .sx-input{width:100%;border:1px solid #e4e7ec;border-radius:10px;padding:10px 12px;outline:none}
         .sx-input--err{border-color:#fda29b}
-        .sx-label{display:block;font-size:13px;font-weight:800;margin-bottom:6px}
+        .sx-label{display:block;font-size:11px;font-weight:800;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em;color:#667085}
         .sx-err{color:#b42318;font-size:12px;margin-top:6px}
         .sx-muted{color:#667085;font-size:13px}
         .sx-note{border:1px solid #e4e7ec;background:#fcfcfd;padding:10px 12px;border-radius:12px;margin-bottom:12px}
         .sx-note--warn{background:#fff7ed;border-color:#fed7aa}
         .sx-note--ok{background:#ecfdf3;border-color:#abefc6}
         .sx-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-        .sx-tab{border:1px solid #e4e7ec;border-radius:999px;padding:8px 12px;background:#fff;cursor:pointer;font-weight:900}
+        .sx-tab{border:1px solid #e4e7ec;border-radius:999px;padding:8px 16px;background:#fff;cursor:pointer;font-weight:900;font-size:13px}
         /* ✅ BLUE active tab */
         .sx-tab.active{background:#2563EB;color:#fff;border-color:#2563EB}
         .sx-pill{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:999px;margin-left:8px;font-size:12px;font-weight:900;background:#f2f4f7;color:#344054}
@@ -834,8 +831,8 @@ export default function StaffExams() {
         .sx-tablewrap{margin-top:14px;border:1px solid #e4e7ec;border-radius:14px;overflow:hidden;background:#fff}
         .sx-table-scroll{overflow:auto}
         table{width:100%;border-collapse:collapse;min-width:980px}
-        th,td{padding:12px 12px;border-bottom:1px solid #f2f4f7;text-align:left;font-size:14px;vertical-align:top}
-        th{background:#fcfcfd;font-size:12px;color:#667085;text-transform:uppercase;letter-spacing:.04em}
+        th,td{padding:10px 14px;border-bottom:1px solid #f2f4f7;text-align:left;font-size:13px;vertical-align:top}
+        th{background:#fcfcfd;font-size:9px;color:#667085;text-transform:uppercase;letter-spacing:.12em;font-weight:900}
         .sx-actions-col{display:flex;gap:8px;flex-wrap:wrap}
         .sx-link{border:none;background:transparent;color:#2563EB;font-weight:900;cursor:pointer;padding:0;margin-top:8px}
         .sx-empty{padding:24px;text-align:center;color:#667085}
@@ -852,7 +849,7 @@ export default function StaffExams() {
         .sx-grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
         .sx-grid--tight{gap:10px}
         .sx-colspan-2{grid-column:1 / -1}
-        .sx-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:900;border:1px solid #e4e7ec}
+        .sx-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:900;border:1px solid #e4e7ec}
         .sx-badge--draft{background:#f9fafb;color:#344054}
         .sx-badge--pending{background:#eff8ff;color:#175cd3;border-color:#b2ddff}
         .sx-badge--changes{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
@@ -865,6 +862,28 @@ export default function StaffExams() {
           .sx-filters .sx-row > div{min-width:unset}
           table{min-width:920px}
         }
+
+        /* Dark Mode Overrides */
+        .dark .sx-btn{background:#111827;border-color:#374151;color:#d1d5db}
+        .dark .sx-btn--ghost{background:#1f2937}
+        .dark .sx-btn--primary{background:#2563EB;border-color:#2563EB;color:#fff}
+        .dark .sx-title h1{color:#fff}
+        .dark .sx-title p, .dark .sx-muted, .dark .sx-label{color:#9ca3af}
+        .dark .sx-input{background:#111827;border-color:#374151;color:#f3f4f6}
+        .dark .sx-input:focus{border-color:#2563EB;box-shadow:0 0 0 4px rgba(37,99,235,0.1)}
+        .dark .sx-note{background:#1f2937;border-color:#374151;color:#d1d5db}
+        .dark .sx-tabs .sx-tab{background:#111827;border-color:#374151;color:#9ca3af}
+        .dark .sx-tabs .sx-tab.active{background:#2563EB;color:#fff;border-color:#2563EB}
+        .dark .sx-pill{background:#374151;color:#d1d5db}
+        .dark .sx-filters{background:#111827;border-color:#374151}
+        .dark .sx-tablewrap{background:#111827;border-color:#374151}
+        .dark th{background:#1f2937;border-bottom-color:#374151;color:#9ca3af}
+        .dark td{border-bottom-color:#374151;color:#d1d5db}
+        .dark .sx-modal{background:#111827;border-color:#374151;color:#f3f4f6}
+        .dark .sx-modal__head, .dark .sx-modal__foot{border-color:#374151}
+        .dark .sx-badge--draft{background:#374151;color:#d1d5db;border-color:#4b5563}
+        .dark .sx-note--warn{background:#7c2d1222;border-color:#7c2d12}
+        .dark .sx-note--ok{background:#064e3b22;border-color:#064e3b}
       `}</style>
 
       <Toast toast={toast} onClose={() => setToast(null)} />
@@ -953,7 +972,7 @@ export default function StaffExams() {
               className="sx-btn"
               onClick={() => {
                 setSubjectId("all");
-                setFrom(""); 
+                setFrom("");
                 setTo("");
                 setQ("");
               }}
@@ -1077,10 +1096,10 @@ export default function StaffExams() {
                                     st === "approved"
                                       ? "Approved: edit description only"
                                       : st === "pending"
-                                      ? "Pending: cannot edit"
-                                      : st === "rejected"
-                                      ? "Rejected: view only"
-                                      : ""
+                                        ? "Pending: cannot edit"
+                                        : st === "rejected"
+                                          ? "Rejected: view only"
+                                          : ""
                                   }
                                 >
                                   {descOk && !editOk ? "Edit Desc" : "Edit"}
@@ -1161,28 +1180,28 @@ export default function StaffExams() {
           confirm.type === "delete"
             ? "Delete Draft Exam"
             : confirm.type === "submit"
-            ? "Submit for Admin Approval"
-            : confirm.type === "cancel"
-            ? "Cancel Request"
-            : "Resubmit for Approval"
+              ? "Submit for Admin Approval"
+              : confirm.type === "cancel"
+                ? "Cancel Request"
+                : "Resubmit for Approval"
         }
         message={
           confirm.type === "delete"
             ? `Delete "${confirm.exam?.title || "this exam"}"? This cannot be undone.`
             : confirm.type === "submit"
-            ? `Submit "${confirm.exam?.title || "this exam"}" to admin? After submit, you can't edit until admin responds.`
-            : confirm.type === "cancel"
-            ? `Cancel request and move back to Draft?`
-            : `Resubmit "${confirm.exam?.title || "this exam"}" to admin?`
+              ? `Submit "${confirm.exam?.title || "this exam"}" to admin? After submit, you can't edit until admin responds.`
+              : confirm.type === "cancel"
+                ? `Cancel request and move back to Draft?`
+                : `Resubmit "${confirm.exam?.title || "this exam"}" to admin?`
         }
         confirmText={
           confirm.type === "delete"
             ? "Delete"
             : confirm.type === "submit"
-            ? "Submit"
-            : confirm.type === "cancel"
-            ? "Cancel Request"
-            : "Resubmit"
+              ? "Submit"
+              : confirm.type === "cancel"
+                ? "Cancel Request"
+                : "Resubmit"
         }
         danger={confirm.type === "delete"}
         loading={busy}

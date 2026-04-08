@@ -465,16 +465,7 @@ function ManageStudentsModal({
                     <div
                       key={u.id}
                       id={`ms_search_row_${u.id}`}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: 12,
-                        alignItems: "center",
-                        border: "1px solid #e4e7ec",
-                        borderRadius: 12,
-                        padding: 10,
-                        background: "#fff",
-                      }}
+                      className="as-student-row"
                     >
                       <div>
                         <div style={{ fontWeight: 900 }} id={`ms_search_name_${u.id}`}>
@@ -698,29 +689,29 @@ export default function AllowStudents() {
       <style>{`
         .as-page{padding:24px;max-width:1200px;margin:0 auto}
         .as-top{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
-        .as-title h1{margin:0;font-size:22px}
-        .as-title p{margin:6px 0 0;color:#667085}
+        .as-title h1{margin:0;font-size:20px;font-weight:900;letter-spacing:-0.02em}
+        .as-title p{margin:4px 0 0;color:#667085;font-size:13px;font-weight:500}
         .as-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-        .as-btn{border:1px solid #e4e7ec;background:#fff;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:900}
+        .as-btn{border:1px solid #e4e7ec;background:#fff;padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:900;font-size:12px}
         .as-btn:disabled{opacity:.6;cursor:not-allowed}
         .as-btn--primary{background:#2563EB;border-color:#2563EB;color:#fff}
         .as-btn--ghost{background:#fff}
         .as-icon-btn{border:none;background:transparent;cursor:pointer;font-size:16px}
         .as-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-        .as-input{width:100%;border:1px solid #e4e7ec;border-radius:10px;padding:10px 12px;outline:none}
-        .as-label{display:block;font-size:13px;font-weight:900;margin-bottom:6px}
+        .as-input{width:100%;border:1px solid #e4e7ec;border-radius:10px;padding:8px 10px;outline:none;font-size:13px}
+        .as-label{display:block;font-size:11px;font-weight:900;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em;color:#667085}
         .as-muted{color:#667085;font-size:13px}
         .as-filters{border:1px solid #e4e7ec;border-radius:14px;padding:14px;background:#fff;margin-top:14px}
         .as-filters .as-row > div{min-width:180px;flex:1}
         .as-tablewrap{margin-top:14px;border:1px solid #e4e7ec;border-radius:14px;overflow:hidden;background:#fff}
         .as-scroll{overflow:auto}
         table{width:100%;border-collapse:collapse;min-width:980px}
-        th,td{padding:12px 12px;border-bottom:1px solid #f2f4f7;text-align:left;font-size:14px;vertical-align:top}
-        th{background:#fcfcfd;font-size:12px;color:#667085;text-transform:uppercase;letter-spacing:.04em}
+        th,td{padding:10px 12px;border-bottom:1px solid #f2f4f7;text-align:left;font-size:13px;vertical-align:top}
+        th{background:#fcfcfd;font-size:9px;color:#667085;text-transform:uppercase;letter-spacing:.12em;font-weight:900}
         .as-empty{padding:24px;text-align:center;color:#667085}
         .as-pill{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:999px;background:#f2f4f7;color:#344054;font-weight:900;padding:0 10px}
         .as-note{border:1px solid #e4e7ec;background:#fcfcfd;padding:10px 12px;border-radius:12px}
-        .as-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:900;border:1px solid #e4e7ec}
+        .as-badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:900;border:1px solid #e4e7ec}
         .as-badge--approved{background:#ecfdf3;color:#027a48;border-color:#abefc6}
         .as-badge--pending{background:#eff8ff;color:#175cd3;border-color:#b2ddff}
         .as-badge--changes{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
@@ -737,14 +728,41 @@ export default function AllowStudents() {
         .as-card{border:1px solid #e4e7ec;border-radius:14px;background:#fff;padding:14px}
         .as-grid{display:grid;gap:12px}
         .as-grid--4{grid-template-columns:repeat(4,minmax(0,1fr))}
-        @media (max-width: 860px){
-          .as-grid--4{grid-template-columns:1fr 1fr}
-        }
+        .as-student-row{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid #e4e7ec;border-radius:12px;padding:10px;background:#fff}
+        
+        /* Custom Scrollbar */
+        .as-modal__body::-webkit-scrollbar, .as-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+        .as-modal__body::-webkit-scrollbar-track, .as-scroll::-webkit-scrollbar-track { background: transparent; }
+        .as-modal__body::-webkit-scrollbar-thumb, .as-scroll::-webkit-scrollbar-thumb { background: #e4e7ec; border-radius: 10px; }
+        .as-modal__body::-webkit-scrollbar-thumb:hover, .as-scroll::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+
         @media (max-width: 640px){
           .as-page{padding:14px}
           table{min-width:920px}
           .as-filters .as-row > div{min-width:unset}
         }
+
+        /* Dark Mode Overrides */
+        .dark .as-card { background: #111827; border-color: #374151; }
+        .dark .as-title h1 { color: #fff; }
+        .dark .as-title p, .dark .as-muted, .dark .as-label { color: #9ca3af; }
+        .dark .as-btn { background: #1f2937; border-color: #374151; color: #d1d5db; }
+        .dark .as-btn--primary { background: #2563EB; border-color: #2563EB; color: #fff; }
+        .dark .as-input { background: #111827; border-color: #374151; color: #f3f4f6; }
+        .dark .as-filters { background: #111827; border-color: #374151; }
+        .dark .as-tablewrap { background: #111827; border-color: #374151; }
+        .dark th { background: #1f2937; border-bottom-color: #374151; color: #9ca3af; }
+        .dark td { border-bottom-color: #374151; color: #d1d5db; }
+        .dark .as-pill { background: #374151; color: #d1d5db; border-color: #4b5563; }
+        .dark .as-badge--approved { background: #064e3b; color: #a7f3d0; border-color: #065f46; }
+        .dark .as-modal { background: #111827; border-color: #374151; color: #f3f4f6; }
+        .dark .as-modal__head, .dark .as-modal__foot { border-color: #374151; }
+        .dark .as-note { background: #1f2937; border-color: #374151; color: #d1d5db; }
+        .dark .as-student-row { background: #1f2937; border-color: #374151; }
+        .dark .as-modal__body::-webkit-scrollbar-thumb, .dark .as-scroll::-webkit-scrollbar-thumb { background: #4b5563; }
+        .dark .as-modal__body::-webkit-scrollbar-thumb:hover, .dark .as-scroll::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+        .dark .as-modal__body::-webkit-scrollbar-track, .dark .as-scroll::-webkit-scrollbar-track { background: #111827; }
+
       `}</style>
 
       <Toast toast={toast} onClose={() => setToast(null)} />

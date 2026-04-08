@@ -68,7 +68,19 @@ export default function StaffFeedback() {
   };
 
   return (
-    <div style={s.page}>
+    <div style={s.page} className="fx-page">
+      <style>{`
+        .dark .fx-page { color: #f3f4f6; }
+        .dark .fx-card, .dark .fx-head-card { background: #111827 !important; border-color: #374151 !important; }
+        .dark .fx-title { color: #fff !important; }
+        .dark .fx-sub { color: #9ca3af !important; }
+        .dark .fx-th { background: #1f2937 !important; border-bottom-color: #374151 !important; color: #9ca3af !important; }
+        .dark .fx-td { border-bottom-color: #374151 !important; color: #d1d5db !important; }
+        .dark .fx-desc-box { background: #1f2937 !important; border-color: #374151 !important; color: #d1d5db !important; }
+        .dark .fx-badge-ys { background: #374151 !important; color: #d1d5db !important; }
+        .dark .fx-btn-reset { background: #1f2937 !important; color: #d1d5db !important; border-color: #374151 !important; }
+        .dark .fx-muted { color: #9ca3af !important; }
+      `}</style>
       {/* ✅ TOAST */}
       {toast && (
         <div style={{ ...s.toast, background: toast.type === "ok" ? "#027A48" : "#B42318" }}>
@@ -78,25 +90,25 @@ export default function StaffFeedback() {
       )}
 
       {/* ✅ HEADER */}
-      <div style={s.headCard}>
-        <div style={s.hTitle}>Received Feedback</div>
-        <div style={s.hSub}>
+      <div style={s.headCard} className="fx-head-card">
+        <div style={s.hTitle} className="fx-title">Received Feedback</div>
+        <div style={s.hSub} className="fx-sub">
           View and manage issues reported by students for your modules.
         </div>
       </div>
 
       {/* ✅ LIST */}
-      <div style={s.card}>
+      <div style={s.card} className="fx-card">
         <div style={s.tableWrap}>
           <table style={s.table}>
             <thead>
               <tr>
-                <th style={s.th}>Student Details</th>
-                <th style={s.th}>Module</th>
-                <th style={s.th}>Description</th>
-                <th style={s.th}>Date</th>
-                <th style={s.th}>Status</th>
-                <th style={{ ...s.th, textAlign: "right" }}>Action</th>
+                <th style={s.th} className="fx-th">Student Details</th>
+                <th style={s.th} className="fx-th">Module</th>
+                <th style={s.th} className="fx-th">Description</th>
+                <th style={s.th} className="fx-th">Date</th>
+                <th style={s.th} className="fx-th">Status</th>
+                <th style={{ ...s.th, textAlign: "right" }} className="fx-th">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -111,28 +123,29 @@ export default function StaffFeedback() {
               ) : (
                 feedbacks.map((f) => (
                   <tr key={f.id}>
-                    <td style={s.td}>
-                      <div style={{ fontWeight: 1000 }}>{f.student_name}</div>
-                      <div style={{ fontSize: 12, color: "#667085" }}>{f.student_email}</div>
-                      <div style={s.badgeYS}>Yr {f.student_year} • Sem {f.student_semester}</div>
+                    <td style={s.td} className="fx-td">
+                      <div style={{ fontWeight: 1000 }} className="fx-title">{f.student_name}</div>
+                      <div style={{ fontSize: 11, color: "#667085", fontWeight: 700 }} className="fx-muted">{f.student_email}</div>
+                      <div style={s.badgeYS} className="fx-badge-ys">Yr {f.student_year} • Sem {f.student_semester}</div>
                     </td>
-                    <td style={s.td}>
-                      <div style={{ fontWeight: 900 }}>{f.subject_code}</div>
-                      <div style={{ fontSize: 12, color: "#667085" }}>{f.subject_name}</div>
+                    <td style={s.td} className="fx-td">
+                      <div style={{ fontWeight: 900 }} className="fx-title">{f.subject_code}</div>
+                      <div style={{ fontSize: 11, color: "#667085", fontWeight: 700 }} className="fx-muted">{f.subject_name}</div>
                     </td>
-                    <td style={{ ...s.td, maxWidth: 300 }}>
-                      <div style={s.descBox}>{f.description}</div>
+                    <td style={{ ...s.td, maxWidth: 300 }} className="fx-td">
+                      <div style={s.descBox} className="fx-desc-box">{f.description}</div>
                     </td>
-                    <td style={s.td}>{fmtDT(f.created_at)}</td>
-                    <td style={s.td}>
+                    <td style={s.td} className="fx-td">{fmtDT(f.created_at)}</td>
+                    <td style={s.td} className="fx-td">
                       <span style={{ ...s.statusBadge, ...(f.status === "resolved" ? s.statusOk : s.statusPending) }}>
                         {f.status.toUpperCase()}
                       </span>
                     </td>
-                    <td style={{ ...s.td, textAlign: "right" }}>
-                      <button 
+                    <td style={{ ...s.td, textAlign: "right" }} className="fx-td">
+                      <button
                         onClick={() => toggleStatus(f)}
                         style={{ ...s.btnMini, ...(f.status === "resolved" ? s.btnReset : s.btnResolve) }}
+                        className={f.status === "resolved" ? "fx-btn-reset" : ""}
                       >
                         {f.status === "resolved" ? "Undo" : "Resolve"}
                       </button>
@@ -169,8 +182,8 @@ const s = {
     marginBottom: 20,
     boxShadow: "0 2px 10px rgba(0,0,0,.02)",
   },
-  hTitle: { fontSize: 22, fontWeight: 1000, color: "#101828" },
-  hSub: { marginTop: 6, color: "#667085", fontSize: 14, fontWeight: 800 },
+  hTitle: { fontSize: 20, fontWeight: 1000, color: "#101828", letterSpacing: "-0.01em" },
+  hSub: { marginTop: 4, color: "#667085", fontSize: 13, fontWeight: 800 },
   card: {
     background: "#fff",
     border: "1px solid #E4E7EC",
@@ -182,20 +195,22 @@ const s = {
   table: { width: "100%", borderCollapse: "collapse" },
   th: {
     textAlign: "left",
-    padding: "16px 20px",
+    padding: "10px 14px",
     background: "#F9FAFB",
     borderBottom: "1px solid #EAECF0",
     color: "#475467",
     fontWeight: 1000,
-    fontSize: 13,
+    fontSize: 9,
     textTransform: "uppercase",
+    letterSpacing: "0.1em",
   },
   td: {
-    padding: "16px 20px",
+    padding: "10px 14px",
     borderBottom: "1px solid #F2F4F7",
     verticalAlign: "middle",
     color: "#101828",
-    fontSize: 14,
+    fontSize: 13,
+    fontWeight: 800,
   },
   tdEmpty: { padding: 40, textAlign: "center", color: "#667085", fontWeight: 800 },
   badgeYS: {
@@ -232,7 +247,7 @@ const s = {
     padding: "6px 12px",
     border: "1px solid #E4E7EC",
     borderRadius: 10,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: 1000,
     cursor: "pointer",
     background: "#fff",

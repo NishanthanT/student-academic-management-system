@@ -482,24 +482,37 @@ export default function Questions() {
       <style>{`
         .q-card{border:1px solid #e4e7ec;border-radius:14px;background:#fff;padding:14px}
         .q-top{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
-        .q-title h1{margin:0;font-size:22px}
-        .q-muted{color:#667085;font-size:13px}
-        .q-btn{border:1px solid #e4e7ec;background:#fff;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:900}
+        .q-title h1{margin:0;font-size:20px;font-weight:900;letter-spacing:-0.02em}
+        .q-muted{color:#667085;font-size:12px;font-weight:500}
+        .q-btn{border:1px solid #e4e7ec;background:#fff;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:900;font-size:12px}
         .q-btn:disabled{opacity:.6;cursor:not-allowed}
         .q-btn-primary{background:#2563EB;border-color:#2563EB;color:#fff}
         .q-btn-danger{background:#ffe4e6;border-color:#fecdd3;color:#9f1239}
-        .q-input{width:100%;border:1px solid #e4e7ec;border-radius:10px;padding:10px 12px;outline:none}
+        .q-input{width:100%;border:1px solid #e4e7ec;border-radius:10px;padding:8px 10px;outline:none;font-size:13px;font-weight:500}
         .q-err{border-color:#fda29b}
         .q-err-msg{color:#b42318;font-size:12px;margin-top:6px}
         .q-tablewrap{margin-top:14px;border:1px solid #e4e7ec;border-radius:14px;overflow:hidden;background:#fff}
         .q-scroll{overflow:auto}
         table{width:100%;border-collapse:collapse;min-width:1180px}
-        th,td{padding:12px;border-bottom:1px solid #f2f4f7;text-align:left;font-size:14px;vertical-align:top}
-        th{background:#fcfcfd;font-size:12px;color:#667085;text-transform:uppercase;letter-spacing:.04em}
+        th,td{padding:10px;border-bottom:1px solid #f2f4f7;text-align:left;font-size:13px;vertical-align:top}
+        th{background:#fcfcfd;font-size:9px;color:#667085;text-transform:uppercase;letter-spacing:.12em;font-weight:900}
         .q-toast{position:fixed;top:18px;right:18px;z-index:9999;display:flex;gap:12px;align-items:center;max-width:420px;padding:12px 14px;border-radius:14px;color:#fff;box-shadow:0 10px 30px rgba(0,0,0,.12)}
         .q-toast.ok{background:#027a48}
         .q-toast.err{background:#b42318}
         .q-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+        /* Dark Mode Overrides */
+        .dark .q-card { background: #111827; border-color: #374151; }
+        .dark .q-title h1 { color: #fff; }
+        .dark .q-muted { color: #9ca3af; }
+        .dark .q-btn { background: #1f2937; border-color: #374151; color: #d1d5db; }
+        .dark .q-btn-primary { background: #2563EB; border-color: #2563EB; color: #fff; }
+        .dark .q-input { background: #111827; border-color: #374151; color: #f3f4f6; }
+        .dark .q-tablewrap { background: #111827; border-color: #374151; }
+        .dark th { background: #1f2937; border-bottom-color: #374151; color: #9ca3af; }
+        .dark td { border-bottom-color: #374151; color: #d1d5db; }
+        .dark .q-toast.ok { background: #064e3b; }
+        .dark .q-toast.err { background: #7f1d1d; }
       `}</style>
 
       {toast ? (

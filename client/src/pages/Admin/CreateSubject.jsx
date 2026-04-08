@@ -313,10 +313,10 @@ export default function CreateSubject() {
           <div className="rounded-[28px] border border-white/30 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl shadow-2xl p-6 md:p-8">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
               <div>
-                <p className="text-xs uppercase tracking-[0.24em] font-extrabold text-blue-600 dark:text-blue-400">
+                <p className="text-[10px] uppercase tracking-[0.2em] font-extrabold text-blue-600 dark:text-blue-400">
                   Subject Management
                 </p>
-                <h1 className="mt-2 text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+                <h1 className="mt-1 text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                   Subjects
                 </h1>
               </div>
@@ -345,10 +345,10 @@ export default function CreateSubject() {
             <section className="xl:col-span-2 rounded-[28px] border border-white/30 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-2xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-indigo-600 dark:text-indigo-400">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">
                     New Subject
                   </p>
-                  <h2 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
+                  <h2 className="mt-1 text-lg font-bold text-slate-900 dark:text-white">
                     Create Subject
                   </h2>
                 </div>
@@ -360,7 +360,7 @@ export default function CreateSubject() {
                     setErrors({});
                     showToast("success", "Form cleared");
                   }}
-                  className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                  className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2 text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
                 >
                   Clear
                 </button>
@@ -424,10 +424,10 @@ export default function CreateSubject() {
             <section className="xl:col-span-3 rounded-[28px] border border-white/30 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-2xl p-6 md:p-7 transition-all duration-300 hover:-translate-y-1">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-purple-600 dark:text-purple-400">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-purple-600 dark:text-purple-400">
                     Subject List
                   </p>
-                  <h2 className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
+                  <h2 className="mt-1 text-lg font-bold text-slate-900 dark:text-white">
                     Manage Subjects
                   </h2>
                 </div>
@@ -454,13 +454,13 @@ export default function CreateSubject() {
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                       placeholder="Search"
-                      className="w-full sm:w-72 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 pl-11 pr-4 py-3 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                      className="w-full sm:w-72 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 pl-11 pr-4 py-2.5 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-medium"
                     />
                   </div>
 
                   <button
                     onClick={fetchSubjects}
-                    className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 text-sm font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                    className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
                   >
                     Refresh
                   </button>
@@ -496,22 +496,22 @@ export default function CreateSubject() {
                   <table className="w-full min-w-[720px] text-sm">
                     <thead className="bg-slate-100/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200">
                       <tr>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           ID
                         </th>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           Code
                         </th>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           Name
                         </th>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           Year
                         </th>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           Semester
                         </th>
-                        <th className="text-left px-5 py-4 font-extrabold uppercase text-[11px] tracking-wide">
+                        <th className="text-left px-5 py-3 font-bold uppercase text-[9px] tracking-[0.15em]">
                           Actions
                         </th>
                       </tr>
@@ -544,32 +544,32 @@ export default function CreateSubject() {
                               index % 2 === 0 ? "bg-white/40 dark:bg-slate-900/20" : ""
                             }`}
                           >
-                            <td className="px-5 py-4 font-bold text-slate-700 dark:text-slate-200">
+                            <td className="px-5 py-3 font-bold text-slate-700 dark:text-slate-200 text-[12px]">
                               {s.id}
                             </td>
-                            <td className="px-5 py-4">
-                              <span className="inline-flex rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-3 py-1 text-xs font-extrabold tracking-wide">
+                            <td className="px-5 py-3">
+                              <span className="inline-flex rounded-lg bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-2.5 py-1 text-[10px] font-bold tracking-wider">
                                 {s.code}
                               </span>
                             </td>
-                            <td className="px-5 py-4 font-semibold text-slate-800 dark:text-slate-100">
+                            <td className="px-5 py-3 font-medium text-slate-800 dark:text-slate-100 text-[13px]">
                               {s.name}
                             </td>
-                            <td className="px-5 py-4 text-slate-700 dark:text-slate-300">{s.year}</td>
-                            <td className="px-5 py-4 text-slate-700 dark:text-slate-300">
+                            <td className="px-5 py-3 text-slate-500 dark:text-slate-400 text-[13px]">{s.year}</td>
+                            <td className="px-5 py-3 text-slate-500 dark:text-slate-400 text-[13px]">
                               {s.semester}
                             </td>
-                            <td className="px-5 py-4">
+                            <td className="px-5 py-3">
                               <div className="flex items-center gap-2">
                                 <button
                                   onClick={() => openEdit(s)}
-                                  className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 font-bold text-[10px] text-slate-700 dark:text-slate-200 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
                                 >
                                   Edit
                                 </button>
                                 <button
                                   onClick={() => openDelete(s)}
-                                  className="rounded-xl border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-4 py-2 font-bold text-rose-600 dark:text-rose-300 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                                  className="rounded-lg border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-3 py-1.5 font-bold text-[10px] text-rose-600 dark:text-rose-300 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
                                 >
                                   Delete
                                 </button>
@@ -701,9 +701,9 @@ export default function CreateSubject() {
 
 function InfoStat({ label, value, chipClass }) {
   return (
-    <div className={`rounded-2xl px-4 py-3 shadow-sm ${chipClass}`}>
-      <p className="text-[11px] uppercase tracking-[0.18em] font-extrabold opacity-80">{label}</p>
-      <p className="text-xl font-black mt-1">{value}</p>
+    <div className={`rounded-xl px-4 py-2 shadow-sm ${chipClass}`}>
+      <p className="text-[10px] uppercase tracking-[0.15em] font-extrabold opacity-80">{label}</p>
+      <p className="text-lg font-black mt-0.5">{value}</p>
     </div>
   );
 }
@@ -711,14 +711,14 @@ function InfoStat({ label, value, chipClass }) {
 function InputBlock({ label, error, ...props }) {
   return (
     <div>
-      <label className="block text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">
+      <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 ml-1">
         {label}
       </label>
       <input
         {...props}
-        className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+        className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-sm font-medium text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5"
       />
-      {error && <p className="mt-2 text-xs font-semibold text-rose-500">{error}</p>}
+      {error && <p className="mt-1.5 text-[10px] font-bold uppercase tracking-tight text-rose-500 ml-1">{error}</p>}
     </div>
   );
 }
@@ -726,16 +726,16 @@ function InputBlock({ label, error, ...props }) {
 function SelectBlock({ label, error, children, ...props }) {
   return (
     <div>
-      <label className="block text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">
+      <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 ml-1">
         {label}
       </label>
       <select
         {...props}
-        className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+        className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-sm font-medium text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5"
       >
         {children}
       </select>
-      {error && <p className="mt-2 text-xs font-semibold text-rose-500">{error}</p>}
+      {error && <p className="mt-1.5 text-[10px] font-bold uppercase tracking-tight text-rose-500 ml-1">{error}</p>}
     </div>
   );
 }
@@ -746,15 +746,15 @@ function ModalShell({ title, onClose, children }) {
       <div className="w-full max-w-lg rounded-[28px] border border-white/20 bg-white/85 dark:bg-slate-900/90 backdrop-blur-xl shadow-2xl p-6 md:p-7">
         <div className="flex items-center justify-between gap-3 mb-5">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-blue-600 dark:text-blue-400 font-extrabold">
+            <p className="text-[10px] uppercase tracking-[0.15em] text-blue-600 dark:text-blue-400 font-extrabold">
               Action
             </p>
-            <h3 className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{title}</h3>
+            <h3 className="mt-0.5 text-xl font-bold text-slate-900 dark:text-white">{title}</h3>
           </div>
 
           <button
             onClick={onClose}
-            className="h-11 w-11 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-lg font-black transition-all duration-300 hover:rotate-90 hover:shadow-md"
+            className="h-10 w-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-base transition-all duration-300 hover:rotate-90 hover:shadow-md flex items-center justify-center font-bold"
           >
             ✕
           </button>

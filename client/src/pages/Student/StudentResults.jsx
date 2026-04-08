@@ -146,7 +146,39 @@ export default function StudentResults() {
       : sx.badgePending;
 
   return (
-    <div id="student-results-page" style={sx.page}>
+    <div id="student-results-page" style={sx.page} className="nx-page">
+      <style>{`
+        .dark .nx-page { color: #f3f4f6; }
+        .dark #student-results-headcard,
+        .dark #student-results-card,
+        .dark #student-results-item-marks,
+        .dark #student-results-item-status,
+        .dark #student-results-item-note {
+          background: #111827 !important; border-color: #374151 !important;
+        }
+        .dark #student-results-title,
+        .dark #student-results-item-marks-val,
+        .dark #student-results-item-status-val {
+          color: #fff !important;
+        }
+        .dark #student-results-subtitle,
+        .dark .pill,
+        .dark #student-results-label-subject,
+        .dark #student-results-label-exam,
+        .dark #student-results-item-marks-label,
+        .dark #student-results-item-status-label,
+        .dark #student-results-item-note-label {
+          color: #9ca3af !important;
+        }
+        .dark .pill { background: #1f2937 !important; border-color: #374151 !important; }
+        .dark #student-results-select-subject,
+        .dark #student-results-select-exam {
+          background: #1f2937 !important; border-color: #374151 !important; color: #f3f4f6 !important;
+        }
+        .dark #student-results-resultbox { background: #0b0f1a !important; border-color: #1f2937 !important; }
+        .dark #student-results-item-note-val { color: #d1d5db !important; }
+        .dark #student-results-footnote { background: #111827 !important; border-color: #374151 !important; color: #9ca3af !important; }
+      `}</style>
       {/* TOAST */}
       {toast && (
         <div
@@ -185,13 +217,13 @@ export default function StudentResults() {
         </div>
 
         <div id="student-results-pillrow" style={sx.pillRow}>
-          <span id="student-results-pill-exam" style={sx.pill}>
+          <span id="student-results-pill-exam" style={sx.pill} className="pill">
             Exam: {title}
           </span>
-          <span id="student-results-pill-pass" style={sx.pill}>
+          <span id="student-results-pill-pass" style={sx.pill} className="pill">
             Pass: {passMarks}
           </span>
-          <span id="student-results-pill-start" style={sx.pill}>
+          <span id="student-results-pill-start" style={sx.pill} className="pill">
             Start: {startAt}
           </span>
         </div>
@@ -347,21 +379,21 @@ const sx = {
     gap: 14,
     alignItems: "flex-start",
   },
-  hTitle: { fontSize: 20, fontWeight: 1000, color: "#101828" },
-  hSub: { marginTop: 6, color: "#667085", fontWeight: 700, fontSize: 13 },
+  hTitle: { fontSize: 18, fontWeight: 1000, color: "#101828", letterSpacing: "-0.01em" },
+  hSub: { marginTop: 4, color: "#667085", fontWeight: 700, fontSize: 12 },
 
   pillRow: { display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-end" },
   pill: {
     display: "inline-flex",
     alignItems: "center",
-    height: 28,
+    height: 24,
     padding: "0 10px",
     borderRadius: 999,
     border: "1px solid #E4E7EC",
     background: "#FCFCFD",
     color: "#344054",
     fontWeight: 900,
-    fontSize: 12,
+    fontSize: 11,
     whiteSpace: "nowrap",
   },
 
@@ -386,11 +418,12 @@ const sx = {
     width: "100%",
     border: "1px solid #E4E7EC",
     borderRadius: 12,
-    padding: "10px 12px",
+    padding: "8px 12px",
     outline: "none",
     fontWeight: 800,
     color: "#101828",
     background: "#fff",
+    fontSize: 13,
   },
 
   resultBox: {
@@ -416,7 +449,7 @@ const sx = {
     background: "#fff",
     border: "1px solid #E4E7EC",
     borderRadius: 14,
-    padding: 14,
+    padding: "12px 14px",
   },
   itemWide: {
     gridColumn: "1 / -1",
@@ -425,17 +458,17 @@ const sx = {
     borderRadius: 14,
     padding: 14,
   },
-  itemLabel: { fontSize: 12, color: "#667085", fontWeight: 900 },
-  itemValue: { marginTop: 8, fontSize: 18, fontWeight: 1000, color: "#101828" },
+  itemLabel: { fontSize: 11, color: "#667085", fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.05em" },
+  itemValue: { marginTop: 6, fontSize: 16, fontWeight: 1000, color: "#101828" },
 
   badge: {
     display: "inline-flex",
     alignItems: "center",
-    padding: "6px 10px",
+    padding: "4px 10px",
     borderRadius: 999,
     border: "1px solid",
     fontWeight: 1000,
-    fontSize: 12,
+    fontSize: 11,
     whiteSpace: "nowrap",
   },
   badgePass: { background: "#ECFDF3", borderColor: "#ABEFC6", color: "#027A48" },

@@ -1,8 +1,19 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSettings } from "../context/SettingsContext";
+import AuthSlider from "../components/AuthSlider";
+import Logo from "../components/Logo";
+import Dots from "../components/Dots";
+import ThemeToggle from "../components/ThemeToggle";
+import "../Auth.css";
+
+const API = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
+  : "http://localhost:8000";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
+  const { settings } = useSettings();
 
   const token = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
@@ -13,6 +24,9 @@ export default function ResetPassword() {
   const [confirm, setConfirm] = useState("");
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [focused, setFocused] = useState(null);
+  const [showPwd1, setShowPwd1] = useState(false);
+  const [showPwd2, setShowPwd2] = useState(false);
 
   const handleReset = async () => {
     if (!token) {
@@ -32,7 +46,7 @@ export default function ResetPassword() {
 
     const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
     if (!strongRegex.test(newPassword)) {
-      setMsg("Password must include Uppercase, Lowercase, Number and Special Character");
+      setMsg("Password must include Uppercase, Lowercase, Number & Special Char");
       return;
     }
 
@@ -40,418 +54,166 @@ export default function ResetPassword() {
     setMsg("Resetting...");
 
     try {
-      const res = await fetch(
-        `http://${window.location.hostname}:8000/api/auth/reset-password`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            token,
-            newPassword,
-            confirmPassword: confirm,
-          }),
-        }
-      );
+      const res = await fetch(`${API}/api/auth/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token,
+          newPassword,
+          confirmPassword: confirm,
+        }),
+      });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setMsg(data.message);
+        setMsg(data.message || "Failed to reset password.");
         setLoading(false);
         return;
       }
 
       setMsg("Password reset successful ✅");
-
       localStorage.setItem("pw_reset_done", "1");
-
       setTimeout(() => navigate("/"), 1500);
     } catch (e) {
-      setMsg("Something went wrong.");
+      setMsg("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="reset-wrapper">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap');
+    <div className="auth-root">
+      <AuthSlider settings={settings} />
 
-        :root {
-          --bg-color: #050505;
-          --card-bg: rgba(20, 20, 23, 0.72);
-          --accent-primary: #3b82f6;
-          --accent-secondary: #a855f7;
-          --border-glow: conic-gradient(from 0deg, #3b82f6, #a855f7, #3b82f6);
-        }
+      <div className="auth-form-panel">
+        <Dots seed={3} />
 
-        * {
-          box-sizing: border-box;
-        }
+        <div className="auth-card">
+          <button className="auth-forgot" onClick={() => navigate("/")} style={{alignSelf: 'flex-start', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '5px', fontSize: '14px', fontWeight: '600'}}>
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+             Back to login
+          </button>
+          
+          <Logo />
 
-        .reset-wrapper {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--bg-color);
-          font-family: 'Outfit', sans-serif;
-          color: #fff;
-          position: relative;
-          overflow: hidden;
-          padding: 20px;
-        }
-
-        .reset-wrapper::before {
-          content: "";
-          position: absolute;
-          width: 520px;
-          height: 520px;
-          background: radial-gradient(circle, rgba(59, 130, 246, 0.16), transparent 70%);
-          top: -120px;
-          right: -120px;
-          z-index: 0;
-          pointer-events: none;
-        }
-
-        .reset-wrapper::after {
-          content: "";
-          position: absolute;
-          width: 620px;
-          height: 620px;
-          background: radial-gradient(circle, rgba(168, 85, 247, 0.12), transparent 70%);
-          bottom: -170px;
-          left: -170px;
-          z-index: 0;
-          pointer-events: none;
-        }
-
-        .bg-orb-1,
-        .bg-orb-2 {
-          position: absolute;
-          border-radius: 999px;
-          filter: blur(80px);
-          z-index: 0;
-          pointer-events: none;
-          animation: floatOrb 8s ease-in-out infinite;
-        }
-
-        .bg-orb-1 {
-          width: 220px;
-          height: 220px;
-          background: rgba(59, 130, 246, 0.10);
-          top: 18%;
-          left: 12%;
-        }
-
-        .bg-orb-2 {
-          width: 260px;
-          height: 260px;
-          background: rgba(168, 85, 247, 0.10);
-          bottom: 14%;
-          right: 12%;
-          animation-delay: 1.5s;
-        }
-
-        @keyframes floatOrb {
-          0%, 100% {
-            transform: translateY(0px) translateX(0px);
-          }
-          50% {
-            transform: translateY(-18px) translateX(10px);
-          }
-        }
-
-        .back-btn {
-          position: absolute;
-          top: 28px;
-          left: 28px;
-          z-index: 20;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 12px 18px;
-          border-radius: 14px;
-          border: 1px solid rgba(255,255,255,0.12);
-          background: rgba(255,255,255,0.04);
-          color: #fff;
-          font-size: 15px;
-          font-weight: 800;
-          cursor: pointer;
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          transition: all 0.25s ease;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.28);
-        }
-
-        .back-btn:hover {
-          transform: translateY(-2px);
-          border-color: rgba(59,130,246,0.45);
-          background: rgba(59,130,246,0.10);
-          box-shadow: 0 12px 28px rgba(59,130,246,0.18);
-        }
-
-        .magic-card {
-          position: relative;
-          width: 420px;
-          max-width: 100%;
-          padding: 2px;
-          border-radius: 24px;
-          background: rgba(255, 255, 255, 0.04);
-          overflow: hidden;
-          z-index: 10;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.56);
-        }
-
-        .magic-card::before {
-          content: "";
-          position: absolute;
-          width: 200%;
-          height: 200%;
-          background: var(--border-glow);
-          top: -50%;
-          left: -50%;
-          animation: rotate 4s linear infinite;
-          z-index: -1;
-        }
-
-        @keyframes rotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
-        .reset-content {
-          background: var(--card-bg);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          padding: 42px 34px;
-          border-radius: 22px;
-          min-height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .brand-logo {
-          width: 68px;
-          height: 68px;
-          background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-          border-radius: 18px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 34px;
-          font-weight: 800;
-          margin-bottom: 20px;
-          box-shadow: 0 12px 24px rgba(59, 130, 246, 0.28);
-        }
-
-        .title {
-          font-size: 30px;
-          font-weight: 800;
-          margin-bottom: 8px;
-          letter-spacing: -0.5px;
-          text-align: center;
-        }
-
-        .subtitle {
-          font-size: 15px;
-          color: #94a3b8;
-          margin-bottom: 30px;
-          text-align: center;
-          line-height: 1.5;
-        }
-
-        .form-group {
-          width: 100%;
-          margin-bottom: 20px;
-        }
-
-        .input-label {
-          display: block;
-          font-size: 14px;
-          font-weight: 600;
-          color: #94a3b8;
-          margin-bottom: 8px;
-          margin-left: 4px;
-        }
-
-        .premium-input {
-          width: 100%;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 14px;
-          padding: 15px 18px;
-          color: #fff;
-          font-size: 16px;
-          outline: none;
-          transition: all 0.3s ease;
-        }
-
-        .premium-input::placeholder {
-          color: #6b7280;
-        }
-
-        .premium-input:focus {
-          border-color: var(--accent-primary);
-          background: rgba(255, 255, 255, 0.07);
-          box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-        }
-
-        .reset-btn {
-          width: 100%;
-          background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-          border: none;
-          border-radius: 14px;
-          padding: 16px;
-          color: #fff;
-          font-size: 16px;
-          font-weight: 800;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-        }
-
-        .reset-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 20px rgba(59, 130, 246, 0.28);
-          filter: brightness(1.08);
-        }
-
-        .reset-btn:active {
-          transform: translateY(0);
-        }
-
-        .reset-btn:disabled {
-          opacity: 0.65;
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: none;
-        }
-
-        .status-msg {
-          margin-top: 18px;
-          padding: 12px;
-          width: 100%;
-          text-align: center;
-          border-radius: 12px;
-          font-size: 14px;
-          font-weight: 600;
-          line-height: 1.5;
-          word-break: break-word;
-          background: rgba(59, 130, 246, 0.08);
-          border: 1px solid rgba(59, 130, 246, 0.18);
-          color: #cbd5e1;
-        }
-
-        .status-msg.error {
-          background: rgba(239, 68, 68, 0.10);
-          border: 1px solid rgba(239, 68, 68, 0.20);
-          color: #fda4af;
-        }
-
-        .status-msg.success {
-          background: rgba(34, 197, 94, 0.10);
-          border: 1px solid rgba(34, 197, 94, 0.20);
-          color: #86efac;
-        }
-
-        @media (max-width: 640px) {
-          .back-btn {
-            top: 18px;
-            left: 18px;
-            padding: 10px 14px;
-            font-size: 14px;
-          }
-
-          .magic-card {
-            width: 100%;
-            max-width: 100%;
-          }
-
-          .reset-content {
-            padding: 34px 22px;
-          }
-
-          .title {
-            font-size: 26px;
-          }
-
-          .subtitle {
-            font-size: 14px;
-          }
-        }
-      `}</style>
-
-      <div className="bg-orb-1"></div>
-      <div className="bg-orb-2"></div>
-
-      <button className="back-btn" onClick={() => navigate("/")}>
-        ← Back
-      </button>
-
-      <div className="magic-card">
-        <div className="reset-content">
-          <div className="brand-logo">U</div>
-
-          <h1 className="title">Reset Password</h1>
-          <p className="subtitle">Create a strong new password for your UniExam account</p>
-
-          <div className="form-group">
-            <label className="input-label">New Password</label>
-            <input
-              type="password"
-              className="premium-input"
-              placeholder="Enter new password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              autoComplete="new-password"
-            />
+          <div className="auth-head">
+            <h1 className="auth-title">Reset Password</h1>
+            <p className="auth-sub">Create a new secure password</p>
           </div>
 
-          <div className="form-group">
-            <label className="input-label">Confirm Password</label>
-            <input
-              type="password"
-              className="premium-input"
-              placeholder="Re-enter password"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              autoComplete="new-password"
-            />
+          <div className="auth-fields">
+            <Field label="New Password" htmlFor="reset-new-pwd">
+              <FieldIcon type="lock" />
+              <input
+                id="reset-new-pwd" type={showPwd1 ? "text" : "password"}
+                className={`auth-input${focused === "pwd1" ? " focused" : ""}`}
+                placeholder="Enter new password" value={newPassword}
+                onChange={e => setNewPassword(e.target.value)}
+                onFocus={() => setFocused("pwd1")} onBlur={() => setFocused(null)}
+                autoComplete="new-password"
+              />
+              <EyeBtn show={showPwd1} toggle={() => setShowPwd1(!showPwd1)} />
+            </Field>
+
+            <Field label="Confirm Password" htmlFor="reset-confirm-pwd">
+              <FieldIcon type="lock" />
+              <input
+                id="reset-confirm-pwd" type={showPwd2 ? "text" : "password"}
+                className={`auth-input${focused === "pwd2" ? " focused" : ""}`}
+                placeholder="Re-enter new password" value={confirm}
+                onChange={e => setConfirm(e.target.value)}
+                onFocus={() => setFocused("pwd2")} onBlur={() => setFocused(null)}
+                onKeyDown={e => e.key === "Enter" && handleReset()}
+                autoComplete="new-password"
+              />
+              <EyeBtn show={showPwd2} toggle={() => setShowPwd2(!showPwd2)} />
+            </Field>
           </div>
 
-          <button
-            className="reset-btn"
-            onClick={handleReset}
-            disabled={loading}
-          >
-            {loading ? "Please wait..." : "Reset Password"}
+          <button className="auth-btn" onClick={handleReset} disabled={loading} style={{marginTop: '10px'}}>
+            {loading ? <><span className="auth-spinner" /> Resetting…</> : "Reset Password"}
           </button>
 
           {msg && (
-            <div
-              className={`status-msg ${
-                msg.toLowerCase().includes("successful")
-                  ? "success"
-                  : msg.toLowerCase().includes("wrong") ||
-                    msg.toLowerCase().includes("invalid") ||
-                    msg.toLowerCase().includes("match") ||
-                    msg.toLowerCase().includes("least") ||
-                    msg.toLowerCase().includes("include")
-                  ? "error"
-                  : ""
-              }`}
-            >
-              {msg}
-            </div>
+            <MsgBox 
+              type={msg.toLowerCase().includes("successful") ? "ok" : "err"} 
+              msg={msg} 
+            />
           )}
+
+          <AdminBadge />
         </div>
       </div>
+      <ThemeToggle />
+    </div>
+  );
+}
+
+/* ── Local Helpers ── */
+function Field({ label, htmlFor, children }) {
+  return (
+    <div className="auth-field">
+      <label className="auth-label" htmlFor={htmlFor}>{label}</label>
+      <div className="auth-input-wrap">{children}</div>
+    </div>
+  );
+}
+
+function FieldIcon({ type }) {
+  return (
+    <span className="auth-field-icon">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+    </span>
+  );
+}
+
+function EyeBtn({ show, toggle }) {
+  return (
+    <button className="auth-eye" onClick={toggle} tabIndex={-1} type="button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        {show ? (
+          <>
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+            <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+            <line x1="1" y1="1" x2="23" y2="23" />
+          </>
+        ) : (
+          <>
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </>
+        )}
+      </svg>
+    </button>
+  );
+}
+
+function MsgBox({ type, msg }) {
+  return (
+    <div className={`auth-msg ${type === "ok" ? "msg-ok" : "msg-err"}`}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        {type === "ok" ? (
+          <polyline points="20 6 9 17 4 12" />
+        ) : (
+          <><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></>
+        )}
+      </svg>
+      {msg}
+    </div>
+  );
+}
+
+function AdminBadge() {
+  return (
+    <div className="auth-admin-badge" style={{marginTop: '25px'}}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+      Integrated University Management
     </div>
   );
 }

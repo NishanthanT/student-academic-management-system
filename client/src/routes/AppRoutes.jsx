@@ -21,6 +21,7 @@ import ViewUsers from "../pages/Admin/ViewUsers";
 import CreateSubject from "../pages/Admin/CreateSubject";
 import AssignStaff from "../pages/Admin/AssignStaff";
 import ExamManagement from "../pages/Admin/ExamManagement";
+import Settings from "../pages/Admin/Settings";
 
 // ✅ Staff
 import StaffLayout from "../pages/staff/StaffLayout";
@@ -57,6 +58,7 @@ export default function AppRoutes() {
         <Route path="create-subject" element={<CreateSubject />} />
         <Route path="assign-staff" element={<AssignStaff />} />
         <Route path="exam-management" element={<ExamManagement />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
 
       {/* ✅ Staff (nested routes) */}

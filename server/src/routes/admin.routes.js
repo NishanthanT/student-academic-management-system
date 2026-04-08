@@ -19,6 +19,12 @@ const adminExamController = require("../controllers/admin/admin.exam.controller"
 router.get("/stats", requireAuth, requireAdmin, adminController.getDashboardStats);
 
 /* ===========================
+   ✅ System Settings
+=========================== */
+router.get("/settings", adminController.getSettings); // Public route or admin only depending on consumption! But SettingsContext fetches it globally, so just /settings without auth
+router.put("/settings", requireAuth, requireAdmin, adminController.updateSettings);
+
+/* ===========================
    ✅ Users
 =========================== */
 router.post("/users", requireAuth, requireAdmin, adminController.createUser);

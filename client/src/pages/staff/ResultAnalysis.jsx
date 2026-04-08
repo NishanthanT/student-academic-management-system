@@ -133,7 +133,21 @@ export default function ResultAnalysis() {
   };
 
   return (
-    <div style={sx.page}>
+    <div style={sx.page} className="nx-analysis-page">
+      <style>{`
+        .dark .nx-analysis-page { color: #f3f4f6; }
+        .dark #nx-analysis-card, .dark .nx-stat-card { 
+          background: #111827 !important; border-color: #374151 !important; 
+        }
+        .dark .nx-title { color: #fff !important; }
+        .dark .nx-subtitle, .dark .nx-label, .dark .nx-bar-label { color: #9ca3af !important; }
+        .dark .nx-select { 
+          background: #1f2937 !important; border-color: #374151 !important; color: #f3f4f6 !important; 
+        }
+        .dark .nx-stat-value, .dark .nx-bar-value { color: #fff !important; }
+        .dark .nx-bar-bg { background: #1f2937 !important; }
+        .dark .nx-analysis-empty { color: #4b5563 !important; }
+      `}</style>
       {toast && (
         <div style={{ ...sx.toast, background: toast.type === "ok" ? "#027A48" : "#B42318" }}>
           {toast.msg}
@@ -142,8 +156,8 @@ export default function ResultAnalysis() {
 
       <div style={sx.header}>
         <div>
-          <h1 style={sx.title}>Results Analysis</h1>
-          <p style={sx.subtitle}>Review exam performance, attendance and score distribution.</p>
+          <h1 style={sx.title} className="nx-title font-black uppercase">Results Analysis</h1>
+          <p style={sx.subtitle} className="nx-subtitle font-bold tracking-tight">Review exam performance, attendance and score distribution.</p>
         </div>
         {analysis && (
           <button style={sx.btnPrimary} onClick={handleDownloadReport}>
@@ -153,12 +167,13 @@ export default function ResultAnalysis() {
       </div>
 
       {/* Filters */}
-      <div style={sx.card}>
+      <div id="nx-analysis-card" style={sx.card}>
         <div style={sx.filterGrid}>
           <div style={sx.inputGroup}>
-            <label style={sx.label}>Select Subject</label>
+            <label style={sx.label} className="nx-label">Select Subject</label>
             <select
               style={sx.select}
+              className="nx-select"
               value={subjectId}
               onChange={(e) => onSubjectChange(e.target.value)}
             >
@@ -172,9 +187,10 @@ export default function ResultAnalysis() {
           </div>
 
           <div style={sx.inputGroup}>
-            <label style={sx.label}>Select Exam</label>
+            <label style={sx.label} className="nx-label">Select Exam</label>
             <select
               style={sx.select}
+              className="nx-select"
               value={examId}
               onChange={(e) => onExamChange(e.target.value)}
               disabled={!subjectId}
@@ -204,8 +220,8 @@ export default function ResultAnalysis() {
           </div>
 
           {/* Chart Section */}
-          <div style={sx.card}>
-            <h3 style={{ ...sx.label, fontSize: 16, marginBottom: 20 }}>Performance Distribution (Score Ranges)</h3>
+          <div id="nx-analysis-card" style={sx.card}>
+            <h3 style={{ ...sx.label, fontSize: 14, marginBottom: 20, color: "#101828" }} className="nx-title">Performance Distribution (Score Ranges)</h3>
             <div style={sx.chartArea}>
               <Bar 
                 label="0-40%" 
@@ -247,12 +263,12 @@ export default function ResultAnalysis() {
 
 function StatCard({ label, value, color, icon }) {
   return (
-    <div style={{ ...sx.card, flex: 1, minWidth: 200, padding: 20 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <div style={{ ...sx.iconBox, background: `${color}15`, color }}>{icon}</div>
+    <div style={{ ...sx.card, flex: 1, minWidth: 220, padding: 24 }} className="nx-stat-card">
+      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ ...sx.iconBox, background: `${color}15`, color, borderRadius: 16 }}>{icon}</div>
         <div>
-          <div style={{ ...sx.label, fontSize: 12, color: "#667085" }}>{label}</div>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "#101828" }}>{value}</div>
+          <div style={{ ...sx.label, fontSize: 10, opacity: 0.8 }} className="nx-label">{label}</div>
+          <div style={{ fontSize: 24, fontWeight: 1000, letterSpacing: "-0.02em" }} className="nx-stat-value">{value}</div>
         </div>
       </div>
     </div>
@@ -263,18 +279,18 @@ function Bar({ label, count, total, color }) {
   const percentage = total > 0 ? (count / total) * 100 : 0;
   return (
     <div style={sx.barWrapper}>
-      <div style={sx.barLabel}>{label}</div>
-      <div style={sx.barBg}>
+      <div style={sx.barLabel} className="nx-bar-label font-black uppercase text-[10px] tracking-widest">{label}</div>
+      <div style={sx.barBg} className="nx-bar-bg border dark:border-gray-800">
         <div 
           style={{ 
             ...sx.barFill, 
             width: `${percentage}%`, 
             background: color,
-            boxShadow: `0 0 10px ${color}40`
+            boxShadow: `0 0 15px ${color}40`
           }} 
         />
       </div>
-      <div style={sx.barValue}>{count} students</div>
+      <div style={sx.barValue} className="nx-bar-value font-black text-xs">{count} students</div>
     </div>
   );
 }
@@ -282,14 +298,14 @@ function Bar({ label, count, total, color }) {
 const sx = {
   page: { paddingBottom: 60 },
   header: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 30 },
-  title: { fontSize: 32, fontWeight: 900, color: "#101828", letterSpacing: "-0.02em" },
-  subtitle: { color: "#667085", fontSize: 14, marginTop: 4 },
+  title: { fontSize: 24, fontWeight: 900, color: "#101828", letterSpacing: "-0.02em" },
+  subtitle: { color: "#667085", fontSize: 13, marginTop: 4, fontWeight: 500 },
   card: { background: "#fff", borderRadius: 24, padding: 24, border: "1px solid #EAECF0", boxShadow: "0 4px 6px -1px #0000000a" },
   filterGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 },
   inputGroup: { display: "flex", flexDirection: "column", gap: 8 },
-  label: { fontSize: 14, fontWeight: 700, color: "#344054" },
-  select: { padding: "12px 16px", borderRadius: 12, border: "1px solid #D0D5DD", fontSize: 14, outline: "none" },
-  btnPrimary: { background: "#1570EF", color: "#fff", border: "none", padding: "12px 24px", borderRadius: 12, fontWeight: 700, cursor: "pointer", transition: "all 0.2s" },
+  label: { fontSize: 11, fontWeight: 800, color: "#667085", textTransform: "uppercase", letterSpacing: "0.05em" },
+  select: { padding: "10px 14px", borderRadius: 12, border: "1px solid #D0D5DD", fontSize: 13, outline: "none", fontWeight: 600 },
+  btnPrimary: { background: "#1570EF", color: "#fff", border: "none", padding: "10px 20px", borderRadius: 12, fontWeight: 700, cursor: "pointer", transition: "all 0.2s", fontSize: 12 },
   statsRow: { display: "flex", flexWrap: "wrap", gap: 20 },
   iconBox: { width: 44, height: 44, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 },
   chartArea: { display: "flex", flexDirection: "column", gap: 16, marginTop: 10 },

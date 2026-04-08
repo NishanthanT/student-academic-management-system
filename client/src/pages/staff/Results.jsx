@@ -266,7 +266,23 @@ export default function Results() {
     : "-";
 
   return (
-    <div style={sx.page}>
+    <div style={sx.page} className="rx-page">
+      <style>{`
+        .dark .rx-page { color: #f3f4f6; }
+        .dark .rx-card, .dark .rx-head-card { background: #111827 !important; border-color: #374151 !important; }
+        .dark .rx-title { color: #fff !important; }
+        .dark .rx-label, .dark .rx-muted { color: #9ca3af !important; }
+        .dark .rx-select, .dark .rx-input { background: #1f2937 !important; border-color: #374151 !important; color: #f3f4f6 !important; }
+        .dark .rx-pill { background: #374151 !important; border-color: #4b5563 !important; color: #d1d5db !important; }
+        .dark .rx-table { border-color: #374151 !important; }
+        .dark .rx-th { background: #1f2937 !important; border-bottom-color: #374151 !important; color: #9ca3af !important; }
+        .dark .rx-td { border-bottom-color: #374151 !important; color: #d1d5db !important; }
+        .dark .rx-btn-ghost { background: #1f2937 !important; color: #d1d5db !important; }
+        .dark .rx-modal { background: #111827 !important; border-color: #374151 !important; }
+        .dark .rx-modal-head { border-bottom-color: #374151 !important; }
+        .dark .rx-modal-title { color: #fff !important; }
+        .dark .rx-badge-absent { background: #374151 !important; border-color: #4b5563 !important; color: #d1d5db !important; }
+      `}</style>
       {toast && (
         <div
           style={{
@@ -282,9 +298,9 @@ export default function Results() {
         </div>
       )}
 
-      <div style={sx.headCard}>
+      <div style={sx.headCard} className="rx-head-card">
         <div>
-          <div style={sx.hTitle}>Results</div>
+          <div style={sx.hTitle} className="rx-title">Results</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
@@ -304,12 +320,13 @@ export default function Results() {
         </div>
       </div>
 
-      <div style={sx.card}>
+      <div style={sx.card} className="rx-card">
         <div style={sx.filterRow}>
           <div style={sx.field}>
-            <label style={sx.label}>Subject</label>
+            <label style={sx.label} className="rx-label">Subject</label>
             <select
               style={sx.select}
+              className="rx-select"
               value={subjectId}
               onChange={(e) => setSubjectId(e.target.value)}
             >
@@ -322,8 +339,8 @@ export default function Results() {
           </div>
 
           <div style={sx.field}>
-            <label style={sx.label}>Exam</label>
-            <select style={sx.select} value={examId} onChange={(e) => setExamId(e.target.value)}>
+            <label style={sx.label} className="rx-label">Exam</label>
+            <select style={sx.select} className="rx-select" value={examId} onChange={(e) => setExamId(e.target.value)}>
               {exams.length === 0 ? (
                 <option value="">No exams</option>
               ) : (
@@ -337,9 +354,10 @@ export default function Results() {
           </div>
 
           <div style={sx.field}>
-            <label style={sx.label}>Student Email</label>
+            <label style={sx.label} className="rx-label">Student Email</label>
             <input
               style={sx.input}
+              className="rx-input"
               placeholder="ex: student@gmail.com"
               value={studentId}
               onChange={(e) => setStudentId(e.target.value)}
@@ -350,38 +368,38 @@ export default function Results() {
             <button style={{ ...sx.btn, ...sx.btnPrimary }} onClick={onApply} disabled={!examId}>
               Apply
             </button>
-            <button style={{ ...sx.btn, ...sx.btnGhost }} onClick={onClear}>
+            <button style={{ ...sx.btn, ...sx.btnGhost }} className="rx-btn-ghost" onClick={onClear}>
               Clear
             </button>
           </div>
         </div>
 
         <div style={sx.tableHead}>
-          <div style={sx.tTitle}>Result Table</div>
-          <div style={sx.pill}>{rows.length} students</div>
+          <div style={sx.tTitle} className="rx-title">Result Table</div>
+          <div style={sx.pill} className="rx-pill">{rows.length} students</div>
         </div>
 
-        <div style={sx.tableWrap}>
+        <div style={sx.tableWrap} className="rx-table">
           <table style={sx.table}>
             <thead>
               <tr>
-                <th style={sx.th}>Student ID</th>
-                <th style={sx.th}>Student Email</th>
-                <th style={sx.th}>Student Name</th>
-                <th style={sx.th}>Total Marks</th>
-                <th style={sx.th}>Status</th>
-                <th style={{ ...sx.th, textAlign: "right" }}>Action</th>
+                <th style={sx.th} className="rx-th">Student ID</th>
+                <th style={sx.th} className="rx-th">Student Email</th>
+                <th style={sx.th} className="rx-th">Student Name</th>
+                <th style={sx.th} className="rx-th">Total Marks</th>
+                <th style={sx.th} className="rx-th">Status</th>
+                <th style={{ ...sx.th, textAlign: "right" }} className="rx-th">Action</th>
               </tr>
             </thead>
 
             <tbody>
               {loading ? (
                 <tr>
-                  <td style={sx.td} colSpan={6}>Loading...</td>
+                  <td style={sx.td} colSpan={6} className="rx-td">Loading...</td>
                 </tr>
               ) : rows.length === 0 ? (
                 <tr>
-                  <td style={sx.tdEmpty} colSpan={6}>No data found for this filter.</td>
+                  <td style={sx.tdEmpty} colSpan={6} className="rx-td">No data found for this filter.</td>
                 </tr>
               ) : (
                 rows.map((r) => {
@@ -395,14 +413,14 @@ export default function Results() {
 
                   return (
                     <tr key={`${examId}-${r.student_id}`}>
-                      <td style={sx.td}>{r.student_id}</td>
-                      <td style={sx.td}>{r.student_email || "-"}</td>
-                      <td style={sx.td}>{r.student_name || "-"}</td>
-                      <td style={sx.td}>{r.total_marks}</td>
-                      <td style={sx.td}>
-                        <span style={{ ...sx.badge, ...badge }}>{status}</span>
+                      <td style={sx.td} className="rx-td">{r.student_id}</td>
+                      <td style={sx.td} className="rx-td">{r.student_email || "-"}</td>
+                      <td style={sx.td} className="rx-td">{r.student_name || "-"}</td>
+                      <td style={sx.td} className="rx-td">{r.total_marks}</td>
+                      <td style={sx.td} className="rx-td">
+                        <span style={{ ...sx.badge, ...badge }} className={status === "ABSENT" ? "rx-badge-absent" : ""}>{status}</span>
                       </td>
-                      <td style={{ ...sx.td, textAlign: "right" }}>
+                      <td style={{ ...sx.td, textAlign: "right" }} className="rx-td">
                         <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
                           <button
                             style={{ ...sx.btnMini, ...sx.btnMiniBlue }}
@@ -433,11 +451,11 @@ export default function Results() {
       {/* EDIT MODAL */}
       {editOpen && (
         <div style={sx.backdrop} onClick={() => setEditOpen(false)}>
-          <div style={sx.modal} onClick={(e) => e.stopPropagation()}>
-            <div style={sx.modalHead}>
+          <div style={sx.modal} className="rx-modal" onClick={(e) => e.stopPropagation()}>
+            <div style={sx.modalHead} className="rx-modal-head">
               <div>
-                <div style={sx.modalTitle}>Edit Marks</div>
-                <div style={sx.modalSub}>
+                <div style={sx.modalTitle} className="rx-modal-title">Edit Marks</div>
+                <div style={sx.modalSub} className="rx-muted">
                   {editRow?.student_id} • {examMeta?.title || selectedExam?.title || ""}
                 </div>
               </div>
@@ -472,11 +490,11 @@ export default function Results() {
       {/* VIEW MODAL */}
       {viewOpen && (
         <div style={sx.backdrop} onClick={() => setViewOpen(false)}>
-          <div style={{ ...sx.modal, width: "min(900px, 100%)" }} onClick={(e) => e.stopPropagation()}>
-            <div style={sx.modalHead}>
+          <div style={{ ...sx.modal, width: "min(900px, 100%)" }} className="rx-modal" onClick={(e) => e.stopPropagation()}>
+            <div style={sx.modalHead} className="rx-modal-head">
               <div>
-                <div style={sx.modalTitle}>Attempt Details</div>
-                <div style={sx.modalSub}>
+                <div style={sx.modalTitle} className="rx-modal-title">Attempt Details</div>
+                <div style={sx.modalSub} className="rx-muted">
                   {viewingRow?.student_name} ({viewingRow?.student_id})
                 </div>
               </div>
@@ -576,8 +594,8 @@ const sx = {
     gap: 14,
     alignItems: "flex-start",
   },
-  hTitle: { fontSize: 20, fontWeight: 1000, color: "#101828" },
-  hSub: { marginTop: 6, color: "#667085", fontWeight: 700, fontSize: 13 },
+  hTitle: { fontSize: 18, fontWeight: 1000, color: "#101828", letterSpacing: "-0.01em" },
+  hSub: { marginTop: 4, color: "#667085", fontWeight: 700, fontSize: 13 },
   pillRow: { display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-end" },
   pill: {
     display: "inline-flex",
@@ -606,7 +624,7 @@ const sx = {
     alignItems: "end",
   },
   field: { display: "grid", gap: 8 },
-  label: { fontSize: 13, fontWeight: 900, color: "#344054" },
+  label: { fontSize: 11, fontWeight: 900, color: "#667085", textTransform: "uppercase", letterSpacing: "0.08em" },
   select: {
     width: "100%",
     border: "1px solid #E4E7EC",
@@ -621,18 +639,20 @@ const sx = {
     width: "100%",
     border: "1px solid #E4E7EC",
     borderRadius: 12,
-    padding: "10px 12px",
+    padding: "8px 12px",
     outline: "none",
     fontWeight: 800,
     color: "#101828",
+    fontSize: "13px",
   },
   btn: {
     border: "1px solid #E4E7EC",
     background: "#fff",
-    padding: "10px 14px",
+    padding: "8px 14px",
     borderRadius: 12,
     cursor: "pointer",
     fontWeight: 1000,
+    fontSize: 12,
   },
   btnPrimary: { background: "#2563EB", borderColor: "#2563EB", color: "#fff" },
   btnGhost: { background: "#fff", color: "#101828" },
@@ -653,14 +673,16 @@ const sx = {
   table: { width: "100%", borderCollapse: "collapse" },
   th: {
     textAlign: "left",
-    padding: "12px 14px",
+    padding: "10px 14px",
     background: "#FCFCFD",
     borderBottom: "1px solid #E4E7EC",
     color: "#475467",
     fontWeight: 900,
-    fontSize: 13,
+    fontSize: 9,
+    textTransform: "uppercase",
+    letterSpacing: "0.1em",
   },
-  td: { padding: "12px 14px", borderBottom: "1px solid #F2F4F7", fontWeight: 800, color: "#101828" },
+  td: { padding: "10px 14px", borderBottom: "1px solid #F2F4F7", fontWeight: 800, color: "#101828", fontSize: 13 },
   tdEmpty: { padding: 18, textAlign: "center", color: "#667085", fontWeight: 900 },
   badge: {
     display: "inline-flex",

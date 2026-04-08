@@ -96,7 +96,27 @@ export default function StudentConcernForm() {
   };
 
   return (
-    <div style={s.page}>
+    <div id="student-concern-page" style={s.page} className="nx-page">
+      <style>{`
+        .dark .nx-page { color: #f3f4f6; }
+        .dark #student-concern-headcard, 
+        .dark #student-concern-card { 
+          background: #111827 !important; border-color: #374151 !important; 
+        }
+        .dark #student-concern-title { color: #fff !important; }
+        .dark #student-concern-subtitle, .dark .nx-label { color: #9ca3af !important; }
+        .dark #student-concern-subject-select, 
+        .dark #student-concern-staff-select,
+        .dark #student-concern-message-textarea { 
+          background: #1f2937 !important; border-color: #374151 !important; color: #f3f4f6 !important; 
+        }
+        .dark #student-concern-note { 
+          background: #111827 !important; border-color: #374151 !important; color: #9ca3af !important; 
+        }
+        .dark button#student-concern-submit-btn {
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+        }
+      `}</style>
       {/* ✅ TOAST */}
       {toast && (
         <div style={{ ...s.toast, background: toast.type === "ok" ? "#027A48" : "#B42318" }}>
@@ -106,20 +126,21 @@ export default function StudentConcernForm() {
       )}
 
       {/* ✅ HEADER */}
-      <div style={s.headCard}>
-        <div style={s.hTitle}>Submit Feedback</div>
-        <div style={s.hSub}>
+      <div id="student-concern-headcard" style={s.headCard}>
+        <div id="student-concern-title" style={s.hTitle}>Submit Feedback</div>
+        <div id="student-concern-subtitle" style={s.hSub}>
           Select your subject and the staff member to report an issue or provide feedback.
         </div>
       </div>
 
       {/* ✅ FORM */}
-      <div style={s.card}>
+      <div id="student-concern-card" style={s.card}>
         <form onSubmit={submit}>
           <div style={s.grid}>
             <div style={s.field}>
-              <label style={s.label}>Subject (Module)</label>
+              <label style={s.label} className="nx-label">Subject (Module)</label>
               <select
+                id="student-concern-subject-select"
                 style={s.select}
                 value={subjectId}
                 onChange={(e) => setSubjectId(e.target.value)}
@@ -135,8 +156,9 @@ export default function StudentConcernForm() {
             </div>
 
             <div style={s.field}>
-              <label style={s.label}>Staff Member</label>
+              <label style={s.label} className="nx-label">Staff Member</label>
               <select
+                id="student-concern-staff-select"
                 style={s.select}
                 value={staffId}
                 onChange={(e) => setStaffId(e.target.value)}
@@ -158,8 +180,9 @@ export default function StudentConcernForm() {
           </div>
 
           <div style={{ ...s.field, marginTop: 20 }}>
-            <label style={s.label}>Issue Description / Message</label>
+            <label style={s.label} className="nx-label">Issue Description / Message</label>
             <textarea
+              id="student-concern-message-textarea"
               style={s.textarea}
               placeholder="Describe the issue in detail..."
               rows={6}
@@ -170,14 +193,14 @@ export default function StudentConcernForm() {
           </div>
 
           <div style={s.foot}>
-            <button type="submit" style={s.btn} disabled={busy || !staffId}>
+            <button id="student-concern-submit-btn" type="submit" style={s.btn} disabled={busy || !staffId}>
               {busy ? "Sending..." : "Submit to Staff"}
             </button>
           </div>
         </form>
       </div>
 
-      <div style={s.note}>
+      <div id="student-concern-note" style={s.note}>
         <b>Note:</b> Your feedback will be sent directly to the selected staff member.
         They will be able to see your academic details (Year/Semester) along with your message.
       </div>
@@ -206,30 +229,31 @@ const s = {
     marginBottom: 20,
     boxShadow: "0 2px 10px rgba(0,0,0,.02)",
   },
-  hTitle: { fontSize: 20, fontWeight: 1000, color: "#101828" },
-  hSub: { marginTop: 6, color: "#667085", fontSize: 13, fontWeight: 800 },
+  hTitle: { fontSize: 18, fontWeight: 1000, color: "#101828", letterSpacing: "-0.01em" },
+  hSub: { marginTop: 4, color: "#667085", fontSize: 12, fontWeight: 800 },
   card: {
     background: "#fff",
     border: "1px solid #E4E7EC",
     borderRadius: 20,
-    padding: 24,
+    padding: 20,
     boxShadow: "0 4px 20px rgba(0,0,0,.04)",
   },
   grid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 },
   field: { display: "flex", flexDirection: "column", gap: 8 },
-  label: { fontSize: 13, fontWeight: 1000, color: "#344054" },
+  label: { fontSize: 12, fontWeight: 1000, color: "#344054" },
   select: {
     width: "100%",
-    padding: "10px 12px",
+    padding: "8px 12px",
     borderRadius: 12,
     border: "1px solid #E4E7EC",
     background: "#F9FAFB",
     fontWeight: 800,
     outline: "none",
+    fontSize: 13,
   },
   textarea: {
     width: "100%",
-    padding: 12,
+    padding: 10,
     borderRadius: 16,
     border: "1px solid #E4E7EC",
     background: "#F9FAFB",
@@ -237,17 +261,19 @@ const s = {
     resize: "vertical",
     minHeight: 120,
     outline: "none",
+    fontSize: 13,
   },
   foot: { marginTop: 24, display: "flex", justifyContent: "flex-end" },
   btn: {
     background: "#1570EF",
     color: "#fff",
     border: "none",
-    padding: "12px 24px",
+    padding: "10px 20px",
     borderRadius: 14,
     fontWeight: 1000,
     cursor: "pointer",
     boxShadow: "0 4px 10px rgba(21, 112, 239, 0.25)",
+    fontSize: 13,
   },
   note: {
     marginTop: 20,
@@ -256,7 +282,7 @@ const s = {
     border: "1px dashed #EAECF0",
     borderRadius: 16,
     color: "#475467",
-    fontSize: 13,
+    fontSize: 12,
     lineHeight: 1.5,
     fontWeight: 800,
   },

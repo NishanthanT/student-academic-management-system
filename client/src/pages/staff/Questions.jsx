@@ -507,7 +507,15 @@ export default function Questions() {
         .dark .q-muted { color: #9ca3af; }
         .dark .q-btn { background: #1f2937; border-color: #374151; color: #d1d5db; }
         .dark .q-btn-primary { background: #2563EB; border-color: #2563EB; color: #fff; }
-        .dark .q-input { background: #111827; border-color: #374151; color: #f3f4f6; }
+        .dark .q-input { background: #111827 !important; border-color: #374151 !important; color: #f3f4f6 !important; }
+        .dark .q-input::placeholder { color: #6b7280; }
+        .dark .q-input:-webkit-autofill,
+        .dark .q-input:-webkit-autofill:hover,
+        .dark .q-input:-webkit-autofill:focus {
+          -webkit-text-fill-color: #f3f4f6 !important;
+          -webkit-box-shadow: 0 0 0px 1000px #111827 inset !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
         .dark .q-tablewrap { background: #111827; border-color: #374151; }
         .dark th { background: #1f2937; border-bottom-color: #374151; color: #9ca3af; }
         .dark td { border-bottom-color: #374151; color: #d1d5db; }

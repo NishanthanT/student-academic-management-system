@@ -78,8 +78,8 @@ const normalizeQuestions = (arr) =>
         raw === "MCQ"
           ? "mcq"
           : raw === "ONE_WORD"
-          ? "one_word"
-          : raw.toLowerCase(),
+            ? "one_word"
+            : raw.toLowerCase(),
       marks: Number.parseFloat(m) || 0,
     };
   });
@@ -283,6 +283,7 @@ export default function AttemptExam() {
         disabled: true,
         pillStyle: sx.pillSubmitted,
         btnStyle: sx.btnDisabled,
+        pillClass: "ax-pill-submitted",
       };
     }
 
@@ -294,6 +295,7 @@ export default function AttemptExam() {
         disabled: true,
         pillStyle: sx.pillAbsent,
         btnStyle: sx.btnDisabled,
+        pillClass: "ax-pill-absent",
       };
     }
 
@@ -305,6 +307,7 @@ export default function AttemptExam() {
         disabled: true,
         pillStyle: sx.pillLocked,
         btnStyle: sx.btnDisabled,
+        pillClass: "ax-pill-locked",
       };
     }
 
@@ -315,6 +318,7 @@ export default function AttemptExam() {
       disabled: false,
       pillStyle: sx.pillAvailable,
       btnStyle: sx.btnPrimary,
+      pillClass: "ax-pill-available",
     };
   };
 
@@ -333,15 +337,31 @@ export default function AttemptExam() {
       <style>{`
         .dark .ax-page { color: #f3f4f6; }
         .dark .ax-card, .dark .ax-head-card, .dark .ax-exam-card { background: #111827 !important; border-color: #374151 !important; }
-        .dark .ax-title, .dark .ax-card-title, .dark .ax-modal-title, .dark .ax-q-text { color: #fff !important; }
+        .dark .ax-title, .dark .ax-card-title, .dark .ax-modal-title, .dark .ax-q-text, .dark .ax-q-label { color: #fff !important; }
         .dark .ax-sub, .dark .ax-muted-text, .dark .ax-meta-item, .dark .ax-timer-label { color: #9ca3af !important; }
         .dark .ax-timer-value { color: #fff !important; }
         .dark .ax-timer-box, .dark .ax-muted-block { background: #1f2937 !important; border-color: #374151 !important; }
         .dark .ax-select, .dark .ax-input, .dark .ax-textarea { background: #1f2937 !important; border-color: #4b5563 !important; color: #f3f4f6 !important; }
+        
+        /* Pills */
         .dark .ax-pill, .dark .ax-q-type, .dark .ax-marks-pill { background: #1f2937 !important; border-color: #374151 !important; color: #d1d5db !important; }
+        .dark .ax-pill-available { background: #064e3b !important; border-color: #065f46 !important; color: #a7f3d0 !important; }
+        .dark .ax-pill-locked { background: #1f2937 !important; border-color: #374151 !important; color: #9ca3af !important; }
+        .dark .ax-pill-submitted { background: #1e3a8a !important; border-color: #1e40af !important; color: #bfdbfe !important; }
+        .dark .ax-pill-absent { background: #7f1d1d !important; border-color: #991b1b !important; color: #fecaca !important; }
+
         .dark .ax-head-card { background: #111827 !important; border-color: #374151 !important; }
         .dark .ax-badge-soft { background: #1e293b !important; border-color: #334155 !important; color: #38bdf8 !important; }
         .dark .ax-divider { background: #374151 !important; }
+        
+        /* Buttons */
+        .dark .ax-btn { background: #1f2937 !important; border-color: #374151 !important; color: #fff !important; }
+        .dark .ax-btn-primary { background: #2563EB !important; border-color: #2563EB !important; color: #fff !important; }
+        .dark .ax-btn-danger { background: #DC2626 !important; border-color: #DC2626 !important; color: #fff !important; }
+        .dark .ax-btn-ghost { background: #111827 !important; color: #d1d5db !important; border-color: #374151 !important; }
+        .dark .ax-btn-ghost:hover { background: #1f2937 !important; }
+        .dark .ax-btn:disabled { opacity: 0.45 !important; }
+
         .dark .ax-q-btn { background: #111827 !important; border-color: #374151 !important; color: #9ca3af !important; }
         .dark .ax-q-btn-answered { background: #064e3b !important; border-color: #065f46 !important; color: #a7f3d0 !important; }
         .dark .ax-q-btn-active { border-color: #2563EB !important; box-shadow: 0 0 0 3px rgba(37,99,235,0.2) !important; color: #fff !important; }
@@ -353,8 +373,6 @@ export default function AttemptExam() {
         .dark .ax-opt-text { color: #f3f4f6 !important; }
         .dark .ax-modal { background: #111827 !important; border-color: #374151 !important; }
         .dark .ax-modal-head { border-bottom-color: #374151 !important; }
-        .dark .ax-btn-ghost { background: #111827 !important; color: #d1d5db !important; border-color: #374151 !important; }
-        .dark .ax-btn-ghost:hover { background: #1f2937 !important; }
         .dark .ax-empty { background: #111827 !important; border-color: #374151 !important; color: #9ca3af !important; }
       `}</style>
       {/* ===== TOAST ===== */}
@@ -476,12 +494,13 @@ export default function AttemptExam() {
                         </div>
 
                         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                          <span style={{ ...sx.statusPill, ...ui.pillStyle }} className="ax-pill">
+                          <span style={{ ...sx.statusPill, ...ui.pillStyle }} className={`ax-pill ${ui.pillClass}`}>
                             {ui.pillText}
                           </span>
 
                           <button
                             style={{ ...sx.btn, ...ui.btnStyle }}
+                            className={`ax-btn ${ui.state === "available" ? "ax-btn-primary" : ""}`}
                             disabled={ui.disabled}
                             onClick={() => {
                               if (ui.disabled) return;
@@ -566,6 +585,7 @@ export default function AttemptExam() {
 
               <button
                 style={{ ...sx.btn, ...sx.btnDanger, marginLeft: "auto" }}
+                className="ax-btn ax-btn-danger"
                 onClick={() => submitNow(false)}
                 disabled={questions.length === 0}
               >
@@ -589,10 +609,10 @@ export default function AttemptExam() {
             ) : (
               <>
                 <div style={sx.qBox} className="ax-q-box">
-                  <div style={sx.qLabel}>
+                  <div style={sx.qLabel} className="ax-q-label">
                     <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                       <span>Q{activeIndex + 1}</span>
-                      <span style={sx.qType}>
+                      <span style={sx.qType} className="ax-q-type">
                         {String(currentQ.type || "").toUpperCase() || "QUESTION"}
                       </span>
                     </div>
@@ -623,8 +643,8 @@ export default function AttemptExam() {
                             }
                           />
                           <div style={{ display: "flex", gap: 10 }}>
-                            <div style={sx.optKey}>{opt}</div>
-                            <div style={sx.optText}>
+                            <div style={sx.optKey} className="ax-opt-key">{opt}</div>
+                            <div style={sx.optText} className="ax-opt-text">
                               {currentQ[`option_${opt.toLowerCase()}`]}
                             </div>
                           </div>
@@ -703,6 +723,7 @@ export default function AttemptExam() {
                 </button>
                 <button
                   style={{ ...sx.btn, ...sx.btnPrimary }}
+                  className="ax-btn ax-btn-primary"
                   onClick={startExam}
                   disabled={busy || !pwd.trim()}
                 >

@@ -140,10 +140,10 @@ export default function StudentResults() {
     status === "PASS"
       ? sx.badgePass
       : status === "FAIL"
-      ? sx.badgeFail
-      : status === "ABSENT"
-      ? sx.badgeAbsent
-      : sx.badgePending;
+        ? sx.badgeFail
+        : status === "ABSENT"
+          ? sx.badgeAbsent
+          : sx.badgePending;
 
   return (
     <div id="student-results-page" style={sx.page} className="nx-page">

@@ -114,7 +114,14 @@ export default function StudentConcernForm() {
           background: #111827 !important; border-color: #374151 !important; color: #9ca3af !important; 
         }
         .dark button#student-concern-submit-btn {
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+          background: #3b82f6 !important;
+          color: #fff !important;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+        }
+        .dark button#student-concern-submit-btn:disabled {
+          opacity: 0.5 !important;
+          background: #1f2937 !important;
+          color: #9ca3af !important;
         }
       `}</style>
       {/* ✅ TOAST */}

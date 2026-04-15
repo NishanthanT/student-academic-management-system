@@ -869,8 +869,16 @@ export default function StaffExams() {
         .dark .sx-btn--primary{background:#2563EB;border-color:#2563EB;color:#fff}
         .dark .sx-title h1{color:#fff}
         .dark .sx-title p, .dark .sx-muted, .dark .sx-label{color:#9ca3af}
-        .dark .sx-input{background:#111827;border-color:#374151;color:#f3f4f6}
-        .dark .sx-input:focus{border-color:#2563EB;box-shadow:0 0 0 4px rgba(37,99,235,0.1)}
+        .dark .sx-input{background:#111827 !important;border-color:#374151 !important;color:#f3f4f6 !important}
+        .dark .sx-input::placeholder { color: #6b7280; }
+        .dark .sx-input:-webkit-autofill,
+        .dark .sx-input:-webkit-autofill:hover,
+        .dark .sx-input:-webkit-autofill:focus {
+          -webkit-text-fill-color: #f3f4f6 !important;
+          -webkit-box-shadow: 0 0 0px 1000px #111827 inset !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
+        .dark .sx-input:focus{border-color:#2563EB !important;box-shadow:0 0 0 4px rgba(37,99,235,0.1) !important}
         .dark .sx-note{background:#1f2937;border-color:#374151;color:#d1d5db}
         .dark .sx-tabs .sx-tab{background:#111827;border-color:#374151;color:#9ca3af}
         .dark .sx-tabs .sx-tab.active{background:#2563EB;color:#fff;border-color:#2563EB}

@@ -19,7 +19,7 @@ export default function AdminLayout() {
 
   const linkClass = ({ isActive }) =>
     `w-full text-left px-3 py-2 rounded transition border block
-     ${isActive
+      ${isActive
         ? "bg-blue-600 text-white border-blue-600 shadow-md"
         : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
       }`;

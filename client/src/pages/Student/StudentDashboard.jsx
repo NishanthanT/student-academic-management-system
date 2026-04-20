@@ -365,7 +365,10 @@ export default function StudentDashboard() {
                   </div>
                 </div>
               ) : (
-                <Outlet />
+                <>
+                  {/* TODO: feat(dashboard) - Add upcoming Attendance Summary Widget placeholder here */}
+                  <Outlet />
+                </>
               )}
             </div>
           </div>

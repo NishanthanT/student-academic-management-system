@@ -156,8 +156,8 @@ export default function ResultAnalysis() {
 
       <div style={sx.header}>
         <div>
-          <h1 style={sx.title} className="nx-title font-black uppercase">Results Analysis</h1>
-          <p style={sx.subtitle} className="nx-subtitle font-bold tracking-tight">Review exam performance, attendance and score distribution.</p>
+          <h1 style={sx.title} className="nx-title font-black uppercase">Result Analysis</h1>
+          <p style={sx.subtitle} className="nx-subtitle font-bold tracking-tight">Review exam performance, attendance, and score distribution.</p>
         </div>
         {analysis && (
           <button style={sx.btnPrimary} onClick={handleDownloadReport}>

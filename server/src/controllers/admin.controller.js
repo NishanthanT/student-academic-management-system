@@ -120,6 +120,7 @@ exports.listUsers = (req, res) => {
 
   const allowedRoles = ["admin", "staff", "student"];
 
+  // TODO: perf(admin) - implement pagination (LIMIT/OFFSET) and caching here for large user sets
   let sql = `SELECT id, name, email, role, current_year, current_semester, created_at
              FROM users`;
   const params = [];

@@ -14,20 +14,39 @@
 }
 
 /* Custom Scrollbar Global */
-.custom-scrollbar::-webkit-scrollbar, 
-.dark *::-webkit-scrollbar { width: 6px; height: 6px; }
-.custom-scrollbar::-webkit-scrollbar-track, 
-.dark *::-webkit-scrollbar-track { background: transparent; }
-.custom-scrollbar::-webkit-scrollbar-thumb, 
-.dark *::-webkit-scrollbar-thumb { background: #3b82f633; border-radius: 10px; }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover, 
-.dark *::-webkit-scrollbar-thumb:hover { background: #3b82f666; }
-.dark ::-webkit-scrollbar-thumb { background: #ffffff1a !important; }
-.dark ::-webkit-scrollbar-thumb:hover { background: #ffffff33 !important; }
+.custom-scrollbar::-webkit-scrollbar,
+.dark *::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track,
+.dark *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb,
+.dark *::-webkit-scrollbar-thumb {
+  background: #3b82f633;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover,
+.dark *::-webkit-scrollbar-thumb:hover {
+  background: #3b82f666;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #ffffff1a !important;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #ffffff33 !important;
+}
 
 /* Global Dark Mode Overrides for Inputs/Forms */
-.dark input, 
-.dark select, 
+.dark input,
+.dark select,
 .dark textarea {
   background-color: #1f2937 !important;
   color: #f3f4f6 !important;

@@ -22,6 +22,12 @@ const getFrontendBaseUrl = (req) => {
 };
 
 // ✅ LOGIN (JWT)
+/**
+ * Authenticates a user and issues a JWT token.
+ * @param {Object} req - The Express request object containing email and password in the body.
+ * @param {Object} res - The Express response object used to send back the token or error.
+ * @returns {Object} JSON response with authentication status and token.
+ */
 exports.login = (req, res) => {
   const { email, password } = req.body;
 

@@ -256,7 +256,7 @@ export default function PageTransitionLoader({ children }) {
       )}
 
       {/* Page content */}
-      <div className={`flex-1 flex flex-col w-full h-full transition-all duration-500 ${loading ? "opacity-0 scale-[0.99] grayscale-[0.5]" : "opacity-100 scale-100 grayscale-0"
+      <div className={`flex-1 flex flex-col w-full h-full transition-opacity duration-500 ${loading ? "opacity-0" : "opacity-100"
         }`}>
         {children}
       </div>

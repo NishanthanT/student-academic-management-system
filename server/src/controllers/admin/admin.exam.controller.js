@@ -35,9 +35,9 @@ exports.listAll = (req, res) => {
     JOIN subjects s ON s.id = e.subject_id
     ORDER BY e.id DESC
   `;
-  db.query(sql, (err, rows) => {
+  db.query(sql, (err, examList) => {
     if (err) return res.status(500).json({ ok: false, message: "DB error" });
-    res.json({ ok: true, data: rows });
+    res.json({ ok: true, data: examList });
   });
 };
 

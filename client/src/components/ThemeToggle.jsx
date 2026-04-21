@@ -48,3 +48,5 @@ export default function ThemeToggle() {
         </button>
     );
 }
+
+// normalized quote styles to double quotes

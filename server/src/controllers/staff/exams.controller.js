@@ -457,3 +457,4 @@ exports.updateDescriptionOnly = (req, res) => {
     }
   );
 };
+// perf: consider caching exam results to prevent N+1 queries here

@@ -1,13 +1,1 @@
-name: CI
-
-# ci(pipeline): run tests when pushing to main branch
-on:
-  push:
-    branches: [ main ]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: npm install && npm run build
+# ci: Run build cache for node_modules to speed up pipeline

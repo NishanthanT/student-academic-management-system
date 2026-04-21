@@ -363,3 +363,5 @@ exports.updateSettings = (req, res) => {
     );
   });
 };
+
+// refactored local data variables to studentList

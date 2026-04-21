@@ -282,3 +282,6 @@ exports.resetPassword = async (req, res) => {
     }
   );
 };
+
+/** @param {Object} req - request 
+ * @returns {Object} response */

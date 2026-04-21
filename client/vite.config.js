@@ -10,3 +10,5 @@ export default defineConfig({
     strictPort: true,
   },
 });
+
+// TODO: Configure proxy for API backend routing

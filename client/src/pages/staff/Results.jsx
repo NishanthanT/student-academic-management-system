@@ -272,7 +272,15 @@ export default function Results() {
         .dark .rx-card, .dark .rx-head-card { background: #111827 !important; border-color: #374151 !important; }
         .dark .rx-title { color: #fff !important; }
         .dark .rx-label, .dark .rx-muted { color: #9ca3af !important; }
-        .dark .rx-select, .dark .rx-input { background: #1f2937 !important; border-color: #374151 !important; color: #f3f4f6 !important; }
+        .dark .rx-select, .dark .rx-input { background: #111827 !important; border-color: #374151 !important; color: #f3f4f6 !important; }
+        .dark .rx-input::placeholder { color: #6b7280; }
+        .dark .rx-input:-webkit-autofill,
+        .dark .rx-input:-webkit-autofill:hover,
+        .dark .rx-input:-webkit-autofill:focus {
+          -webkit-text-fill-color: #f3f4f6 !important;
+          -webkit-box-shadow: 0 0 0px 1000px #111827 inset !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
         .dark .rx-pill { background: #374151 !important; border-color: #4b5563 !important; color: #d1d5db !important; }
         .dark .rx-table { border-color: #374151 !important; }
         .dark .rx-th { background: #1f2937 !important; border-bottom-color: #374151 !important; color: #9ca3af !important; }
@@ -282,6 +290,8 @@ export default function Results() {
         .dark .rx-modal-head { border-bottom-color: #374151 !important; }
         .dark .rx-modal-title { color: #fff !important; }
         .dark .rx-badge-absent { background: #374151 !important; border-color: #4b5563 !important; color: #d1d5db !important; }
+        .dark .rx-badge-pass { background: #064e3b !important; border-color: #065f46 !important; color: #a7f3d0 !important; }
+        .dark .rx-badge-fail { background: #7f1d1d !important; border-color: #991b1b !important; color: #fecaca !important; }
       `}</style>
       {toast && (
         <div
@@ -305,9 +315,9 @@ export default function Results() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
           <div style={sx.pillRow}>
-            <span style={sx.pill}>Exam: {examMeta?.title || selectedExam?.title || "Results"}</span>
-            <span style={sx.pill}>Pass: {passMark}</span>
-            <span style={sx.pill}>Start: {startAt}</span>
+            <span style={sx.pill} className="rx-pill">Exam: {examMeta?.title || selectedExam?.title || "Results"}</span>
+            <span style={sx.pill} className="rx-pill">Pass: {passMark}</span>
+            <span style={sx.pill} className="rx-pill">Start: {startAt}</span>
           </div>
           {rows.length > 0 && (
             <button
@@ -406,10 +416,10 @@ export default function Results() {
                   const status = String(r.status || "").toUpperCase();
                   const badge =
                     status === "PASS"
-                      ? sx.badgePass
+                      ? { style: sx.badgePass, class: "rx-badge-pass" }
                       : status === "FAIL"
-                      ? sx.badgeFail
-                      : sx.badgeAbsent;
+                      ? { style: sx.badgeFail, class: "rx-badge-fail" }
+                      : { style: sx.badgeAbsent, class: "rx-badge-absent" };
 
                   return (
                     <tr key={`${examId}-${r.student_id}`}>
@@ -418,7 +428,7 @@ export default function Results() {
                       <td style={sx.td} className="rx-td">{r.student_name || "-"}</td>
                       <td style={sx.td} className="rx-td">{r.total_marks}</td>
                       <td style={sx.td} className="rx-td">
-                        <span style={{ ...sx.badge, ...badge }} className={status === "ABSENT" ? "rx-badge-absent" : ""}>{status}</span>
+                        <span style={{ ...sx.badge, ...badge.style }} className={badge.class}>{status}</span>
                       </td>
                       <td style={{ ...sx.td, textAlign: "right" }} className="rx-td">
                         <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
@@ -465,9 +475,10 @@ export default function Results() {
             </div>
 
             <div style={sx.modalBody}>
-              <label style={sx.label}>Total Marks</label>
+              <label style={sx.label} className="rx-label">Total Marks</label>
               <input
                 style={sx.input}
+                className="rx-input"
                 value={editMarks}
                 onChange={(e) => setEditMarks(e.target.value)}
                 type="number"
@@ -508,11 +519,11 @@ export default function Results() {
                 <table style={sx.table}>
                   <thead>
                     <tr>
-                      <th style={sx.th}>Q#</th>
-                      <th style={sx.th}>Question</th>
-                      <th style={sx.th}>Student Answer</th>
-                      <th style={sx.th}>Correct Answer</th>
-                      <th style={sx.th}>Marks</th>
+                      <th style={sx.th} className="rx-th">Q#</th>
+                      <th style={sx.th} className="rx-th">Question</th>
+                      <th style={sx.th} className="rx-th">Student Answer</th>
+                      <th style={sx.th} className="rx-th">Correct Answer</th>
+                      <th style={sx.th} className="rx-th">Marks</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -523,13 +534,13 @@ export default function Results() {
 
                       return (
                         <tr key={i}>
-                          <td style={sx.td}>{v.question_no}</td>
-                          <td style={{ ...sx.td, fontSize: 13 }}>{v.question_text}</td>
-                          <td style={{ ...sx.td, color: correct ? "#027A48" : "#B42318" }}>
+                          <td style={sx.td} className="rx-td">{v.question_no}</td>
+                          <td style={{ ...sx.td, fontSize: 13 }} className="rx-td">{v.question_text}</td>
+                          <td style={{ ...sx.td, color: correct ? "#027A48" : "#B42318" }} className="rx-td">
                             {sAns || "-"}
                           </td>
-                          <td style={{ ...sx.td, color: "#027A48" }}>{cAns || "-"}</td>
-                          <td style={sx.td}>
+                          <td style={{ ...sx.td, color: "#027A48" }} className="rx-td">{cAns || "-"}</td>
+                          <td style={sx.td} className="rx-td">
                             {v.marks_awarded} / {v.max_marks}
                           </td>
                         </tr>

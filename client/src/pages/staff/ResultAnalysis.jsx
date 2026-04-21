@@ -142,7 +142,14 @@ export default function ResultAnalysis() {
         .dark .nx-title { color: #fff !important; }
         .dark .nx-subtitle, .dark .nx-label, .dark .nx-bar-label { color: #9ca3af !important; }
         .dark .nx-select { 
-          background: #1f2937 !important; border-color: #374151 !important; color: #f3f4f6 !important; 
+          background: #111827 !important; border-color: #374151 !important; color: #f3f4f6 !important; 
+        }
+        .dark .nx-select:-webkit-autofill,
+        .dark .nx-select:-webkit-autofill:hover,
+        .dark .nx-select:-webkit-autofill:focus {
+          -webkit-text-fill-color: #f3f4f6 !important;
+          -webkit-box-shadow: 0 0 0px 1000px #111827 inset !important;
+          transition: background-color 5000s ease-in-out 0s;
         }
         .dark .nx-stat-value, .dark .nx-bar-value { color: #fff !important; }
         .dark .nx-bar-bg { background: #1f2937 !important; }

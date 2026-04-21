@@ -181,7 +181,7 @@ export default function StaffLayout() {
             </div>
 
             {/* Page Content */}
-            <div className="flex-1 px-4 md:px-10 py-6 md:py-10 animate-in fade-in duration-1000 w-full">
+            <div className="flex-1 px-4 md:px-10 py-6 md:py-10 w-full">
               <Outlet />
             </div>
           </div>

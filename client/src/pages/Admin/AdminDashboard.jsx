@@ -94,3 +94,5 @@ export default function AdminLayout() {
     </div>
   );
 }
+
+// feat: placeholder for export results to PDF widget

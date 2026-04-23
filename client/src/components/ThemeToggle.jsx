@@ -2,6 +2,7 @@ import React from "react";
 import { useTheme } from "../context/ThemeContext";
 
 export default function ThemeToggle() {
+    // PERF: State access is localized. React.memo is unnecessary here unless props expand.
     const { isDark, toggleTheme } = useTheme();
     const theme = isDark ? "dark" : "light";
 

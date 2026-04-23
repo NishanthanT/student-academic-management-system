@@ -22,6 +22,15 @@ exports.requireAdmin = (req, res, next) => {
   next();
 };
 
+/*
+// TEST PLAN - requireAuth
+// describe('Auth Middleware', () => {
+//   it.todo('should return 401 if authorization header is absent');
+//   it.todo('should return 401 if invalid JWT is passed');
+//   it.todo('should call next() and populate req.user on valid token');
+// });
+*/
+
 // ✅ NEW: Staff only (existing logic touch pannala)
 exports.requireStaff = (req, res, next) => {
   if (req.user?.role !== "staff") {

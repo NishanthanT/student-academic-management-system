@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 ========================= */
 const API_BASE = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-  : "http://localhost:8000";
+  : `http://${window.location.hostname}:8000`;
 const API = `${API_BASE}/api`;
 
 async function apiFetch(path, { method = "GET", body } = {}) {

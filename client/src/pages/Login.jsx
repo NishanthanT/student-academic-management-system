@@ -9,7 +9,7 @@ import "../Auth.css";
 
 const API = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-  : "http://localhost:8000";
+  : `http://${window.location.hostname}:8000`;
 
 export default function Login() {
   const navigate = useNavigate();
@@ -75,10 +75,10 @@ export default function Login() {
               />
             </Field>
 
-            <Field label="Password" htmlFor="login-pwd">
+            <Field label="Password" htmlFor="login-password">
               <FieldIcon type="lock" />
               <input
-                id="login-pwd" type={showPassword ? "text" : "password"}
+                id="login-password" type={showPassword ? "text" : "password"}
                 className={`auth-input${focused === "pwd" ? " focused" : ""}`}
                 placeholder="••••••••" value={password}
                 onChange={e => setPassword(e.target.value)}
@@ -91,12 +91,12 @@ export default function Login() {
           </div>
 
           <div className="auth-forgot-row">
-            <button className="auth-forgot" onClick={() => navigate("/forgot-password")}>
+            <button className="auth-forgot" onClick={() => navigate("/forgot-password")} id="login-forgot-btn">
               Forgot password?
             </button>
           </div>
 
-          <button className="auth-btn" onClick={handleLogin} disabled={loading}>
+          <button className="auth-btn" onClick={handleLogin} disabled={loading} id="login-submit-btn">
             {loading ? <><span className="auth-spinner" /> Signing in…</> : "Sign In to Portal"}
           </button>
 
@@ -140,7 +140,7 @@ function FieldIcon({ type }) {
 
 function EyeBtn({ show, toggle }) {
   return (
-    <button className="auth-eye" onClick={toggle} tabIndex={-1} type="button">
+    <button className="auth-eye" onClick={toggle} tabIndex={-1} type="button" id="login-eye-btn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
         {show ? (
           <>

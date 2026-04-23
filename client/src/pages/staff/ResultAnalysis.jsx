@@ -167,7 +167,7 @@ export default function ResultAnalysis() {
           <p style={sx.subtitle} className="nx-subtitle font-bold tracking-tight">Review exam performance, attendance and score distribution.</p>
         </div>
         {analysis && (
-          <button style={sx.btnPrimary} onClick={handleDownloadReport}>
+          <button style={sx.btnPrimary} onClick={handleDownloadReport} id="resultanalysis-button-1">
             Download Analysis Report
           </button>
         )}
@@ -183,7 +183,7 @@ export default function ResultAnalysis() {
               className="nx-select"
               value={subjectId}
               onChange={(e) => onSubjectChange(e.target.value)}
-            >
+             id="resultanalysis-select-1">
               <option value="">-- Choose Subject --</option>
               {subjects.map((s) => (
                 <option key={s.id} value={s.id}>
@@ -201,7 +201,7 @@ export default function ResultAnalysis() {
               value={examId}
               onChange={(e) => onExamChange(e.target.value)}
               disabled={!subjectId}
-            >
+             id="resultanalysis-select-2">
               <option value="">-- Choose Exam --</option>
               {exams.map((ex) => (
                 <option key={ex.id} value={ex.id}>

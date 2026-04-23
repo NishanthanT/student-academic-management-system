@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-const API_BASE = "http://localhost:8000"; // change if needed
+const API_BASE = `http://${window.location.hostname}:8000`; // change if needed
 
 export default function ViewUsers() {
   const [activeRole, setActiveRole] = useState("all");

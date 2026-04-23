@@ -5,7 +5,7 @@ import autoTable from "jspdf-autotable";
 
 const API_BASE = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-  : "http://localhost:8000";
+  : `http://${window.location.hostname}:8000`;
 const API = `${API_BASE}/api`;
 
 async function apiFetch(path, { method = "GET", body } = {}) {
@@ -302,7 +302,7 @@ export default function Results() {
         >
           <div style={{ fontWeight: 900 }}>{toast.type === "ok" ? "Success" : "Error"}</div>
           <div style={{ opacity: 0.95 }}>{toast.msg}</div>
-          <button style={sx.toastX} onClick={() => setToast(null)} aria-label="close">
+          <button style={sx.toastX} onClick={() => setToast(null)} aria-label="close" id="results-button-1">
             ✕
           </button>
         </div>
@@ -323,7 +323,7 @@ export default function Results() {
             <button
               style={{ ...sx.btn, ...sx.btnPrimary, fontSize: 13, padding: "8px 12px" }}
               onClick={handleDownloadAllResults}
-            >
+             id="results-button-2">
               Download Results PDF
             </button>
           )}
@@ -339,7 +339,7 @@ export default function Results() {
               className="rx-select"
               value={subjectId}
               onChange={(e) => setSubjectId(e.target.value)}
-            >
+             id="results-select-1">
               {subjects.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.code} - {s.name}
@@ -350,7 +350,7 @@ export default function Results() {
 
           <div style={sx.field}>
             <label style={sx.label} className="rx-label">Exam</label>
-            <select style={sx.select} className="rx-select" value={examId} onChange={(e) => setExamId(e.target.value)}>
+            <select style={sx.select} className="rx-select" value={examId} onChange={(e) => setExamId(e.target.value)} id="results-select-2">
               {exams.length === 0 ? (
                 <option value="">No exams</option>
               ) : (
@@ -371,14 +371,14 @@ export default function Results() {
               placeholder="ex: student@gmail.com"
               value={studentId}
               onChange={(e) => setStudentId(e.target.value)}
-            />
+             id="results-input-1"/>
           </div>
 
           <div style={{ display: "flex", gap: 10, alignItems: "flex-end" }}>
-            <button style={{ ...sx.btn, ...sx.btnPrimary }} onClick={onApply} disabled={!examId}>
+            <button style={{ ...sx.btn, ...sx.btnPrimary }} onClick={onApply} disabled={!examId} id="results-button-3">
               Apply
             </button>
-            <button style={{ ...sx.btn, ...sx.btnGhost }} className="rx-btn-ghost" onClick={onClear}>
+            <button style={{ ...sx.btn, ...sx.btnGhost }} className="rx-btn-ghost" onClick={onClear} id="results-button-4">
               Clear
             </button>
           </div>
@@ -426,7 +426,16 @@ export default function Results() {
                       <td style={sx.td} className="rx-td">{r.student_id}</td>
                       <td style={sx.td} className="rx-td">{r.student_email || "-"}</td>
                       <td style={sx.td} className="rx-td">{r.student_name || "-"}</td>
-                      <td style={sx.td} className="rx-td">{r.total_marks}</td>
+                      <td style={sx.td} className="rx-td">
+                         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                           <span>{r.total_marks}</span>
+                           {r.is_pending && (
+                              <span style={{ fontSize: 10, fontWeight: 800, color: "#D97706" }}>
+                                Req: {r.requested_marks}
+                              </span>
+                           )}
+                         </div>
+                      </td>
                       <td style={sx.td} className="rx-td">
                         <span style={{ ...sx.badge, ...badge.style }} className={badge.class}>{status}</span>
                       </td>
@@ -436,14 +445,22 @@ export default function Results() {
                             style={{ ...sx.btnMini, ...sx.btnMiniBlue }}
                             onClick={() => openView(r)}
                             disabled={status === "ABSENT" || status === "PENDING"}
-                          >
+                           id="results-button-5">
                             View
                           </button>
-                          {r?.can_edit !== false && (
+                          {r.is_pending ? (
+                             <button
+                               style={{ ...sx.btnMini, background: "#FEF3C7", color: "#B45309", borderColor: "#FDE68A", cursor: "not-allowed" }}
+                               disabled
+                               title="Admin approval pending"
+                              id="results-button-6">
+                               Pending
+                             </button>
+                          ) : r?.can_edit !== false && (
                             <button
                               style={{ ...sx.btnMini, ...sx.btnMiniBlue }}
                               onClick={() => openEdit(r)}
-                            >
+                             id="results-button-7">
                               Edit
                             </button>
                           )}
@@ -469,7 +486,7 @@ export default function Results() {
                   {editRow?.student_id} • {examMeta?.title || selectedExam?.title || ""}
                 </div>
               </div>
-              <button style={sx.iconBtn} onClick={() => setEditOpen(false)} aria-label="close">
+              <button style={sx.iconBtn} onClick={() => setEditOpen(false)} aria-label="close" id="results-button-8">
                 ✕
               </button>
             </div>
@@ -483,13 +500,13 @@ export default function Results() {
                 onChange={(e) => setEditMarks(e.target.value)}
                 type="number"
                 min="0"
-              />
+               id="results-input-2"/>
 
               <div style={sx.modalActions}>
-                <button style={{ ...sx.btn, ...sx.btnGhost }} onClick={() => setEditOpen(false)}>
+                <button style={{ ...sx.btn, ...sx.btnGhost }} onClick={() => setEditOpen(false)} id="results-button-9">
                   Cancel
                 </button>
-                <button style={{ ...sx.btn, ...sx.btnPrimary }} onClick={saveEdit}>
+                <button style={{ ...sx.btn, ...sx.btnPrimary }} onClick={saveEdit} id="results-button-10">
                   Save
                 </button>
               </div>
@@ -509,7 +526,7 @@ export default function Results() {
                   {viewingRow?.student_name} ({viewingRow?.student_id})
                 </div>
               </div>
-              <button style={sx.iconBtn} onClick={() => setViewOpen(false)}>✕</button>
+              <button style={sx.iconBtn} onClick={() => setViewOpen(false)} id="results-button-11">✕</button>
             </div>
 
             <div style={{ ...sx.modalBody, maxHeight: "70vh", overflowY: "auto" }}>
@@ -551,7 +568,7 @@ export default function Results() {
               )}
             </div>
             <div style={sx.modalActions}>
-              <button style={{ ...sx.btn, ...sx.btnPrimary }} onClick={() => setViewOpen(false)}>
+              <button style={{ ...sx.btn, ...sx.btnPrimary }} onClick={() => setViewOpen(false)} id="results-button-12">
                 Close
               </button>
             </div>

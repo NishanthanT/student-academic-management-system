@@ -46,7 +46,7 @@ export default function AdminLayout() {
           <button
             onClick={handleLogout}
             className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition shadow-md"
-          >
+           id="admindashboard-button-1">
             Logout
           </button>
         </div>
@@ -69,7 +69,7 @@ export default function AdminLayout() {
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-yellow-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all border dark:border-gray-600 flex items-center justify-center"
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            >
+             id="admindashboard-button-2">
               {isDark ? (
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" />

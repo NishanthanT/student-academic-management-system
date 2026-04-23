@@ -9,7 +9,7 @@ import "../Auth.css";
 
 const API = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-  : "http://localhost:8000";
+  : `http://${window.location.hostname}:8000`;
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -90,7 +90,7 @@ export default function ResetPassword() {
         <Dots seed={3} />
 
         <div className="auth-card">
-          <button className="auth-forgot" onClick={() => navigate("/")} style={{alignSelf: 'flex-start', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '5px', fontSize: '14px', fontWeight: '600'}}>
+          <button className="auth-forgot" onClick={() => navigate("/")} style={{alignSelf: 'flex-start', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '5px', fontSize: '14px', fontWeight: '600'}} id="resetpassword-button-1">
              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
              Back to login
           </button>
@@ -131,7 +131,7 @@ export default function ResetPassword() {
             </Field>
           </div>
 
-          <button className="auth-btn" onClick={handleReset} disabled={loading} style={{marginTop: '10px'}}>
+          <button className="auth-btn" onClick={handleReset} disabled={loading} style={{marginTop: '10px'}} id="resetpassword-button-2">
             {loading ? <><span className="auth-spinner" /> Resetting…</> : "Reset Password"}
           </button>
 
@@ -173,7 +173,7 @@ function FieldIcon({ type }) {
 
 function EyeBtn({ show, toggle }) {
   return (
-    <button className="auth-eye" onClick={toggle} tabIndex={-1} type="button">
+    <button className="auth-eye" onClick={toggle} tabIndex={-1} type="button" id="resetpassword-button-3">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
         {show ? (
           <>

@@ -22,6 +22,7 @@ import CreateSubject from "../pages/Admin/CreateSubject";
 import AssignStaff from "../pages/Admin/AssignStaff";
 import ExamManagement from "../pages/Admin/ExamManagement";
 import Settings from "../pages/Admin/Settings";
+import MarkRequests from "../pages/Admin/MarkRequests";
 
 // ✅ Staff
 import StaffLayout from "../pages/staff/StaffLayout";
@@ -58,6 +59,7 @@ export default function AppRoutes() {
         <Route path="create-subject" element={<CreateSubject />} />
         <Route path="assign-staff" element={<AssignStaff />} />
         <Route path="exam-management" element={<ExamManagement />} />
+        <Route path="mark-requests" element={<MarkRequests />} />
         <Route path="settings" element={<Settings />} />
       </Route>
 

@@ -8,7 +8,7 @@ import autoTable from "jspdf-autotable";
 ========================= */
 const API_BASE = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-  : "http://localhost:8000";
+  : `http://${window.location.hostname}:8000`;
 const API = `${API_BASE}/api`;
 
 async function apiFetch(path, { method = "GET", body } = {}) {
@@ -746,7 +746,7 @@ export default function Questions() {
                         value={r.question_type}
                         onChange={(ev) => onTypeChange(r.question_no, ev.target.value)}
                         disabled={busy || loading}
-                      >
+                       id={`questions-type-select-${r.question_no}`}>
                         <option value="MCQ">MCQ</option>
                         <option value="ONE_WORD">ONE_WORD</option>
                       </select>
@@ -761,7 +761,7 @@ export default function Questions() {
                         min={1}
                         step={1}
                         disabled={busy || loading}
-                      />
+                       id={`questions-marks-input-${r.question_no}`}/>
                       {e.marks ? <div className="q-err-msg">{e.marks}</div> : null}
                     </td>
 
@@ -772,7 +772,7 @@ export default function Questions() {
                         onChange={(ev) => updateOption(r.question_no, "A", ev.target.value)}
                         placeholder="Option A"
                         disabled={!isMCQ || busy || loading}
-                      />
+                       id={`questions-option-a-input-${r.question_no}`}/>
                       {isMCQ && e.optA ? <div className="q-err-msg">{e.optA}</div> : null}
                     </td>
 
@@ -783,7 +783,7 @@ export default function Questions() {
                         onChange={(ev) => updateOption(r.question_no, "B", ev.target.value)}
                         placeholder="Option B"
                         disabled={!isMCQ || busy || loading}
-                      />
+                       id={`questions-option-b-input-${r.question_no}`}/>
                       {isMCQ && e.optB ? <div className="q-err-msg">{e.optB}</div> : null}
                     </td>
 
@@ -794,7 +794,7 @@ export default function Questions() {
                         onChange={(ev) => updateOption(r.question_no, "C", ev.target.value)}
                         placeholder="Option C"
                         disabled={!isMCQ || busy || loading}
-                      />
+                       id={`questions-option-c-input-${r.question_no}`}/>
                       {isMCQ && e.optC ? <div className="q-err-msg">{e.optC}</div> : null}
                     </td>
 
@@ -805,7 +805,7 @@ export default function Questions() {
                         onChange={(ev) => updateOption(r.question_no, "D", ev.target.value)}
                         placeholder="Option D"
                         disabled={!isMCQ || busy || loading}
-                      />
+                       id={`questions-option-d-input-${r.question_no}`}/>
                       {isMCQ && e.optD ? <div className="q-err-msg">{e.optD}</div> : null}
                     </td>
 
@@ -815,7 +815,7 @@ export default function Questions() {
                         value={r.correct}
                         onChange={(ev) => updateRow(r.question_no, { correct: ev.target.value })}
                         disabled={!isMCQ || busy || loading}
-                      >
+                       id={`questions-correct-select-${r.question_no}`}>
                         <option value="">Select</option>
                         {["A", "B", "C", "D"].map((k) => (
                           <option key={k} value={k}>
@@ -833,7 +833,7 @@ export default function Questions() {
                         onChange={(ev) => updateRow(r.question_no, { answer_text: ev.target.value })}
                         placeholder="One word"
                         disabled={!isOW || busy || loading}
-                      />
+                       id={`questions-answer-input-${r.question_no}`}/>
                       {isOW && e.answer_text ? <div className="q-err-msg">{e.answer_text}</div> : null}
                     </td>
 
@@ -851,7 +851,7 @@ export default function Questions() {
                             )
                           }
                           disabled={busy || loading}
-                        >
+                         id={`questions-clear-button-${r.question_no}`}>
                           Clear
                         </button>
 
@@ -859,7 +859,7 @@ export default function Questions() {
                           className="q-btn q-btn-danger"
                           onClick={() => deleteRow(r)}
                           disabled={busy || loading}
-                        >
+                         id={`questions-delete-button-${r.question_no}`}>
                           Delete
                         </button>
                       </div>

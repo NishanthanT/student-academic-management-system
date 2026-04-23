@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-const API_BASE = "http://localhost:8000"; // change if needed
+const API_BASE = `http://${window.location.hostname}:8000`; // change if needed
 
 export default function CreateUser() {
   const token = useMemo(() => localStorage.getItem("token"), []);
@@ -156,7 +156,7 @@ export default function CreateUser() {
                 placeholder="Enter Full Name"
                 value={form.name}
                 onChange={(e) => handleChange("name", e.target.value)}
-              />
+               id="createuser-input-1"/>
             </div>
 
             <div className="group">
@@ -167,7 +167,7 @@ export default function CreateUser() {
                 placeholder="Email Address (e.g. name@uniexam.lk)"
                 value={form.email}
                 onChange={(e) => handleChange("email", e.target.value)}
-              />
+               id="createuser-input-2"/>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -179,7 +179,7 @@ export default function CreateUser() {
                   placeholder="Password (Min 6 chars)"
                   value={form.password}
                   onChange={(e) => handleChange("password", e.target.value)}
-                />
+                 id="createuser-input-3"/>
               </div>
 
               <div className="group">
@@ -188,7 +188,7 @@ export default function CreateUser() {
                   className="w-full bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-xl py-2.5 px-4 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-500/5 text-gray-950 dark:text-white transition-all font-medium text-sm cursor-pointer"
                   value={form.role}
                   onChange={(e) => handleChange("role", e.target.value)}
-                >
+                 id="createuser-select-1">
                   <option value="student">Student Account</option>
                   <option value="staff">Staff Member</option>
                   <option value="admin">Administrator</option>
@@ -207,7 +207,7 @@ export default function CreateUser() {
                       className="bg-white dark:bg-gray-950 border border-gray-100 dark:border-gray-700 rounded-xl py-2 px-3 outline-none focus:border-blue-600 transition-all font-medium text-gray-900 dark:text-white text-[13px]"
                       value={form.current_year}
                       onChange={(e) => handleChange("current_year", e.target.value)}
-                    >
+                     id="createuser-select-2">
                       <option value="">Select Year</option>
                       <option value="1">Year 1</option>
                       <option value="2">Year 2</option>
@@ -218,7 +218,7 @@ export default function CreateUser() {
                       className="bg-white dark:bg-gray-950 border border-gray-100 dark:border-gray-700 rounded-xl py-2 px-3 outline-none focus:border-blue-600 transition-all font-medium text-gray-900 dark:text-white text-[13px]"
                       value={form.current_semester}
                       onChange={(e) => handleChange("current_semester", e.target.value)}
-                    >
+                     id="createuser-select-3">
                       <option value="">Select Sem</option>
                       <option value="1">Sem 1</option>
                       <option value="2">Sem 2</option>
@@ -232,7 +232,7 @@ export default function CreateUser() {
               disabled={loading}
               className={`w-full py-4 rounded-xl transition-all font-bold text-white tracking-wider uppercase text-[11px] shadow-xl transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2.5
                 ${loading ? "bg-gray-500 cursor-not-allowed" : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-blue-500/20"}`}
-            >
+             id="createuser-button-1">
               {loading ? (
                  <>
                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

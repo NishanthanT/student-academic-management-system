@@ -75,7 +75,7 @@ export default function DashboardHome() {
         <button
           onClick={downloadPDF}
           className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl transition-all flex items-center gap-2 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transform hover:-translate-y-1 active:scale-95 text-[11px] font-bold uppercase tracking-wider"
-        >
+         id="dashboardhome-button-1">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
           </svg>

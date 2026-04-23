@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const API_BASE = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-  : "http://localhost:8000";
+  : `http://${window.location.hostname}:8000`;
 const API = `${API_BASE}/api`;
 
 async function apiFetch(path, { method = "GET", body } = {}) {
@@ -62,7 +62,7 @@ function Toast({ toast, onClose }) {
   return (
     <div className={`ax-toast ${toast.type === "success" ? "ok" : "err"}`}>
       <span>{toast.message}</span>
-      <button className="ax-icon-btn ax-icon-btn--toast" onClick={onClose} aria-label="close">
+      <button className="ax-icon-btn ax-icon-btn--toast" onClick={onClose} aria-label="close" id="exammanagement-button-1">
         ✕
       </button>
     </div>
@@ -90,7 +90,7 @@ function ConfirmDialog({
             <p className="ax-modal__eyebrow">Confirmation</p>
             <h3>{title}</h3>
           </div>
-          <button className="ax-icon-btn" onClick={onClose} disabled={loading} aria-label="close">
+          <button className="ax-icon-btn" onClick={onClose} disabled={loading} aria-label="close" id="exammanagement-button-2">
             ✕
           </button>
         </div>
@@ -100,14 +100,14 @@ function ConfirmDialog({
         </div>
 
         <div className="ax-modal__foot">
-          <button className="ax-btn ax-btn--ghost" onClick={onClose} disabled={loading}>
+          <button className="ax-btn ax-btn--ghost" onClick={onClose} disabled={loading} id="exammanagement-button-3">
             No
           </button>
           <button
             className={`ax-btn ${danger ? "ax-btn--danger" : "ax-btn--primary"}`}
             onClick={onConfirm}
             disabled={loading}
-          >
+           id="exammanagement-button-4">
             {loading ? "Please wait..." : confirmText || "Yes"}
           </button>
         </div>
@@ -142,7 +142,7 @@ function NoteDialog({
             <p className="ax-modal__eyebrow">Action</p>
             <h3>{title}</h3>
           </div>
-          <button className="ax-icon-btn" onClick={onClose} disabled={loading} aria-label="close">
+          <button className="ax-icon-btn" onClick={onClose} disabled={loading} aria-label="close" id="exammanagement-button-5">
             ✕
           </button>
         </div>
@@ -156,15 +156,15 @@ function NoteDialog({
             onChange={(e) => setValue(e.target.value)}
             placeholder={placeholder}
             disabled={loading}
-          />
+           id="exammanagement-textarea-1"/>
           <div className="ax-muted ax-note-hint">Minimum 3 characters.</div>
         </div>
 
         <div className="ax-modal__foot">
-          <button className="ax-btn ax-btn--ghost" onClick={onClose} disabled={loading}>
+          <button className="ax-btn ax-btn--ghost" onClick={onClose} disabled={loading} id="exammanagement-button-6">
             Cancel
           </button>
-          <button className="ax-btn ax-btn--primary" onClick={onConfirm} disabled={disabled}>
+          <button className="ax-btn ax-btn--primary" onClick={onConfirm} disabled={disabled} id="exammanagement-button-7">
             {loading ? "Sending..." : confirmText || "Send"}
           </button>
         </div>
@@ -175,7 +175,7 @@ function NoteDialog({
 
 function TabButton({ active, label, count, onClick, variant }) {
   return (
-    <button className={`ax-tab ax-tab--${variant} ${active ? "active" : ""}`} onClick={onClick}>
+    <button className={`ax-tab ax-tab--${variant} ${active ? "active" : ""}`} onClick={onClick} id={`exammanagement-tab-${variant}`}>
       <span className="ax-tab__label">{label}</span>
       <span className="ax-pill">{count}</span>
     </button>
@@ -1017,7 +1017,7 @@ export default function ExamManagement() {
               <p>Manage approvals, changes, and rejections.</p>
             </div>
 
-            <button className="ax-btn ax-btn--ghost" onClick={load} disabled={loading || busy}>
+            <button className="ax-btn ax-btn--ghost" onClick={load} disabled={loading || busy} id="exammanagement-button-9">
               {loading ? "Loading..." : "Refresh"}
             </button>
           </div>
@@ -1058,7 +1058,7 @@ export default function ExamManagement() {
           <div className="ax-row">
             <div>
               <label className="ax-label">Subject</label>
-              <select className="ax-input" value={subjectId} onChange={(e) => setSubjectId(e.target.value)}>
+              <select className="ax-input" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} id="exammanagement-select-1">
                 {(subjects.length ? subjects : [{ id: "all", code: "", name: "All subjects" }]).map((s) => (
                   <option key={s.id} value={String(s.id)}>
                     {s.id === "all" ? "All subjects" : `${s.code ? s.code + " — " : ""}${s.name}`}
@@ -1074,7 +1074,7 @@ export default function ExamManagement() {
                 className="ax-input"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-              />
+               id="exammanagement-input-1"/>
             </div>
 
             <div style={{ flex: 2, minWidth: 240 }}>
@@ -1084,7 +1084,7 @@ export default function ExamManagement() {
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Search title or subject"
-              />
+               id="exammanagement-input-2"/>
             </div>
 
             <div style={{ minWidth: 160 }}>
@@ -1097,7 +1097,7 @@ export default function ExamManagement() {
                 }}
                 disabled={busy || loading}
                 style={{ width: "100%" }}
-              >
+               id="exammanagement-button-10">
                 Clear
               </button>
             </div>
@@ -1175,7 +1175,7 @@ export default function ExamManagement() {
                             className="ax-btn ax-btn--primary"
                             onClick={() => askApprove(x)}
                             disabled={busy || !actionOk}
-                          >
+                           id={`exammanagement-approve-${x.id}`}>
                             Approve
                           </button>
 
@@ -1183,7 +1183,7 @@ export default function ExamManagement() {
                             className="ax-btn"
                             onClick={() => askChanges(x)}
                             disabled={busy || !actionOk}
-                          >
+                           id={`exammanagement-changes-${x.id}`}>
                             Request Changes
                           </button>
 
@@ -1191,7 +1191,7 @@ export default function ExamManagement() {
                             className="ax-btn ax-btn--danger"
                             onClick={() => askReject(x)}
                             disabled={busy || !actionOk}
-                          >
+                           id={`exammanagement-reject-${x.id}`}>
                             Reject
                           </button>
                         </div>

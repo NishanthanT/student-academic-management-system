@@ -4,7 +4,7 @@ import { useSettings } from "../../context/SettingsContext";
 import { useTheme } from "../../context/ThemeContext";
 import PageTransitionLoader from "../../components/PageTransitionLoader";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:8000`;
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -12,7 +12,14 @@ export default function AdminLayout() {
   const { isDark, toggleTheme } = useTheme();
 
   // ✅ Profile State
-  const [userName, setUserName] = useState(() => localStorage.getItem("userName") || localStorage.getItem("name") || "Admin");
+  const getUserName = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user.name) return user.name;
+    } catch (e) {}
+    return localStorage.getItem("userName") || localStorage.getItem("name") || "Admin";
+  };
+  const [userName, setUserName] = useState(getUserName);
   const role = useMemo(() => localStorage.getItem("role") || "admin", []);
 
   // ✅ Mobile Sidebar State
@@ -82,31 +89,63 @@ export default function AdminLayout() {
               <h1 className="text-xl font-black text-gray-900 dark:text-white tracking-tighter leading-none">
                 {settings?.system_name || "UniExam"}
               </h1>
-              <p className="text-[9px] uppercase font-bold text-blue-600/70 dark:text-blue-400/70 tracking-[0.2em] mt-1">Operational Hub</p>
+              <p className="text-[9px] uppercase font-bold text-blue-600/70 dark:text-blue-400/70 tracking-[0.2em] mt-1">
+                Operational Hub
+              </p>
             </div>
           </div>
+
           {/* Mobile Close Button */}
-          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden p-2 text-gray-400 hover:text-red-500 transition-colors">
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="md:hidden p-2 text-gray-400 hover:text-red-500 transition-colors"
+            id="adminlayout-button-1"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <nav className="space-y-3 flex-1  pr-2 custom-scrollbar" onClick={() => setIsSidebarOpen(false)}>
-          <NavLink to="/admin" end className={linkClass}>Dashboard</NavLink>
-          <NavLink to="/admin/create-user" className={linkClass}>Create User</NavLink>
-          <NavLink to="/admin/view-users" className={linkClass}>View Users</NavLink>
-          <NavLink to="/admin/create-subject" className={linkClass}>Create Subject</NavLink>
-          <NavLink to="/admin/assign-staff" className={linkClass}>Assign Staff → Subject</NavLink>
-          <NavLink to="/admin/exam-management" className={linkClass}>Exam Management</NavLink>
-          <NavLink to="/admin/settings" className={linkClass}>Settings</NavLink>
+        <nav className="space-y-3 flex-1 pr-2 custom-scrollbar" onClick={() => setIsSidebarOpen(false)}>
+          <NavLink id="admin-nav-dashboard" to="/admin" end className={linkClass}>
+            Dashboard
+          </NavLink>
+
+          <NavLink id="admin-nav-create-user" to="/admin/create-user" className={linkClass}>
+            Create User
+          </NavLink>
+
+          <NavLink id="admin-nav-view-users" to="/admin/view-users" className={linkClass}>
+            View Users
+          </NavLink>
+
+          <NavLink id="admin-nav-create-subject" to="/admin/create-subject" className={linkClass}>
+            Create Subject
+          </NavLink>
+
+          <NavLink id="admin-nav-assign-staff" to="/admin/assign-staff" className={linkClass}>
+            Assign Staff → Subject
+          </NavLink>
+
+          <NavLink id="admin-nav-exam-management" to="/admin/exam-management" className={linkClass}>
+            Exam Management
+          </NavLink>
+
+          <NavLink id="admin-nav-mark-requests" to="/admin/mark-requests" className={linkClass}>
+            Mark Edit Requests
+          </NavLink>
+
+          <NavLink id="admin-nav-settings" to="/admin/settings" className={linkClass}>
+            Settings
+          </NavLink>
         </nav>
 
         <div className="mt-10 border-t dark:border-gray-700 pt-5">
           <button
             onClick={handleLogout}
             className="w-full bg-red-600 text-white py-2.5 rounded-xl hover:bg-red-700 transition shadow-md font-bold uppercase tracking-[0.2em] text-[10px]"
+            id="adminlayout-button-2"
           >
             Logout
           </button>
@@ -124,13 +163,17 @@ export default function AdminLayout() {
                 <button
                   onClick={() => setIsSidebarOpen(true)}
                   className="p-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-xl text-gray-600 dark:text-gray-300 md:hidden hover:text-blue-600 transition-all border dark:border-gray-700"
+                  id="adminlayout-button-3"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
                   </svg>
                 </button>
+
                 <div className="hidden sm:block">
-                  <h2 className="text-sm md:text-base font-bold dark:text-white capitalize leading-none">Welcome, {userName}</h2>
+                  <h2 className="text-sm md:text-base font-bold dark:text-white capitalize leading-none">
+                    Welcome, {userName}
+                  </h2>
                   <p className="text-[9px] font-medium text-gray-400 mt-1 uppercase tracking-[0.15em]">
                     System Console
                   </p>
@@ -142,6 +185,7 @@ export default function AdminLayout() {
                   onClick={toggleTheme}
                   className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-yellow-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all border dark:border-gray-600 flex items-center justify-center shadow-sm"
                   title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                  id="adminlayout-button-4"
                 >
                   {isDark ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,6 +197,7 @@ export default function AdminLayout() {
                     </svg>
                   )}
                 </button>
+
                 <div className="text-xs text-gray-500 dark:text-gray-400">
                   Role: <span className="font-semibold">{role}</span>
                 </div>

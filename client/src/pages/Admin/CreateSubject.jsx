@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-const API_BASE = "http://localhost:8000";
+const API_BASE = `http://${window.location.hostname}:8000`;
 
 export default function CreateSubject() {
   const token = useMemo(() => localStorage.getItem("token"), []);
@@ -361,7 +361,7 @@ export default function CreateSubject() {
                     showToast("success", "Form cleared");
                   }}
                   className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2 text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                >
+                 id="createsubject-button-1">
                   Clear
                 </button>
               </div>
@@ -373,6 +373,7 @@ export default function CreateSubject() {
                   value={form.code}
                   onChange={(e) => handleChange("code", normalizeCode(e.target.value))}
                   error={errors.code}
+                  id="createsubject-code-input"
                 />
 
                 <InputBlock
@@ -381,6 +382,7 @@ export default function CreateSubject() {
                   value={form.name}
                   onChange={(e) => handleChange("name", e.target.value)}
                   error={errors.name}
+                  id="createsubject-name-input"
                 />
 
                 <SelectBlock
@@ -388,6 +390,7 @@ export default function CreateSubject() {
                   value={form.year}
                   onChange={(e) => handleChange("year", e.target.value)}
                   error={errors.year}
+                  id="createsubject-year-select"
                 >
                   <option value="">Select Year</option>
                   <option value="1">Year 1</option>
@@ -401,6 +404,7 @@ export default function CreateSubject() {
                   value={form.semester}
                   onChange={(e) => handleChange("semester", e.target.value)}
                   error={errors.semester}
+                  id="createsubject-sem-select"
                 >
                   <option value="">Select Semester</option>
                   <option value="1">Semester 1</option>
@@ -415,7 +419,7 @@ export default function CreateSubject() {
                       ? "bg-blue-400 cursor-not-allowed"
                       : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:-translate-y-1 hover:shadow-blue-500/30"
                   }`}
-                >
+                 id="createsubject-button-2">
                   {creating ? "Creating..." : "Create Subject"}
                 </button>
               </div>
@@ -455,13 +459,13 @@ export default function CreateSubject() {
                       onChange={(e) => setSearch(e.target.value)}
                       placeholder="Search"
                       className="w-full sm:w-72 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 pl-11 pr-4 py-2.5 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 font-medium"
-                    />
+                     id="createsubject-input-1"/>
                   </div>
 
                   <button
                     onClick={fetchSubjects}
                     className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                  >
+                   id="createsubject-button-3">
                     Refresh
                   </button>
                 </div>
@@ -472,7 +476,7 @@ export default function CreateSubject() {
                   className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-100 outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                   value={fYear}
                   onChange={(e) => setFYear(e.target.value)}
-                >
+                 id="createsubject-select-1">
                   <option value="all">All Years</option>
                   <option value="1">Year 1</option>
                   <option value="2">Year 2</option>
@@ -484,7 +488,7 @@ export default function CreateSubject() {
                   className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-100 outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                   value={fSem}
                   onChange={(e) => setFSem(e.target.value)}
-                >
+                 id="createsubject-select-2">
                   <option value="all">All Semesters</option>
                   <option value="1">Semester 1</option>
                   <option value="2">Semester 2</option>
@@ -564,13 +568,13 @@ export default function CreateSubject() {
                                 <button
                                   onClick={() => openEdit(s)}
                                   className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 font-bold text-[10px] text-slate-700 dark:text-slate-200 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                                >
+                                 id={`createsubject-button-edit-${s.id}`}>
                                   Edit
                                 </button>
                                 <button
                                   onClick={() => openDelete(s)}
                                   className="rounded-lg border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-3 py-1.5 font-bold text-[10px] text-rose-600 dark:text-rose-300 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                                >
+                                 id={`createsubject-button-delete-${s.id}`}>
                                   Delete
                                 </button>
                               </div>
@@ -627,7 +631,7 @@ export default function CreateSubject() {
             <button
               onClick={() => setEditOpen(false)}
               className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-3 font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5"
-            >
+             id="createsubject-button-6">
               Cancel
             </button>
             <button
@@ -638,7 +642,7 @@ export default function CreateSubject() {
                   ? "bg-blue-400 cursor-not-allowed"
                   : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:-translate-y-0.5"
               }`}
-            >
+             id="createsubject-button-7">
               {saving ? "Saving..." : "Save Changes"}
             </button>
           </div>
@@ -661,7 +665,7 @@ export default function CreateSubject() {
             <button
               onClick={() => setDeleteOpen(false)}
               className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-3 font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5"
-            >
+             id="createsubject-button-8">
               Cancel
             </button>
             <button
@@ -672,7 +676,7 @@ export default function CreateSubject() {
                   ? "bg-rose-400 cursor-not-allowed"
                   : "bg-gradient-to-r from-rose-500 to-red-600 hover:-translate-y-0.5"
               }`}
-            >
+             id="createsubject-button-9">
               {deleting ? "Deleting..." : "Delete Subject"}
             </button>
           </div>
@@ -708,7 +712,7 @@ function InfoStat({ label, value, chipClass }) {
   );
 }
 
-function InputBlock({ label, error, ...props }) {
+function InputBlock({ label, error, id, ...props }) {
   return (
     <div>
       <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 ml-1">
@@ -717,13 +721,13 @@ function InputBlock({ label, error, ...props }) {
       <input
         {...props}
         className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-sm font-medium text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5"
-      />
+       id={id}/>
       {error && <p className="mt-1.5 text-[10px] font-bold uppercase tracking-tight text-rose-500 ml-1">{error}</p>}
     </div>
   );
 }
 
-function SelectBlock({ label, error, children, ...props }) {
+function SelectBlock({ label, error, id, children, ...props }) {
   return (
     <div>
       <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 ml-1">
@@ -732,7 +736,7 @@ function SelectBlock({ label, error, children, ...props }) {
       <select
         {...props}
         className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-sm font-medium text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5"
-      >
+       id={id}>
         {children}
       </select>
       {error && <p className="mt-1.5 text-[10px] font-bold uppercase tracking-tight text-rose-500 ml-1">{error}</p>}
@@ -755,7 +759,7 @@ function ModalShell({ title, onClose, children }) {
           <button
             onClick={onClose}
             className="h-10 w-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-base transition-all duration-300 hover:rotate-90 hover:shadow-md flex items-center justify-center font-bold"
-          >
+           id="createsubject-button-10">
             ✕
           </button>
         </div>

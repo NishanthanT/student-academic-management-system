@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 const API_BASE = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-  : "http://localhost:8000";
+  : `http://${window.location.hostname}:8000`;
 const API = `${API_BASE}/api`;
 
 async function apiFetch(path, { method = "GET", body } = {}) {
@@ -391,7 +391,7 @@ export default function AttemptExam() {
             style={sx.toastX}
             onClick={() => setToast(null)}
             aria-label="close"
-          >
+           id="attemptexam-button-1">
             ✕
           </button>
         </div>
@@ -436,7 +436,7 @@ export default function AttemptExam() {
               className="ax-select"
               value={subjectId}
               onChange={(e) => setSubjectId(e.target.value)}
-            >
+              id="student-attempt-subject-select">
               {subjects.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.code} - {s.name}
@@ -507,7 +507,7 @@ export default function AttemptExam() {
                               setActiveExam(e);
                               setPwdOpen(true);
                             }}
-                          >
+                           id={`student-attempt-exam-btn-${e.id}`}>
                             {ui.btnText}
                           </button>
                         </div>
@@ -552,7 +552,7 @@ export default function AttemptExam() {
                         ...(answered ? sx.qBtnAnswered : {}),
                       }}
                       title={answered ? "Answered" : "Not answered"}
-                    >
+                      id={`student-attempt-qindex-btn-${idx}`}>
                       {idx + 1}
                     </button>
                   );
@@ -568,7 +568,7 @@ export default function AttemptExam() {
                 className="ax-btn-ghost"
                 onClick={() => setActiveIndex((i) => Math.max(0, i - 1))}
                 disabled={questions.length === 0}
-              >
+                id="student-attempt-prev-btn">
                 ← Previous
               </button>
 
@@ -579,7 +579,7 @@ export default function AttemptExam() {
                   setActiveIndex((i) => Math.min(questions.length - 1, i + 1))
                 }
                 disabled={questions.length === 0}
-              >
+               id="student-attempt-next-btn">
                 Next →
               </button>
 
@@ -588,7 +588,7 @@ export default function AttemptExam() {
                 className="ax-btn ax-btn-danger"
                 onClick={() => submitNow(false)}
                 disabled={questions.length === 0}
-              >
+               id="student-attempt-submit-btn">
                 Submit
               </button>
             </div>
@@ -641,7 +641,7 @@ export default function AttemptExam() {
                                 [currentQ.id]: opt,
                               })
                             }
-                          />
+                           id={`student-attempt-radio-${currentQ.id}-${opt}`}/>
                           <div style={{ display: "flex", gap: 10 }}>
                             <div style={sx.optKey} className="ax-opt-key">{opt}</div>
                             <div style={sx.optText} className="ax-opt-text">
@@ -667,7 +667,7 @@ export default function AttemptExam() {
                         })
                       }
                       placeholder="Type your answer here..."
-                    />
+                     id={`student-attempt-textarea-${currentQ.id}`}/>
                   </div>
                 )}
               </>
@@ -697,7 +697,7 @@ export default function AttemptExam() {
                 onClick={() => setPwdOpen(false)}
                 disabled={busy}
                 aria-label="close"
-              >
+               id="student-attempt-pwd-modal-close">
                 ✕
               </button>
             </div>
@@ -711,14 +711,14 @@ export default function AttemptExam() {
                 onChange={(e) => setPwd(e.target.value)}
                 placeholder="Enter password..."
                 autoFocus
-              />
+               id="student-attempt-pwd-input"/>
 
               <div style={sx.modalActions}>
                 <button
                   style={{ ...sx.btn, ...sx.btnGhost }}
                   onClick={() => setPwdOpen(false)}
                   disabled={busy}
-                >
+                  id="student-attempt-pwd-modal-cancel">
                   Cancel
                 </button>
                 <button
@@ -726,7 +726,7 @@ export default function AttemptExam() {
                   className="ax-btn ax-btn-primary"
                   onClick={startExam}
                   disabled={busy || !pwd.trim()}
-                >
+                 id="student-attempt-start-exam-btn">
                   {busy ? "Starting..." : "Start Exam"}
                 </button>
               </div>

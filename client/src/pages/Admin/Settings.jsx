@@ -3,7 +3,7 @@ import { useSettings } from "../../context/SettingsContext";
 
 const API_BASE = import.meta.env.VITE_API_URL
     ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-    : "http://localhost:8000";
+    : `http://${window.location.hostname}:8000`;
 
 const CSS = `
 .auth-settings { padding: 20px; font-family: 'Sora', sans-serif; }
@@ -163,7 +163,7 @@ export default function AdminSettings() {
                             value={settings.system_name}
                             onChange={(e) => setSettings({ ...settings, system_name: e.target.value })}
                             placeholder="e.g. UniExam Portal"
-                        />
+                         id="settings-input-1"/>
                     </div>
 
                     <div className="form-group">
@@ -173,7 +173,7 @@ export default function AdminSettings() {
                             className="form-input"
                             accept="image/*"
                             onChange={handleFileChange}
-                        />
+                         id="settings-input-2"/>
                         <div className="logo-preview" style={{ width: "80px", height: "80px" }}>
                             {settings.logo_url ? (
                                 <img src={settings.logo_url} alt="Logo Preview" />
@@ -195,7 +195,7 @@ export default function AdminSettings() {
                                     type="checkbox"
                                     checked={settings.use_temporary_slider_content}
                                     onChange={(e) => setSettings({ ...settings, use_temporary_slider_content: e.target.checked })}
-                                />
+                                 id="settings-input-3"/>
                                 <span className="slider-round"></span>
                             </label>
                         </div>
@@ -231,7 +231,7 @@ export default function AdminSettings() {
                                                             reader.readAsDataURL(file);
                                                         }
                                                     }}
-                                                />
+                                                 id="settings-input-4"/>
                                                 <div className="logo-preview" style={{ width: '100%', height: '100px' }}>
                                                     {item.image_url ? <img src={item.image_url} alt="Slide Preview" /> : "No Image"}
                                                 </div>
@@ -248,7 +248,7 @@ export default function AdminSettings() {
                                                             setSettings({ ...settings, slider_items: newItems });
                                                         }}
                                                         placeholder="e.g. Smart Assessment"
-                                                    />
+                                                     id="settings-input-5"/>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="form-label">Headline (Main Title)</label>
@@ -261,7 +261,7 @@ export default function AdminSettings() {
                                                             setSettings({ ...settings, slider_items: newItems });
                                                         }}
                                                         placeholder="e.g. Future of EdTech"
-                                                    />
+                                                     id="settings-input-6"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -277,7 +277,7 @@ export default function AdminSettings() {
                                                     setSettings({ ...settings, slider_items: newItems });
                                                 }}
                                                 placeholder="Enter a brief description..."
-                                            />
+                                             id="settings-textarea-1"/>
                                         </div>
                                     </div>
                                 ))}
@@ -289,7 +289,7 @@ export default function AdminSettings() {
                                             { image_url: "", badge: "", headline: "", subtext: "" }
                                         ]
                                     });
-                                }}>
+                                }} id="settings-button-1">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                                     Add New Slide
                                 </button>
@@ -297,7 +297,7 @@ export default function AdminSettings() {
                         )}
                     </div>
 
-                    <button type="submit" className="btn-save" disabled={saving} style={{ marginTop: '20px' }}>
+                    <button type="submit" className="btn-save" disabled={saving} style={{ marginTop: '20px' }} id="settings-button-2">
                         {saving ? "Saving..." : "Save Settings"}
                     </button>
                 </form>

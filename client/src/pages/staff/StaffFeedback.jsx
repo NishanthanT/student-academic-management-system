@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const API_BASE = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace(/\/$/, "")
-  : "http://localhost:8000";
+  : `http://${window.location.hostname}:8000`;
 const API = `${API_BASE}/api`;
 
 /** ✅ common fetch */
@@ -146,7 +146,7 @@ export default function StaffFeedback() {
                         onClick={() => toggleStatus(f)}
                         style={{ ...s.btnMini, ...(f.status === "resolved" ? s.btnReset : s.btnResolve) }}
                         className={f.status === "resolved" ? "fx-btn-reset" : ""}
-                      >
+                       id="stafffeedback-button-1">
                         {f.status === "resolved" ? "Undo" : "Resolve"}
                       </button>
                     </td>

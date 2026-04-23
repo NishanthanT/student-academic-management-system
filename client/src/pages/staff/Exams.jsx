@@ -395,6 +395,7 @@ function ExamModal({
                 onChange={(e) => set("title", e.target.value)}
                 placeholder="e.g., Midterm Exam"
                 disabled={disableNonDesc}
+                id="staff-exam-title-input"
               />
               {errors.title && <div className="sx-err">{errors.title}</div>}
             </div>
@@ -406,6 +407,7 @@ function ExamModal({
                 value={form.subject_id}
                 onChange={(e) => set("subject_id", e.target.value)}
                 disabled={disableNonDesc}
+                id="staff-exam-subject-select"
               >
                 <option value="">Select subject</option>
                 {subjects.map((s) => (
@@ -431,6 +433,7 @@ function ExamModal({
                 onBlur={autoCalcDuration}
                 min={minDateTime}
                 disabled={disableNonDesc}
+                id="staff-exam-start-input"
               />
               {errors.start_at && <div className="sx-err">{errors.start_at}</div>}
             </div>
@@ -445,6 +448,7 @@ function ExamModal({
                 onBlur={autoCalcDuration}
                 min={endMin}
                 disabled={disableNonDesc}
+                id="staff-exam-end-input"
               />
               {errors.end_at && <div className="sx-err">{errors.end_at}</div>}
             </div>
@@ -459,6 +463,7 @@ function ExamModal({
                 onChange={(e) => set("duration_minutes", e.target.value)}
                 min={1}
                 disabled={disableNonDesc}
+                id="staff-exam-duration-input"
               />
               {errors.duration_minutes && (
                 <div className="sx-err">{errors.duration_minutes}</div>
@@ -484,6 +489,7 @@ function ExamModal({
                   onChange={(e) => set("total_marks", e.target.value)}
                   min={1}
                   disabled={disableNonDesc}
+                  id="staff-exam-total-marks-input"
                 />
                 {errors.total_marks && (
                   <div className="sx-err">{errors.total_marks}</div>
@@ -499,6 +505,7 @@ function ExamModal({
                   onChange={(e) => set("pass_marks", e.target.value)}
                   min={0}
                   disabled={disableNonDesc}
+                  id="staff-exam-pass-marks-input"
                 />
                 {errors.pass_marks && (
                   <div className="sx-err">{errors.pass_marks}</div>
@@ -515,6 +522,7 @@ function ExamModal({
                 onChange={(e) => set("description", e.target.value)}
                 placeholder="Rules, materials allowed, notes..."
                 disabled={disabled ? !descOnly : false}
+                id="staff-exam-desc-textarea"
               />
             </div>
           </div>
@@ -533,14 +541,15 @@ function ExamModal({
             <button
               className="sx-btn sx-btn--primary"
               disabled={loading}
+              id="staff-exam-save-button"
               onClick={() => {
                 if (!validate()) return;
-
+ 
                 if (descOnly && initial?.id) {
                   onSubmit("descOnly", { description: form.description });
                   return;
                 }
-
+ 
                 // ✅ IMPORTANT FIX: DO NOT convert to UTC ISO string
                 // Keep local date-time string so it won't shift after save
                 const payload = {
@@ -553,7 +562,7 @@ function ExamModal({
                   pass_marks: Number(form.pass_marks),
                   description: form.description,
                 };
-
+ 
                 onSubmit(mode, payload);
               }}
             >
@@ -944,7 +953,7 @@ export default function StaffExams() {
         <div className="sx-row">
           <div>
             <label className="sx-label">Subject</label>
-            <select className="sx-input" value={subjectId} onChange={(e) => setSubjectId(e.target.value)}>
+            <select className="sx-input" value={subjectId} onChange={(e) => setSubjectId(e.target.value)} id="staff-exam-subject-filter">
               <option value="all">All subjects</option>
               {subjects.map((s) => (
                 <option key={s.id} value={String(s.id)}>
@@ -957,12 +966,12 @@ export default function StaffExams() {
 
           <div>
             <label className="sx-label">From</label>
-            <input type="date" className="sx-input" value={from} onChange={(e) => setFrom(e.target.value)} />
+            <input type="date" className="sx-input" value={from} onChange={(e) => setFrom(e.target.value)} id="staff-exam-from-filter" />
           </div>
 
           <div>
             <label className="sx-label">To</label>
-            <input type="date" className="sx-input" value={to} onChange={(e) => setTo(e.target.value)} />
+            <input type="date" className="sx-input" value={to} onChange={(e) => setTo(e.target.value)} id="staff-exam-to-filter" />
           </div>
 
           <div style={{ flex: 2, minWidth: 240 }}>
@@ -972,6 +981,7 @@ export default function StaffExams() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search exam title / subject..."
+              id="staff-exam-search-input"
             />
           </div>
 
@@ -987,6 +997,7 @@ export default function StaffExams() {
               disabled={busy || loading}
               title="Reset all filters (Show all data)"
               style={{ width: "100%" }}
+              id="staff-exam-clear-filters-button"
             >
               Clear All Filters
             </button>
@@ -1100,6 +1111,7 @@ export default function StaffExams() {
                                   onClick={() => openEdit(x)}
                                   disabled={busy || (!descOk && !editOk)}
                                   style={{ flex: 1, minWidth: "90px" }}
+                                  id={`staff-exam-edit-${x.id}`}
                                   title={
                                     st === "approved"
                                       ? "Approved: edit description only"
@@ -1119,6 +1131,7 @@ export default function StaffExams() {
                                     onClick={() => ask("submit", x)}
                                     disabled={busy}
                                     style={{ flex: 1, minWidth: "90px" }}
+                                    id={`staff-exam-submit-${x.id}`}
                                   >
                                     Submit
                                   </button>
@@ -1130,6 +1143,7 @@ export default function StaffExams() {
                                     onClick={() => ask("resubmit", x)}
                                     disabled={busy}
                                     style={{ flex: 1, minWidth: "90px" }}
+                                    id={`staff-exam-resubmit-${x.id}`}
                                   >
                                     Resubmit
                                   </button>
@@ -1141,6 +1155,7 @@ export default function StaffExams() {
                                     onClick={() => ask("cancel", x)}
                                     disabled={busy}
                                     style={{ flex: 1, minWidth: "100px", color: "#667085" }}
+                                    id={`staff-exam-cancel-${x.id}`}
                                   >
                                     Cancel Req
                                   </button>
@@ -1152,6 +1167,7 @@ export default function StaffExams() {
                                     onClick={() => ask("delete", x)}
                                     disabled={busy}
                                     style={{ flex: 1, minWidth: "90px" }}
+                                    id={`staff-exam-delete-${x.id}`}
                                   >
                                     Delete
                                   </button>

@@ -12,7 +12,14 @@ export default function StaffLayout() {
   // ✅ Mobile Sidebar State
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const userName = useMemo(() => localStorage.getItem("userName") || localStorage.getItem("name") || "Staff", []);
+  const getUserName = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user.name) return user.name;
+    } catch (e) {}
+    return localStorage.getItem("userName") || localStorage.getItem("name") || "Staff";
+  };
+  const userName = useMemo(getUserName, []);
   const role = useMemo(() => localStorage.getItem("role") || "staff", []);
 
   const handleLogout = () => {
@@ -66,7 +73,7 @@ export default function StaffLayout() {
             </div>
           </div>
           {/* Mobile Close Button */}
-          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden p-2 text-gray-400 hover:text-red-500 transition-colors">
+          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden p-2 text-gray-400 hover:text-red-500 transition-colors" id="stafflayout-button-1">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -119,7 +126,7 @@ export default function StaffLayout() {
             onClick={toggleTheme}
             className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/50 dark:bg-gray-800/50 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-all border dark:border-gray-700 shadow-sm group"
             title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          >
+           id="stafflayout-button-2">
             <span className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 group-hover:text-blue-600 transition-colors">Theme</span>
             {isDark ? (
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -155,7 +162,7 @@ export default function StaffLayout() {
                   <button
                     onClick={() => setIsSidebarOpen(true)}
                     className="p-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-xl text-gray-600 dark:text-gray-300 md:hidden hover:text-blue-600 transition-all border dark:border-gray-700"
-                  >
+                   id="stafflayout-button-3">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
                     </svg>

@@ -4,7 +4,7 @@ import { useSettings } from "../../context/SettingsContext";
 import { useTheme } from "../../context/ThemeContext";
 import PageTransitionLoader from "../../components/PageTransitionLoader";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:8000`;
 
 export default function StudentDashboard() {
   const location = useLocation();
@@ -14,7 +14,14 @@ export default function StudentDashboard() {
   const isHome = location.pathname === "/student";
 
   // ✅ Profile & Stats State
-  const [userName, setUserName] = useState(localStorage.getItem("userName") || "Student");
+  const getUserName = () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user.name) return user.name;
+    } catch (e) {}
+    return localStorage.getItem("userName") || "Student";
+  };
+  const [userName, setUserName] = useState(getUserName);
   const [stats, setStats] = useState({ completed: 0, passed: 0, totalAllowed: 0, notices: 0 });
   const [recentResults, setRecentResults] = useState([]);
   const [nextExam, setNextExam] = useState(null);
@@ -116,7 +123,7 @@ export default function StudentDashboard() {
             <p className="text-[9px] uppercase font-bold text-indigo-600/70 dark:text-indigo-400/70 tracking-wider mt-1">Student Portal</p>
           </div>
           {/* Mobile Close Button */}
-          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden p-2 text-gray-400 hover:text-red-500 transition-colors">
+          <button onClick={() => setIsSidebarOpen(false)} className="md:hidden p-2 text-gray-400 hover:text-red-500 transition-colors" id="studentdashboard-button-1">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -124,27 +131,27 @@ export default function StudentDashboard() {
         </div>
 
         <nav className="space-y-3 flex-1  pr-2 custom-scrollbar text-sm" onClick={() => setIsSidebarOpen(false)}>
-          <NavLink to="/student" end className={navItemClass}>
+          <NavLink id="student-nav-dashboard" to="/student" end className={navItemClass}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
             <span>Dashboard</span>
           </NavLink>
 
-          <NavLink to="/student/exam-notice" className={navItemClass}>
+          <NavLink id="student-nav-exam-notice" to="/student/exam-notice" className={navItemClass}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
             <span>Exam Notice</span>
           </NavLink>
 
-          <NavLink to="/student/attempt" className={navItemClass}>
+          <NavLink id="student-nav-attempt-exam" to="/student/attempt" className={navItemClass}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
             <span>Attempt Exam</span>
           </NavLink>
 
-          <NavLink to="/student/results" className={navItemClass}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+          <NavLink id="student-nav-view-results" to="/student/results" className={navItemClass}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 00-2-2H5a2 2 0 00-2 2v10m9-10h2a2 2 0 002-2V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v4a2 2 0 002 2zm0 10V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10m9-10h2a2 2 0 002-2V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v4a2 2 0 002 2z" /></svg>
             <span>View Results</span>
           </NavLink>
 
-          <NavLink to="/student/feedback" className={navItemClass}>
+          <NavLink id="student-nav-feedback" to="/student/feedback" className={navItemClass}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" /></svg>
             <span>Feedback</span>
           </NavLink>
@@ -152,11 +159,11 @@ export default function StudentDashboard() {
 
         <div className="mt-10 border-t dark:border-gray-700 pt-5 space-y-4">
           {/* Theme Toggle */}
-          <button onClick={toggleTheme} className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/50 dark:bg-gray-800/50 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-all border dark:border-gray-700 shadow-sm group">
+          <button onClick={toggleTheme} className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gray-50/50 dark:bg-gray-800/50 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-all border dark:border-gray-700 shadow-sm group" id="studentdashboard-button-2">
             <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 group-hover:text-indigo-600 transition-colors">Theme</span>
             {isDark ? (<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 5a7 7 0 100 14 7 7 0 000-14z" /></svg>) : (<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>)}
           </button>
-          <button onClick={handleLogout} className="w-full bg-red-600 text-white font-bold py-2.5 rounded-xl hover:bg-red-700 transition-all shadow-lg active:scale-95 uppercase tracking-wider text-[10px] flex items-center justify-center gap-2">
+          <button onClick={handleLogout} className="w-full bg-red-600 text-white font-bold py-2.5 rounded-xl hover:bg-red-700 transition-all shadow-lg active:scale-95 uppercase tracking-wider text-[10px] flex items-center justify-center gap-2" id="studentdashboard-button-3">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
             LOGOUT
           </button>
@@ -175,7 +182,7 @@ export default function StudentDashboard() {
                   <button
                     onClick={() => setIsSidebarOpen(true)}
                     className="p-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-xl text-gray-600 dark:text-gray-300 md:hidden hover:text-indigo-600 transition-all border dark:border-gray-700"
-                  >
+                   id="studentdashboard-button-4">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
                     </svg>
@@ -216,7 +223,7 @@ export default function StudentDashboard() {
                     <QuickActionCard
                       title="Check Results"
                       desc="Review your performance and transcripts"
-                      icon="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                      icon="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
                       to="/student/results"
                       color="emerald"
                     />

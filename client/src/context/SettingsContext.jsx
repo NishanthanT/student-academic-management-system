@@ -16,7 +16,7 @@ export function SettingsProvider({ children }) {
 
     const fetchSettings = async () => {
         try {
-            const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+            const API_BASE = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:8000`;
             // Hit the generic /settings endpoint (which is made public in admin.routes)
             const res = await fetch(`${API_BASE}/api/admin/settings`).catch(() => null);
             if (res && res.ok) {

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "http://localhost:8000"; // change if needed
+const API_BASE = `http://${window.location.hostname}:8000`; // change if needed
 
 export default function MySubjects() {
   const navigate = useNavigate();
@@ -116,7 +116,7 @@ export default function MySubjects() {
           <button
             onClick={fetchMySubjects}
             className="border dark:border-gray-800 rounded-lg px-4 py-2 text-[12px] font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-          >
+           id="mysubjects-button-1">
             Refresh
           </button>
         </div>
@@ -127,7 +127,7 @@ export default function MySubjects() {
             className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg px-3 py-2 text-[13px] font-medium text-gray-900 dark:text-gray-200 outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
             value={year}
             onChange={(e) => setYear(e.target.value)}
-          >
+           id="mysubjects-select-1">
             <option value="all">All Years</option>
             <option value="1">Year 1</option>
             <option value="2">Year 2</option>
@@ -139,7 +139,7 @@ export default function MySubjects() {
             className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg px-3 py-2 text-[13px] font-medium text-gray-900 dark:text-gray-200 outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
             value={semester}
             onChange={(e) => setSemester(e.target.value)}
-          >
+           id="mysubjects-select-2">
             <option value="all">All Semesters</option>
             <option value="1">Semester 1</option>
             <option value="2">Semester 2</option>
@@ -150,7 +150,7 @@ export default function MySubjects() {
             placeholder="Search code or name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-          />
+           id="mysubjects-input-1"/>
         </div>
 
         {/* Cards */}

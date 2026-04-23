@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-const API_BASE = "http://localhost:8000";
+const API_BASE = `http://${window.location.hostname}:8000`;
 
 export default function AssignStaffSubject() {
   const token = useMemo(() => localStorage.getItem("token"), []);
@@ -425,13 +425,13 @@ export default function AssignStaffSubject() {
                     showToast("success", "Cleared");
                   }}
                   className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2 text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
-                >
+                 id="assignstaff-button-1">
                   Clear
                 </button>
               </div>
 
               <div className="mt-5 grid grid-cols-2 gap-3">
-                <FilterSelect value={subYear} onChange={(e) => setSubYear(e.target.value)}>
+                <FilterSelect value={subYear} onChange={(e) => setSubYear(e.target.value)} id="assignstaff-year-filter">
                   <option value="all">All Years</option>
                   <option value="1">Year 1</option>
                   <option value="2">Year 2</option>
@@ -439,7 +439,7 @@ export default function AssignStaffSubject() {
                   <option value="4">Year 4</option>
                 </FilterSelect>
 
-                <FilterSelect value={subSem} onChange={(e) => setSubSem(e.target.value)}>
+                <FilterSelect value={subSem} onChange={(e) => setSubSem(e.target.value)} id="assignstaff-sem-filter">
                   <option value="all">All Semesters</option>
                   <option value="1">Semester 1</option>
                   <option value="2">Semester 2</option>
@@ -451,6 +451,7 @@ export default function AssignStaffSubject() {
                   placeholder="Search Subject"
                   value={subSearch}
                   onChange={(e) => setSubSearch(e.target.value)}
+                  id="assignstaff-subject-search"
                 />
               </div>
 
@@ -461,7 +462,7 @@ export default function AssignStaffSubject() {
                   value={selectedSubjectId}
                   onChange={(e) => setSelectedSubjectId(e.target.value)}
                   disabled={loadingSub}
-                >
+                 id="assignstaff-select-1">
                   <option value="">{loadingSub ? "Loading subjects..." : "Select Subject"}</option>
                   {subjects.map((x) => (
                     <option key={x.id} value={x.id}>
@@ -478,7 +479,7 @@ export default function AssignStaffSubject() {
                   className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-sm font-medium text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5"
                   value={staffSearch}
                   onChange={(e) => setStaffSearch(e.target.value)}
-                />
+                 id="assignstaff-input-1"/>
               </div>
 
               <div className="mt-4">
@@ -488,7 +489,7 @@ export default function AssignStaffSubject() {
                     type="button"
                     onClick={clearSelectedStaff}
                     className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500"
-                  >
+                   id="assignstaff-button-2">
                     Clear Selected
                   </button>
                 </div>
@@ -509,7 +510,7 @@ export default function AssignStaffSubject() {
                             ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-600 shadow-lg shadow-blue-500/20"
                             : "bg-white/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
                         }`}
-                      >
+                       id={`assignstaff-button-staff-${s.id}`}>
                         <div className="font-bold text-[13px]">{s.name}</div>
                         <div
                           className={`text-[10px] mt-0.5 ${
@@ -536,7 +537,7 @@ export default function AssignStaffSubject() {
                     ? "bg-blue-400 cursor-not-allowed"
                     : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:-translate-y-1 hover:shadow-blue-500/20"
                 }`}
-              >
+               id="assignstaff-button-4">
                 {assigning ? "Assigning..." : "Assign Staff"}
               </button>
 
@@ -549,7 +550,7 @@ export default function AssignStaffSubject() {
                     onClick={fetchAssignedStaff}
                     disabled={!selectedSubjectId}
                     className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 disabled:opacity-50"
-                  >
+                   id="assignstaff-button-5">
                     Refresh
                   </button>
                 </div>
@@ -581,7 +582,7 @@ export default function AssignStaffSubject() {
                           <button
                             onClick={() => openRemove(st)}
                             className="rounded-lg border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-3 py-1.5 text-[10px] font-bold text-rose-600 dark:text-rose-300 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                          >
+                           id={`assignstaff-button-remove-${st.id}`}>
                             Remove
                           </button>
                         </div>
@@ -606,7 +607,7 @@ export default function AssignStaffSubject() {
                 <button
                   onClick={fetchAllAssignments}
                   className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2.5 text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md"
-                >
+                 id="assignstaff-button-7">
                   Refresh
                 </button>
               </div>
@@ -616,11 +617,13 @@ export default function AssignStaffSubject() {
                   placeholder="Filter Subject"
                   value={fltSubject}
                   onChange={(e) => setFltSubject(e.target.value)}
+                  id="assignstaff-table-subject-filter"
                 />
                 <InputWithIcon
                   placeholder="Filter Staff"
                   value={fltStaffName}
                   onChange={(e) => setFltStaffName(e.target.value)}
+                  id="assignstaff-table-staff-filter"
                 />
               </div>
 
@@ -694,13 +697,13 @@ export default function AssignStaffSubject() {
                                 <button
                                   onClick={() => openEdit(r)}
                                   className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-[10px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                                >
+                                 id={`assignstaff-button-edit-${r.id}`}>
                                   Edit
                                 </button>
                                 <button
                                   onClick={() => deleteAssignmentRow(r)}
                                   className="rounded-lg border border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30 px-3 py-1.5 text-[10px] font-bold text-rose-600 dark:text-rose-300 uppercase tracking-wider transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                                >
+                                 id={`assignstaff-button-delete-${r.id}`}>
                                   Delete
                                 </button>
                               </div>
@@ -733,7 +736,7 @@ export default function AssignStaffSubject() {
             <button
               onClick={() => setRemoveOpen(false)}
               className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-3 font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5"
-            >
+             id="assignstaff-button-10">
               Cancel
             </button>
             <button
@@ -744,7 +747,7 @@ export default function AssignStaffSubject() {
                   ? "bg-rose-400 cursor-not-allowed"
                   : "bg-gradient-to-r from-rose-500 to-red-600 hover:-translate-y-0.5"
               }`}
-            >
+             id="assignstaff-button-11">
               {removing ? "Removing..." : "Remove"}
             </button>
           </div>
@@ -758,7 +761,7 @@ export default function AssignStaffSubject() {
             className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 p-3 mt-2 mb-4 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
             value={editForm.subject_id}
             onChange={(e) => setEditForm((p) => ({ ...p, subject_id: e.target.value }))}
-          >
+           id="assignstaff-select-2">
             <option value="">Select Subject</option>
             {subjects.map((x) => (
               <option key={x.id} value={x.id}>
@@ -772,7 +775,7 @@ export default function AssignStaffSubject() {
             className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 p-3 mt-2 mb-4 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
             value={editForm.staff_id}
             onChange={(e) => setEditForm((p) => ({ ...p, staff_id: e.target.value }))}
-          >
+           id="assignstaff-select-3">
             <option value="">Select Staff</option>
             {staffs.map((s) => (
               <option key={s.id} value={s.id}>
@@ -785,7 +788,7 @@ export default function AssignStaffSubject() {
             <button
               onClick={() => setEditOpen(false)}
               className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-3 font-bold text-slate-700 dark:text-slate-200 transition-all duration-300 hover:-translate-y-0.5"
-            >
+             id="assignstaff-button-12">
               Cancel
             </button>
             <button
@@ -796,7 +799,7 @@ export default function AssignStaffSubject() {
                   ? "bg-blue-400 cursor-not-allowed"
                   : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:-translate-y-0.5"
               }`}
-            >
+             id="assignstaff-button-13">
               {savingEdit ? "Saving..." : "Save Changes"}
             </button>
           </div>
@@ -975,16 +978,16 @@ function LabelText({ children }) {
   );
 }
 
-function InputBlock(props) {
+function InputBlock({ id, ...props }) {
   return (
     <input
       {...props}
       className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
-    />
+     id={id}/>
   );
 }
 
-function InputWithIcon(props) {
+function InputWithIcon({ id, ...props }) {
   return (
     <div className="relative">
       <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
@@ -1006,17 +1009,17 @@ function InputWithIcon(props) {
       <input
         {...props}
         className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 pl-11 pr-4 py-3 text-sm text-slate-800 dark:text-white outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
-      />
+       id={id}/>
     </div>
   );
 }
 
-function FilterSelect({ children, ...props }) {
+function FilterSelect({ id, children, ...props }) {
   return (
     <select
       {...props}
       className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-100 outline-none transition-all duration-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
-    >
+     id={id}>
       {children}
     </select>
   );
@@ -1037,7 +1040,7 @@ function ModalShell({ title, onClose, children }) {
           <button
             onClick={onClose}
             className="h-11 w-11 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-lg font-black transition-all duration-300 hover:rotate-90 hover:shadow-md"
-          >
+           id="assignstaff-button-14">
             ✕
           </button>
         </div>

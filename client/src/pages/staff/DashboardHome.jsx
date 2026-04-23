@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:8000`;
 
 export default function StaffDashboard() {
   const [stats, setStats] = useState({
@@ -52,7 +52,7 @@ export default function StaffDashboard() {
         </div>
         
         <div className="flex bg-white/40 dark:bg-gray-900/40 backdrop-blur-xl border-2 border-white/20 dark:border-gray-800 rounded-3xl p-2 shadow-xl shrink-0">
-           <button className="px-6 py-2.5 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-500/20">
+           <button className="px-6 py-2.5 bg-blue-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-500/20" id="dashboardhome-button-1">
              Live Overview
            </button>
         </div>

@@ -6,6 +6,7 @@ const cors = require("cors");
 require("./config/db");
 
 const app = express();
+// app.disable("x-powered-by"); // TODO: Consider enabling to obscure Express server footprint
 
 const allowedOrigins = [
   "http://localhost:5173",

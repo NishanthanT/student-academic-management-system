@@ -1,3 +1,7 @@
+/**
+ * Database configuration and connection manager.
+ * Initializes the primary MySQL connection using environment variables.
+ */
 require("dotenv").config();
 const mysql = require("mysql2");
 

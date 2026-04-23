@@ -13,6 +13,9 @@ const subjectStaffController = require("../controllers/admin/subjectStaff.contro
 // ✅ NEW: exam management controller
 const adminExamController = require("../controllers/admin/admin.exam.controller");
 
+// ✅ NEW: mark requests controller
+const markRequestsController = require("../controllers/admin/markRequests.controller");
+
 /* ===========================
    ✅ Dashboard Stats
 =========================== */
@@ -105,5 +108,12 @@ router.patch("/exams/:id/reject", requireAuth, requireAdmin, adminExamController
 
 // ✅ Request Changes (PENDING -> CHANGES_REQUESTED) body: { admin_note }
 router.patch("/exams/:id/changes", requireAuth, requireAdmin, adminExamController.requestChanges);
+
+/* ===========================
+   ✅ Mark Edit Requests (Admin)
+=========================== */
+router.get("/mark-requests", requireAuth, requireAdmin, markRequestsController.listRequests);
+router.put("/mark-requests/:id/approve", requireAuth, requireAdmin, markRequestsController.approveRequest);
+router.put("/mark-requests/:id/reject", requireAuth, requireAdmin, markRequestsController.rejectRequest);
 
 module.exports = router;

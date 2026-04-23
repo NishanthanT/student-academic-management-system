@@ -12,8 +12,11 @@ const TOKEN_EXP_MIN = 15;
 const sha256 = (str) => crypto.createHash("sha256").update(str).digest("hex");
 
 // ✅ build frontend URL for email (mobile friendly)
-// Priority: FRONTEND_URL -> APP_URL -> fallback using request host
+// Priority: Origin header -> FRONTEND_URL -> APP_URL -> fallback using request host
 const getFrontendBaseUrl = (req) => {
+  if (req.headers.origin) {
+    return req.headers.origin;
+  }
   return (
     process.env.FRONTEND_URL ||
     process.env.APP_URL ||

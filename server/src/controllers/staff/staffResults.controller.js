@@ -296,7 +296,7 @@ exports.getExamResults = async (req, res) => {
 
       const ovRows = await q(
         `
-        SELECT total_marks
+        SELECT total_marks, requested_marks, approval_status
         FROM exam_result_overrides
         WHERE exam_id = ? AND student_id = ?
         LIMIT 1
@@ -304,9 +304,19 @@ exports.getExamResults = async (req, res) => {
         [examId, sid]
       );
 
-      const finalTotal = ovRows.length
-        ? Number(ovRows[0].total_marks || 0)
-        : computedTotal;
+      let finalTotal = computedTotal;
+      let pendingReq = false;
+      let requestedMarks = null;
+
+      if (ovRows.length) {
+        if (ovRows[0].total_marks !== null && ovRows[0].total_marks !== undefined) {
+          finalTotal = Number(ovRows[0].total_marks || 0);
+        }
+        if (ovRows[0].approval_status === "pending") {
+          pendingReq = true;
+          requestedMarks = ovRows[0].requested_marks;
+        }
+      }
 
       rows.push({
         exam_id: examId,
@@ -316,7 +326,9 @@ exports.getExamResults = async (req, res) => {
         student_name: st.student_name || "-",
         total_marks: finalTotal,
         status: passFail(finalTotal, exam.pass_marks),
-        can_edit: true,
+        can_edit: !pendingReq,
+        is_pending: pendingReq,
+        requested_marks: requestedMarks
       });
     }
 
@@ -370,16 +382,31 @@ exports.updateTotalMarks = async (req, res) => {
       return res.status(403).json({ ok: false, message: "Forbidden" });
     }
 
+    const prevMarksRow = await q('SELECT total_marks FROM exam_result_overrides WHERE exam_id=? AND student_id=? LIMIT 1', [examId, student_id]);
+    let currentTotal = 0;
+
+    if (prevMarksRow.length) {
+       currentTotal = prevMarksRow[0].total_marks || 0;
+    } else {
+       // get computed total
+       const attempts = await q("SELECT id FROM exam_attempts WHERE exam_id=? AND student_id=? AND status='submitted' ORDER BY submitted_at DESC LIMIT 1", [examId, student_id]);
+       if(attempts.length) {
+          const sumRows = await q('SELECT SUM(marks_awarded) AS total FROM exam_attempt_answers WHERE exam_id=? AND attempt_id=?', [examId, attempts[0].id]);
+          currentTotal = Number(sumRows[0]?.total || 0);
+       }
+    }
+
     await q(
       `
-      INSERT INTO exam_result_overrides (exam_id, student_id, total_marks, updated_by_staff_id)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO exam_result_overrides (exam_id, student_id, requested_marks, total_marks, updated_by_staff_id, approval_status)
+      VALUES (?, ?, ?, ?, ?, 'pending')
       ON DUPLICATE KEY UPDATE
-        total_marks = VALUES(total_marks),
+        requested_marks = VALUES(requested_marks),
+        approval_status = 'pending',
         updated_by_staff_id = VALUES(updated_by_staff_id),
         updated_at = NOW()
       `,
-      [examId, Number(student_id), total_marks, staffId]
+      [examId, Number(student_id), total_marks, currentTotal, staffId]
     );
 
     return res.json({ ok: true, message: "Marks override saved" });

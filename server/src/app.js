@@ -7,18 +7,13 @@ require("./config/db");
 
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://10.204.250.225:5173",
-];
 
 // ✅ CORS
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin) return cb(null, true);
-      if (allowedOrigins.includes(origin)) return cb(null, true);
-      return cb(new Error("CORS blocked: " + origin));
+      // Allow any origin for local development flexibility
+      return cb(null, true);
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,

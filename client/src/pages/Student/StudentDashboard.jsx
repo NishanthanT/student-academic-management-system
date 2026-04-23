@@ -60,6 +60,7 @@ export default function StudentDashboard() {
             setRecentResults(res.recentResults || []);
             setNextExam(res.nextExam || null);
             setSubjectProgress(res.subjectProgress || []);
+    
             setLatestNotices(res.latestNotices || []);
           }
           setLoading(false);

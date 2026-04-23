@@ -17,11 +17,16 @@ exports.listAllowedSubjects = (req, res) => {
     JOIN exams e ON e.subject_id = s.id
     JOIN users u ON u.id = ?
     WHERE e.approval_status = 'approved'
-      AND u.current_year = s.year 
-      AND u.current_semester = s.semester
-      AND NOT EXISTS (
-        SELECT 1 FROM exam_allowed_students eas 
-        WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'revoked'
+      AND (
+        (u.current_year = s.year AND u.current_semester = s.semester AND NOT EXISTS (
+          SELECT 1 FROM exam_allowed_students eas 
+          WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'revoked'
+        ))
+        OR 
+        EXISTS (
+          SELECT 1 FROM exam_allowed_students eas 
+          WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'allowed'
+        )
       )
   `;
 
@@ -71,12 +76,17 @@ exports.listAllowedExamsBySubject = (req, res) => {
 
     WHERE e.subject_id = ?
       AND e.approval_status = 'approved'
-      AND u.current_year = s.year
-      AND u.current_semester = s.semester
       AND (SELECT COUNT(*) FROM questions q WHERE q.exam_id=e.id) > 0
-      AND NOT EXISTS (
-        SELECT 1 FROM exam_allowed_students eas 
-        WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'revoked'
+      AND (
+        (u.current_year = s.year AND u.current_semester = s.semester AND NOT EXISTS (
+          SELECT 1 FROM exam_allowed_students eas 
+          WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'revoked'
+        ))
+        OR 
+        EXISTS (
+          SELECT 1 FROM exam_allowed_students eas 
+          WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'allowed'
+        )
       )
   `;
 
@@ -103,11 +113,16 @@ exports.listAllApprovedExams = (req, res) => {
     JOIN users u ON u.id = ?
     LEFT JOIN exam_quiz_settings eqs ON eqs.exam_id = e.id
     WHERE e.approval_status = 'approved'
-      AND u.current_year = s.year
-      AND u.current_semester = s.semester
-      AND NOT EXISTS (
-        SELECT 1 FROM exam_allowed_students eas 
-        WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'revoked'
+      AND (
+        (u.current_year = s.year AND u.current_semester = s.semester AND NOT EXISTS (
+          SELECT 1 FROM exam_allowed_students eas 
+          WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'revoked'
+        ))
+        OR 
+        EXISTS (
+          SELECT 1 FROM exam_allowed_students eas 
+          WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'allowed'
+        )
       )
     ORDER BY e.start_at ASC
   `;
@@ -136,11 +151,16 @@ exports.startExam = (req, res) => {
     LEFT JOIN exam_quiz_settings eqs ON eqs.exam_id = e.id
     WHERE e.id = ? 
       AND e.approval_status = 'approved'
-      AND u.current_year = s.year 
-      AND u.current_semester = s.semester
-      AND NOT EXISTS (
-        SELECT 1 FROM exam_allowed_students eas 
-        WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'revoked'
+      AND (
+        (u.current_year = s.year AND u.current_semester = s.semester AND NOT EXISTS (
+          SELECT 1 FROM exam_allowed_students eas 
+          WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'revoked'
+        ))
+        OR 
+        EXISTS (
+          SELECT 1 FROM exam_allowed_students eas 
+          WHERE eas.exam_id = e.id AND eas.student_id = u.id AND eas.status = 'allowed'
+        )
       )
     LIMIT 1
   `;

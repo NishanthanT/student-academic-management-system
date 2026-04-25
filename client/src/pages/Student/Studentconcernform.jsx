@@ -144,6 +144,7 @@ export default function StudentConcernForm() {
         .dark .nx-history-item { border-bottom: 1px solid #374151 !important; }
         .dark .nx-status-pending { background: #374151 !important; color: #9ca3af !important; }
         .dark .nx-status-resolved { background: #064e3b !important; color: #6ee7b7 !important; }
+        .dark .nx-reply-box { background: #064e3b !important; color: #6ee7b7 !important; border-color: #065f46 !important; }
       `}</style>
       {/* ✅ TOAST */}
       {toast && (
@@ -249,6 +250,12 @@ export default function StudentConcernForm() {
                   </div>
                 </div>
                 <div style={s.fbDesc}>{fb.description}</div>
+                {fb.staff_reply && (
+                  <div style={s.replyBox} className="nx-reply-box">
+                    <b style={{ fontSize: 10 }}>STAFF REPLY:</b><br/>
+                    {fb.staff_reply}
+                  </div>
+                )}
                 <div style={s.fbDate}>{new Date(fb.created_at).toLocaleDateString()} {new Date(fb.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
               </div>
             ))}
@@ -337,6 +344,16 @@ const s = {
   fbSubject: { fontSize: 13, fontWeight: 1000, color: "#101828" },
   statusTag: { padding: "4px 8px", borderRadius: 8, fontSize: 10, fontWeight: 1000, letterSpacing: "0.05em" },
   fbDesc: { fontSize: 12, color: "#475467", lineHeight: 1.5, fontWeight: 800 },
+  replyBox: {
+    marginTop: 8,
+    background: "#ECFDF3",
+    padding: 8,
+    borderRadius: 10,
+    border: "1px solid #D1FADF",
+    fontSize: 12,
+    color: "#027A48",
+    fontWeight: 800,
+  },
   fbDate: { marginTop: 8, fontSize: 10, color: "#98A2B3", fontWeight: 800 },
   note: {
     marginTop: 20,

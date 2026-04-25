@@ -53,14 +53,39 @@ export default function StaffFeedback() {
     loadFeedback();
   }, []);
 
+  const [replyModal, setReplyModal] = useState({ open: false, item: null, text: "" });
+
   const toggleStatus = async (item) => {
     const newStatus = item.status === "pending" ? "resolved" : "pending";
+
+    if (newStatus === "resolved") {
+      // Open custom modal instead of prompt
+      setReplyModal({ open: true, item, text: item.staff_reply || "" });
+      return;
+    }
+
+    // If changing back to pending, just do it directly
     try {
       await apiFetch(`/feedback/staff/${item.id}`, {
         method: "PATCH",
-        body: { status: newStatus },
+        body: { status: "pending", reply: null },
       });
-      show("ok", `Status updated to ${newStatus}`);
+      show("ok", `Status updated to pending`);
+      loadFeedback();
+    } catch (err) {
+      show("err", err.message);
+    }
+  };
+
+  const submitReply = async () => {
+    const { item, text } = replyModal;
+    try {
+      await apiFetch(`/feedback/staff/${item.id}`, {
+        method: "PATCH",
+        body: { status: "resolved", reply: text },
+      });
+      show("ok", `Feedback resolved with reply`);
+      setReplyModal({ open: false, item: null, text: "" });
       loadFeedback();
     } catch (err) {
       show("err", err.message);
@@ -79,6 +104,7 @@ export default function StaffFeedback() {
         .dark .fx-desc-box { background: #1f2937 !important; border-color: #374151 !important; color: #d1d5db !important; }
         .dark .fx-badge-ys { background: #374151 !important; color: #d1d5db !important; }
         .dark .fx-btn-reset { background: #1f2937 !important; color: #d1d5db !important; border-color: #374151 !important; }
+        .dark .fx-reply-box { background: #064e3b !important; color: #6ee7b7 !important; border-color: #065f46 !important; }
         .dark .fx-muted { color: #9ca3af !important; }
       `}</style>
       {/* ✅ TOAST */}
@@ -134,6 +160,12 @@ export default function StaffFeedback() {
                     </td>
                     <td style={{ ...s.td, maxWidth: 300 }} className="fx-td">
                       <div style={s.descBox} className="fx-desc-box">{f.description}</div>
+                      {f.staff_reply && (
+                        <div style={s.replyBox} className="fx-reply-box">
+                          <b style={{ fontSize: 10 }}>MY REPLY:</b><br/>
+                          {f.staff_reply}
+                        </div>
+                      )}
                     </td>
                     <td style={s.td} className="fx-td">{fmtDT(f.created_at)}</td>
                     <td style={s.td} className="fx-td">
@@ -157,6 +189,42 @@ export default function StaffFeedback() {
           </table>
         </div>
       </div>
+      {/* ✅ CUSTOM REPLY MODAL */}
+      {replyModal.open && (
+        <div style={s.modalOverlay}>
+          <div style={s.modalContent} className="fx-card">
+            <div style={s.modalHeader}>
+              <div style={s.modalTitle} className="fx-title">Resolve Feedback</div>
+              <div style={s.modalSub} className="fx-sub">Enter a reply or message for the student.</div>
+            </div>
+            <div style={s.modalBody}>
+              <textarea
+                style={s.modalTextarea}
+                className="fx-desc-box"
+                placeholder="Type your reply here..."
+                value={replyModal.text}
+                onChange={(e) => setReplyModal({ ...replyModal, text: e.target.value })}
+                autoFocus
+              />
+            </div>
+            <div style={s.modalFoot}>
+              <button 
+                onClick={() => setReplyModal({ open: false, item: null, text: "" })}
+                style={{ ...s.btnMini, marginRight: 10 }}
+                className="fx-btn-reset"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={submitReply}
+                style={{ ...s.btnMini, ...s.btnResolve, padding: '8px 20px' }}
+              >
+                Submit & Resolve
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -235,6 +303,16 @@ const s = {
     maxHeight: 100,
     overflowY: "auto",
   },
+  replyBox: {
+    marginTop: 8,
+    background: "#ECFDF3",
+    padding: 8,
+    borderRadius: 10,
+    border: "1px solid #D1FADF",
+    fontSize: 12,
+    color: "#027A48",
+    fontWeight: 800,
+  },
   statusBadge: {
     padding: "4px 10px",
     borderRadius: 999,
@@ -254,4 +332,45 @@ const s = {
   },
   btnResolve: { background: "#1570EF", color: "#fff", border: "none" },
   btnReset: { background: "#F2F4F7", color: "#344054" },
+
+  // ✅ MODAL STYLES
+  modalOverlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    background: "rgba(0,0,0,0.5)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 100000,
+    backdropFilter: "blur(4px)",
+  },
+  modalContent: {
+    background: "#fff",
+    borderRadius: 24,
+    padding: 24,
+    width: "90%",
+    maxWidth: 450,
+    boxShadow: "0 20px 50px rgba(0,0,0,0.2)",
+    border: "1px solid #E4E7EC",
+  },
+  modalHeader: { marginBottom: 20 },
+  modalTitle: { fontSize: 18, fontWeight: 1000, color: "#101828" },
+  modalSub: { fontSize: 12, color: "#667085", marginTop: 4, fontWeight: 700 },
+  modalBody: { marginBottom: 20 },
+  modalTextarea: {
+    width: "100%",
+    minHeight: 120,
+    padding: 12,
+    borderRadius: 16,
+    border: "1px solid #EAECF0",
+    background: "#F9FAFB",
+    fontSize: 13,
+    fontWeight: 800,
+    outline: "none",
+    resize: "none",
+  },
+  modalFoot: { display: "flex", justifyContent: "flex-end" },
 };

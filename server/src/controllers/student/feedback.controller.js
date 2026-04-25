@@ -53,7 +53,7 @@ exports.studentGetMyFeedbacks = (req, res) => {
 
   const sql = `
     SELECT 
-      f.id, f.description, f.status, f.created_at,
+      f.id, f.description, f.status, f.staff_reply, f.created_at,
       u.name AS staff_name, 
       s.name AS subject_name, s.code AS subject_code
     FROM feedbacks f
@@ -77,7 +77,7 @@ exports.staffGetFeedback = (req, res) => {
 
   const sql = `
     SELECT 
-      f.id, f.description, f.status, f.created_at,
+      f.id, f.description, f.status, f.staff_reply, f.created_at,
       u.name AS student_name, u.email AS student_email, 
       u.current_year AS student_year, u.current_semester AS student_semester,
       s.name AS subject_name, s.code AS subject_code
@@ -100,17 +100,17 @@ exports.staffGetFeedback = (req, res) => {
 exports.updateFeedbackStatus = (req, res) => {
   const staffId = req.user.id;
   const { feedbackId } = req.params;
-  const { status } = req.body; // 'pending' or 'resolved'
+  const { status, reply } = req.body; // 'pending' or 'resolved'
 
   if (!status) return bad(res, "Status is required");
 
   const sql = `
     UPDATE feedbacks 
-    SET status = ? 
+    SET status = ?, staff_reply = ? 
     WHERE id = ? AND staff_id = ?
   `;
 
-  db.query(sql, [status, feedbackId, staffId], (err, result) => {
+  db.query(sql, [status, reply || null, feedbackId, staffId], (err, result) => {
     if (err) return bad(res, "DB error", 500);
     if (result.affectedRows === 0) return bad(res, "Feedback not found or not yours");
     ok(res, { message: "Status updated" });

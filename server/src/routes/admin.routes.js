@@ -16,6 +16,23 @@ const adminExamController = require("../controllers/admin/admin.exam.controller"
 // ✅ NEW: mark requests controller
 const markRequestsController = require("../controllers/admin/markRequests.controller");
 
+/**
+ * @swagger
+ * tags:
+ *   name: Admin
+ *   description: Administrator and System settings routes
+ */
+
+/**
+ * @swagger
+ * /api/admin/stats:
+ *   get:
+ *     summary: Get admin dashboard stats
+ *     tags: [Admin]
+ *     responses:
+ *       200:
+ *         description: Admin dashboard statistics
+ */
 /* ===========================
    ✅ Dashboard Stats
 =========================== */

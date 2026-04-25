@@ -6,7 +6,10 @@ const cors = require("cors");
 require("./config/db");
 
 const app = express();
+const setupSwagger = require("./config/swagger");
 
+// ✅ Initialize Swagger
+setupSwagger(app);
 
 // ✅ CORS
 app.use(

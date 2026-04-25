@@ -15,10 +15,27 @@ const staffResults = require("../controllers/staff/staffResults.controller");
 const statsController = require("../controllers/staff/stats.controller");
 
 /**
+ * @swagger
+ * tags:
+ *   name: Staff
+ *   description: Staff and Exam management routes
+ */
+
+/**
  * ✅ Apply auth + staff guard for all staff routes
  */
 router.use(requireAuth, requireStaff);
 
+/**
+ * @swagger
+ * /api/staff/stats:
+ *   get:
+ *     summary: Get staff statistics for dashboard
+ *     tags: [Staff]
+ *     responses:
+ *       200:
+ *         description: Staff dashboard stats
+ */
 // ✅ Stats (for Dashboard)
 router.get("/stats", statsController.getStaffStats);
 

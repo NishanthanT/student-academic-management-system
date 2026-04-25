@@ -46,6 +46,30 @@ exports.studentSendFeedback = (req, res) => {
 };
 
 /* =========================
+   STUDENT: Get My Feedbacks
+   ========================= */
+exports.studentGetMyFeedbacks = (req, res) => {
+  const studentId = req.user.id;
+
+  const sql = `
+    SELECT 
+      f.id, f.description, f.status, f.created_at,
+      u.name AS staff_name, 
+      s.name AS subject_name, s.code AS subject_code
+    FROM feedbacks f
+    JOIN users u ON u.id = f.staff_id
+    JOIN subjects s ON s.id = f.subject_id
+    WHERE f.student_id = ?
+    ORDER BY f.created_at DESC
+  `;
+
+  db.query(sql, [studentId], (err, rows) => {
+    if (err) return bad(res, "DB error", 500);
+    ok(res, rows);
+  });
+};
+
+/* =========================
    STAFF: Get Received Feedback
    ========================= */
 exports.staffGetFeedback = (req, res) => {

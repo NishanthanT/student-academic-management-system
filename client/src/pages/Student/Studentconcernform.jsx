@@ -28,6 +28,7 @@ export default function StudentConcernForm() {
   const [staffs, setStaffs] = useState([]);
   const [staffId, setStaffId] = useState("");
   const [message, setMessage] = useState("");
+  const [pastFeedbacks, setPastFeedbacks] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -38,20 +39,35 @@ export default function StudentConcernForm() {
     setTimeout(() => setToast(null), 3000);
   };
 
-  // ✅ 1. Load Subjects on mount
+  // ✅ 1. Load Subjects & History on mount
   useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const res = await apiFetch("/student/subjects");
-        setSubjects(res.data || []);
-      } catch (err) {
-        show("err", err.message);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    loadInitialData();
   }, []);
+
+  const loadInitialData = async () => {
+    try {
+      setLoading(true);
+      const [subRes, historyRes] = await Promise.all([
+        apiFetch("/student/subjects"),
+        apiFetch("/feedback/student")
+      ]);
+      setSubjects(subRes.data || []);
+      setPastFeedbacks(historyRes.data || []);
+    } catch (err) {
+      show("err", err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadHistory = async () => {
+    try {
+      const res = await apiFetch("/feedback/student");
+      setPastFeedbacks(res.data || []);
+    } catch (err) {
+      console.error("Failed to reload history", err);
+    }
+  };
 
   // ✅ 2. Load Staff when Subject changes
   useEffect(() => {
@@ -63,7 +79,7 @@ export default function StudentConcernForm() {
 
     (async () => {
       try {
-        const res = await apiFetch(`/student/subjects/${subjectId}/staffs`);
+        const res = await apiFetch(`/feedback/student/subjects/${subjectId}/staffs`);
         setStaffs(res.data || []);
         if (res.data?.length) setStaffId(String(res.data[0].id));
       } catch (err) {
@@ -81,13 +97,14 @@ export default function StudentConcernForm() {
 
     try {
       setBusy(true);
-      await apiFetch("/student/feedback", {
+      await apiFetch("/feedback/student", {
         method: "POST",
         body: { subject_id: subjectId, staff_id: staffId, description: message },
       });
 
       show("ok", "Feedback sent to staff successfully ✅");
       setMessage("");
+      loadHistory(); // Reload history after sending
     } catch (err) {
       show("err", err.message);
     } finally {
@@ -100,10 +117,11 @@ export default function StudentConcernForm() {
       <style>{`
         .dark .nx-page { color: #f3f4f6; }
         .dark #student-concern-headcard, 
-        .dark #student-concern-card { 
+        .dark #student-concern-card,
+        .dark #student-history-card { 
           background: #111827 !important; border-color: #374151 !important; 
         }
-        .dark #student-concern-title { color: #fff !important; }
+        .dark #student-concern-title, .dark #student-history-title { color: #fff !important; }
         .dark #student-concern-subtitle, .dark .nx-label { color: #9ca3af !important; }
         .dark #student-concern-subject-select, 
         .dark #student-concern-staff-select,
@@ -123,6 +141,9 @@ export default function StudentConcernForm() {
           background: #1f2937 !important;
           color: #9ca3af !important;
         }
+        .dark .nx-history-item { border-bottom: 1px solid #374151 !important; }
+        .dark .nx-status-pending { background: #374151 !important; color: #9ca3af !important; }
+        .dark .nx-status-resolved { background: #064e3b !important; color: #6ee7b7 !important; }
       `}</style>
       {/* ✅ TOAST */}
       {toast && (
@@ -192,7 +213,7 @@ export default function StudentConcernForm() {
               id="student-concern-message-textarea"
               style={s.textarea}
               placeholder="Describe the issue in detail..."
-              rows={6}
+              rows={4}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               disabled={busy}
@@ -205,6 +226,34 @@ export default function StudentConcernForm() {
             </button>
           </div>
         </form>
+      </div>
+
+      {/* ✅ FEEDBACK HISTORY */}
+      <div id="student-history-card" style={{ ...s.card, marginTop: 24 }}>
+        <div id="student-history-title" style={{ ...s.hTitle, marginBottom: 16 }}>My Feedback History</div>
+        {loading ? (
+          <div style={{ textAlign: "center", padding: 20, color: "#667085", fontSize: 13, fontWeight: 800 }}>Loading history...</div>
+        ) : pastFeedbacks.length === 0 ? (
+          <div style={{ textAlign: "center", padding: 20, color: "#667085", fontSize: 13, fontWeight: 800 }}>No feedbacks sent yet.</div>
+        ) : (
+          <div style={s.historyList}>
+            {pastFeedbacks.map((fb) => (
+              <div key={fb.id} className="nx-history-item" style={s.historyItem}>
+                <div style={s.fbHeader}>
+                  <div style={s.fbSubject}>{fb.subject_code} - {fb.staff_name}</div>
+                  <div 
+                    className={fb.status === 'resolved' ? 'nx-status-resolved' : 'nx-status-pending'}
+                    style={{ ...s.statusTag, background: fb.status === 'resolved' ? '#ECFDF3' : '#F2F4F7', color: fb.status === 'resolved' ? '#027A48' : '#344054' }}
+                  >
+                    {fb.status.toUpperCase()}
+                  </div>
+                </div>
+                <div style={s.fbDesc}>{fb.description}</div>
+                <div style={s.fbDate}>{new Date(fb.created_at).toLocaleDateString()} {new Date(fb.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div id="student-concern-note" style={s.note}>
@@ -282,6 +331,13 @@ const s = {
     boxShadow: "0 4px 10px rgba(21, 112, 239, 0.25)",
     fontSize: 13,
   },
+  historyList: { display: "flex", flexDirection: "column" },
+  historyItem: { padding: "16px 0", borderBottom: "1px solid #EAECF0" },
+  fbHeader: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 },
+  fbSubject: { fontSize: 13, fontWeight: 1000, color: "#101828" },
+  statusTag: { padding: "4px 8px", borderRadius: 8, fontSize: 10, fontWeight: 1000, letterSpacing: "0.05em" },
+  fbDesc: { fontSize: 12, color: "#475467", lineHeight: 1.5, fontWeight: 800 },
+  fbDate: { marginTop: 8, fontSize: 10, color: "#98A2B3", fontWeight: 800 },
   note: {
     marginTop: 20,
     padding: 16,

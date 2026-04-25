@@ -40,7 +40,7 @@ export default function StaffFeedback() {
   const loadFeedback = async () => {
     try {
       setLoading(true);
-      const res = await apiFetch("/staff/feedback");
+      const res = await apiFetch("/feedback/staff");
       setFeedbacks(res.data || []);
     } catch (err) {
       show("err", err.message);
@@ -56,7 +56,7 @@ export default function StaffFeedback() {
   const toggleStatus = async (item) => {
     const newStatus = item.status === "pending" ? "resolved" : "pending";
     try {
-      await apiFetch(`/staff/feedback/${item.id}`, {
+      await apiFetch(`/feedback/staff/${item.id}`, {
         method: "PATCH",
         body: { status: newStatus },
       });

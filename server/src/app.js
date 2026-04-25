@@ -49,7 +49,7 @@ app.use("/api/student", studentRoutes);
 
 // ✅ Feedback
 const feedbackRoutes = require("./routes/feedback.routes");
-app.use("/api", feedbackRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 /* =========================
    ✅ Health

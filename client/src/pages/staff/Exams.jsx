@@ -876,6 +876,11 @@ export default function StaffExams() {
         .dark .sx-btn{background:#111827;border-color:#374151;color:#d1d5db}
         .dark .sx-btn--ghost{background:#1f2937}
         .dark .sx-btn--primary{background:#2563EB;border-color:#2563EB;color:#fff}
+        .dark .sx-btn--danger{background:rgba(225,29,72,0.1) !important;border-color:rgba(225,29,72,0.3) !important;color:#fb7185 !important}
+        .dark .sx-btn--success{background:rgba(22,163,74,0.1) !important;border-color:rgba(22,163,74,0.3) !important;color:#4ade80 !important}
+        .dark .sx-btn--warning{background:rgba(217,119,6,0.1) !important;border-color:rgba(217,119,6,0.3) !important;color:#fbbf24 !important}
+        .dark .sx-btn--edit{background:rgba(124,58,237,0.1) !important;border-color:rgba(124,58,237,0.3) !important;color:#a78bfa !important}
+        .dark .sx-btn--info{background:rgba(2,132,199,0.1) !important;border-color:rgba(2,132,199,0.3) !important;color:#38bdf8 !important}
         .dark .sx-title h1{color:#fff}
         .dark .sx-title p, .dark .sx-muted, .dark .sx-label{color:#9ca3af}
         .dark .sx-input{background:#111827 !important;border-color:#374151 !important;color:#f3f4f6 !important}
@@ -899,6 +904,10 @@ export default function StaffExams() {
         .dark .sx-modal{background:#111827;border-color:#374151;color:#f3f4f6}
         .dark .sx-modal__head, .dark .sx-modal__foot{border-color:#374151}
         .dark .sx-badge--draft{background:#374151;color:#d1d5db;border-color:#4b5563}
+        .dark .sx-badge--pending{background:rgba(59,130,246,0.1);color:#60a5fa;border-color:rgba(59,130,246,0.3)}
+        .dark .sx-badge--changes{background:rgba(249,115,22,0.1);color:#fb923c;border-color:rgba(249,115,22,0.3)}
+        .dark .sx-badge--approved{background:rgba(34,197,94,0.1);color:#4ade80;border-color:rgba(34,197,94,0.3)}
+        .dark .sx-badge--rejected{background:rgba(239,68,68,0.1);color:#f87171;border-color:rgba(239,68,68,0.3)}
         .dark .sx-note--warn{background:#7c2d1222;border-color:#7c2d12}
         .dark .sx-note--ok{background:#064e3b22;border-color:#064e3b}
       `}</style>
